@@ -1,268 +1,232 @@
-export const navItems = [
+import { JSX } from "react";
+import { Icons } from "@/constants";
+
+interface SubSection {
+  label: string;
+  route: string;
+}
+
+interface NavSection {
+  label: string;
+  iconComponent: JSX.Element;
+  route: string;
+  isExpandable: boolean;
+  subSections?: SubSection[];
+}
+
+interface NavItem {
+  label: string;
+  subSections: NavSection[];
+}
+
+export const navItems: NavItem[] = [
+  // General Section
   {
-    title: "Dashboard",
-    icon: "dashboard-icon",
-    path: "/dashboard",
-    isInner: false,
-  },
-  {
-    title: "Employee Management",
-    icon: "employee-icon",
-    path: "/employee/list",
-    isInner: true,
-    inner: [
+    label: "Overview", // Changed from General to Overview
+    subSections: [
       {
-        title: "Employee List",
-        icon: "list-icon",
-        path: "/list",
-      },
-      {
-        title: "Create Employee",
-        icon: "add-icon",
-        path: "/add-employee",
-      },
-      {
-        title: "View Employee",
-        icon: "view-icon",
-        path: "/view-employee/<EMPLOYEEID>",
-      },
-      {
-        title: "Edit Employee",
-        icon: "edit-icon",
-        path: "/edit-employee/<EMPLOYEEID>",
-      },
-      {
-        title: "Employee Documents",
-        icon: "documents-icon",
-        path: "/employee-documents/<EMPLOYEEID>",
-      },
-      {
-        title: "Employee Feedback",
-        icon: "feedback-icon",
-        path: "/employee-feedback/<EMPLOYEEID>",
+        label: "Dashboard", // Updated the label to be more descriptive
+        iconComponent: Icons.Dashboard,
+        route: "/dashboard",
+        isExpandable: false,
       },
     ],
   },
+
+  // Management Section
   {
-    title: "Payroll Management",
-    icon: "payroll-icon",
-    path: "/payroll",
-    isInner: true,
-    inner: [
+    label: "Management",
+    subSections: [
       {
-        title: "Payroll List",
-        icon: "list-icon",
-        path: "/list",
+        label: "Employee",
+        iconComponent: Icons.Dashboard,
+        route: "/employee/list",
+        isExpandable: true,
+        subSections: [
+          {
+            label: "Employee List",
+            route: "/list",
+          },
+          {
+            label: "Create Employee",
+            route: "/add-employee",
+          },
+          {
+            label: "View Employee",
+            route: "/view-employee/<EMPLOYEEID>",
+          },
+          {
+            label: "Edit Employee",
+            route: "/edit-employee/<EMPLOYEEID>",
+          },
+          {
+            label: "Employee Documents",
+            route: "/employee-documents/<EMPLOYEEID>",
+          },
+        ],
       },
       {
-        title: "Generate Payslip",
-        icon: "generate-icon",
-        path: "/generate-payslip",
+        label: "Payroll",
+        iconComponent: Icons.Dashboard,
+        route: "/payroll",
+        isExpandable: true,
+        subSections: [
+          {
+            label: "Payroll List",
+            route: "/list",
+          },
+          {
+            label: "Generate Payslip",
+            route: "/generate-payslip",
+          },
+          {
+            label: "View Payslip",
+            route: "/view-payslip/<PAYSLIPID>",
+          },
+          {
+            label: "Salary Structure",
+            route: "/salary-structure",
+          },
+        ],
       },
       {
-        title: "View Payslip",
-        icon: "view-icon",
-        path: "/view-payslip/<PAYSLIPID>",
+        label: "Leave",
+        iconComponent: Icons.Dashboard,
+        route: "/leave",
+        isExpandable: true,
+        subSections: [
+          {
+            label: "Leave Balance",
+            route: "/balance",
+          },
+          {
+            label: "Request Leave",
+            route: "/request-leave",
+          },
+          {
+            label: "Leave History",
+            route: "/leave-history",
+          },
+          {
+            label: "Approve Leave",
+            route: "/approve-leave",
+          },
+        ],
       },
       {
-        title: "Salary Structure",
-        icon: "salary-icon",
-        path: "/salary-structure",
+        label: "Attendance",
+        iconComponent: Icons.Dashboard,
+        route: "/attendance",
+        isExpandable: true,
+        subSections: [
+          {
+            label: "Mark Attendance",
+            route: "/mark-attendance",
+          },
+          {
+            label: "Attendance Report",
+            route: "/attendance-report",
+          },
+          {
+            label: "Attendance History",
+            route: "/attendance-history",
+          },
+        ],
+      },
+      {
+        label: "Performance",
+        iconComponent: Icons.Dashboard,
+        route: "/performance",
+        isExpandable: true,
+        subSections: [
+          {
+            label: "Set Goals",
+            route: "/set-goals",
+          },
+          {
+            label: "Performance Reviews",
+            route: "/performance-reviews",
+          },
+          {
+            label: "Employee Appraisal",
+            route: "/employee-appraisal",
+          },
+        ],
       },
     ],
   },
+
+  // Master Data Section
   {
-    title: "Leave Management",
-    icon: "leave-icon",
-    path: "/leave",
-    isInner: true,
-    inner: [
+    label: "Master Data",
+    subSections: [
       {
-        title: "Leave Balance",
-        icon: "balance-icon",
-        path: "/balance",
-      },
-      {
-        title: "Request Leave",
-        icon: "request-icon",
-        path: "/request-leave",
-      },
-      {
-        title: "Leave History",
-        icon: "history-icon",
-        path: "/leave-history",
-      },
-      {
-        title: "Approve Leave",
-        icon: "approve-icon",
-        path: "/approve-leave",
+        label: "Overview",
+        iconComponent: Icons.Dashboard, // Updated to iconComponent
+        route: "/training",
+        isExpandable: true,
+        subSections: [
+          {
+            label: "Departments",
+            route: "/departments",
+          },
+          {
+            label: "Designations",
+            route: "/designations",
+          },
+          {
+            label: "Employee Types",
+            route: "/employee-types",
+          },
+          {
+            label: "Locations",
+            route: "/locations",
+          },
+        ],
       },
     ],
   },
+
+  // Training & Recruitment Section
   {
-    title: "Attendance Management",
-    icon: "attendance-icon",
-    path: "/attendance",
-    isInner: true,
-    inner: [
+    label: "Training & Recruitment",
+    subSections: [
       {
-        title: "Mark Attendance",
-        icon: "mark-icon",
-        path: "/mark-attendance",
+        label: "Training & Development",
+        iconComponent: Icons.Dashboard, // Updated to iconComponent
+        route: "/training",
+        isExpandable: true,
+        subSections: [
+          {
+            label: "Training Programs",
+            route: "/training-programs",
+          },
+          {
+            label: "Employee Training Records",
+            route: "/training-records",
+          },
+        ],
       },
       {
-        title: "Attendance Report",
-        icon: "report-icon",
-        path: "/attendance-report",
-      },
-      {
-        title: "Attendance History",
-        icon: "history-icon",
-        path: "/attendance-history",
+        label: "Recruitment",
+        iconComponent: Icons.Dashboard, // Updated to iconComponent
+        route: "/recruitment",
+        isExpandable: true,
+        subSections: [
+          {
+            label: "Job Openings",
+            route: "/job-openings",
+          },
+          {
+            label: "Candidate List",
+            route: "/candidate-list",
+          },
+          {
+            label: "Interview Schedule",
+            route: "/interview-schedule",
+          },
+        ],
       },
     ],
-  },
-  {
-    title: "Performance Management",
-    icon: "performance-icon",
-    path: "/performance",
-    isInner: true,
-    inner: [
-      {
-        title: "Set Goals",
-        icon: "goals-icon",
-        path: "/set-goals",
-      },
-      {
-        title: "Performance Reviews",
-        icon: "review-icon",
-        path: "/performance-reviews",
-      },
-      {
-        title: "Employee Appraisal",
-        icon: "appraisal-icon",
-        path: "/employee-appraisal",
-      },
-    ],
-  },
-  {
-    title: "Master Data",
-    icon: "master-icon",
-    path: "/master",
-    isInner: true,
-    inner: [
-      {
-        title: "Departments",
-        icon: "department-icon",
-        path: "/departments",
-      },
-      {
-        title: "Designations",
-        icon: "designation-icon",
-        path: "/designations",
-      },
-      {
-        title: "Employee Types",
-        icon: "type-icon",
-        path: "/employee-types",
-      },
-      {
-        title: "Locations",
-        icon: "location-icon",
-        path: "/locations",
-      },
-    ],
-  },
-  {
-    title: "Training & Development",
-    icon: "training-icon",
-    path: "/training",
-    isInner: true,
-    inner: [
-      {
-        title: "Training Programs",
-        icon: "program-icon",
-        path: "/training-programs",
-      },
-      {
-        title: "Employee Training Records",
-        icon: "records-icon",
-        path: "/training-records",
-      },
-    ],
-  },
-  {
-    title: "Recruitment",
-    icon: "recruitment-icon",
-    path: "/recruitment",
-    isInner: true,
-    inner: [
-      {
-        title: "Job Openings",
-        icon: "openings-icon",
-        path: "/job-openings",
-      },
-      {
-        title: "Candidate List",
-        icon: "candidate-icon",
-        path: "/candidate-list",
-      },
-      {
-        title: "Interview Schedule",
-        icon: "schedule-icon",
-        path: "/interview-schedule",
-      },
-    ],
-  },
-  {
-    title: "Reports",
-    icon: "reports-icon",
-    path: "/reports",
-    isInner: true,
-    inner: [
-      {
-        title: "Employee Reports",
-        icon: "employee-report-icon",
-        path: "/employee-reports",
-      },
-      {
-        title: "Payroll Reports",
-        icon: "payroll-report-icon",
-        path: "/payroll-reports",
-      },
-      {
-        title: "Leave Reports",
-        icon: "leave-report-icon",
-        path: "/leave-reports",
-      },
-      {
-        title: "Attendance Reports",
-        icon: "attendance-report-icon",
-        path: "/attendance-reports",
-      },
-      {
-        title: "Performance Reports",
-        icon: "performance-report-icon",
-        path: "/performance-reports",
-      },
-    ],
-  },
-  {
-    title: "Settings",
-    icon: "settings-icon",
-    path: "/settings",
-    isInner: false,
-  },
-  {
-    title: "Help & Support",
-    icon: "support-icon",
-    path: "/help",
-    isInner: false,
-  },
-  {
-    title: "Logout",
-    icon: "logout-icon",
-    path: "/logout",
-    isInner: false,
   },
 ];
