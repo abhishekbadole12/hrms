@@ -1,5 +1,11 @@
-import { JSX } from "react";
-import { Icons } from "@/constants";
+import {
+  faBuilding,
+  faCalendarCheck,
+  faClipboardCheck,
+  faLandmark,
+  faLayerGroup,
+  faPlaneDeparture,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface SubSection {
   label: string;
@@ -8,7 +14,7 @@ interface SubSection {
 
 interface NavSection {
   label: string;
-  iconComponent: JSX.Element;
+  iconComponent: any;
   route: string;
   isExpandable: boolean;
   subSections?: SubSection[];
@@ -22,11 +28,11 @@ interface NavItem {
 export const navItems: NavItem[] = [
   // General Section
   {
-    label: "Overview", // Changed from General to Overview
+    label: "Overview",
     subSections: [
       {
-        label: "Dashboard", // Updated the label to be more descriptive
-        iconComponent: Icons.Dashboard,
+        label: "Dashboard",
+        iconComponent: faLayerGroup,
         route: "/dashboard",
         isExpandable: false,
       },
@@ -39,8 +45,8 @@ export const navItems: NavItem[] = [
     subSections: [
       {
         label: "Employee",
-        iconComponent: Icons.Dashboard,
-        route: "/employee/list",
+        iconComponent: faLayerGroup,
+        route: "/employee",
         isExpandable: true,
         subSections: [
           {
@@ -67,7 +73,7 @@ export const navItems: NavItem[] = [
       },
       {
         label: "Payroll",
-        iconComponent: Icons.Dashboard,
+        iconComponent: faLandmark,
         route: "/payroll",
         isExpandable: true,
         subSections: [
@@ -91,7 +97,7 @@ export const navItems: NavItem[] = [
       },
       {
         label: "Leave",
-        iconComponent: Icons.Dashboard,
+        iconComponent: faPlaneDeparture,
         route: "/leave",
         isExpandable: true,
         subSections: [
@@ -115,7 +121,7 @@ export const navItems: NavItem[] = [
       },
       {
         label: "Attendance",
-        iconComponent: Icons.Dashboard,
+        iconComponent: faCalendarCheck,
         route: "/attendance",
         isExpandable: true,
         subSections: [
@@ -135,7 +141,7 @@ export const navItems: NavItem[] = [
       },
       {
         label: "Performance",
-        iconComponent: Icons.Dashboard,
+        iconComponent: faLayerGroup,
         route: "/performance",
         isExpandable: true,
         subSections: [
@@ -162,7 +168,7 @@ export const navItems: NavItem[] = [
     subSections: [
       {
         label: "Overview",
-        iconComponent: Icons.Dashboard, // Updated to iconComponent
+        iconComponent: faBuilding, // Updated to iconComponent
         route: "/training",
         isExpandable: true,
         subSections: [
@@ -193,7 +199,7 @@ export const navItems: NavItem[] = [
     subSections: [
       {
         label: "Training & Development",
-        iconComponent: Icons.Dashboard, // Updated to iconComponent
+        iconComponent: faLayerGroup, // Updated to iconComponent
         route: "/training",
         isExpandable: true,
         subSections: [
@@ -209,7 +215,7 @@ export const navItems: NavItem[] = [
       },
       {
         label: "Recruitment",
-        iconComponent: Icons.Dashboard, // Updated to iconComponent
+        iconComponent: faLayerGroup, // Updated to iconComponent
         route: "/recruitment",
         isExpandable: true,
         subSections: [

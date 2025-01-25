@@ -1,15 +1,28 @@
 "use client";
 
-import { navItems } from "@/config/nav";
-import { Icons } from "@/constants";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
+import { usePathname } from "next/navigation";
+import { navItems } from "@/config/nav";
+import MenuLabel from "./menu-label";
+import MenuItem from "./menu-item";
 
 export const Sidebar = () => {
-  const [isOpen, setIsOpen] = React.useState(true);
-  const [activeMenu, setActiveMenu] = React.useState<string>("Employee");
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [activeMenu, setActiveMenu] = React.useState<string>("");
   const pathname = usePathname();
+
+  // handle item click
+  const handleItemClick = (subItem: any) => {
+    if (subItem.isExpandable) {
+      setIsOpen(!isOpen);
+      setActiveMenu(subItem.label);
+    }
+  };
+
+  // handle navigation
+  const handleNavigation = (route: string) => {
+    // 
+  };
 
   return (
     <div className="min-w-[20%] h-full bg-slate-100 rounded-lg px-4 shadow-lg">
@@ -26,60 +39,18 @@ export const Sidebar = () => {
           {navItems.map((item) => (
             <li key={item.label} className="mb-5">
               {/* Label */}
-              <p className="text-xs font-semibold opacity-60 uppercase text-nav-label mb-3 ml-1">
-                {item.label}
-              </p>
+              <MenuLabel text={item.label} />
 
               {/* Sub Section */}
               {item.subSections.map((subItem) => (
-                <div key={subItem.label} className="mb-1">
-                  <div
-                    onClick={() => {
-                      // if (subItem.isExpandable) {
-                        setIsOpen(!isOpen);
-                        setActiveMenu(subItem.label);
-                      // }
-                    }}
-                    className={`flex items-center gap-2 p-3 rounded-md ${
-                      pathname === subItem.route || activeMenu === subItem.label
-                        ? "text-primary bg-slate-200"
-                        : "text-gray-800"
-                    }`}
-                  >
-                    <subItem.iconComponent />
-                    <span className="text-sm">{subItem.label}</span>
-
-                    {/* Dropdown arrow */}
-                    {subItem.isExpandable && (
-                      <Icons.Arrow
-                        className={`ml-auto ${
-                          subItem.route === pathname ? "" : ""
-                        }`}
-                      />
-                    )}
-                  </div>
-
-                  {/* Dropdown menu */}
-                  {isOpen && activeMenu === subItem.label && (
-                    <ul className="ml-5">
-                      {subItem.subSections?.map((subSection) => (
-                        <li key={subSection.label}>
-                          <Link
-                            href={subSection.route}
-                            className={`flex items-center gap-2 py-2 px-3 mt-1 rounded-md ${
-                              pathname === subSection.route
-                                ? "bg-slate-200 text-primary"
-                                : "text-gray-800"
-                            }`}
-                          >
-                            <Icons.Dashboard/>
-                            <span className="text-sm">{subSection.label}</span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
+                <MenuItem
+                  key={subItem.label}
+                  subItem={subItem}
+                  pathname={pathname}
+                  activeMenu={activeMenu}
+                  isOpen={isOpen}
+                  handleItemClick={handleItemClick}
+                />
               ))}
             </li>
           ))}
