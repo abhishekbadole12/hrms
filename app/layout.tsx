@@ -3,9 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/sidebar/sidebar";
 
-import { config } from '@fortawesome/fontawesome-svg-core'
-import '@fortawesome/fontawesome-svg-core/styles.css'
-config.autoAddCss = false
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import BreadCrumb from "@/components/bread-crumb/bread-crumb";
+config.autoAddCss = false;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,10 @@ export default function RootLayout({
       >
         <main className="w-[100vw] h-[100vh] flex p-4">
           <Sidebar />
-          {children}
+          <section className="w-full h-full py-4 px-12">
+            <BreadCrumb title="Dashboard"/>
+            {children}
+          </section>
         </main>
       </body>
     </html>

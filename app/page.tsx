@@ -11,9 +11,5 @@ export default function Home() {
     router.push("/dashboard");
   }, []);
 
-  return (
-    <div className="w-full h-full px-10 py-5 ">
-      <BreadCrumb title="Dashboard" />
-    </div>
-  );
+  return null;
 }
