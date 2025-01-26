@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/sidebar/sidebar";
+import BreadCrumb from "@/components/bread-crumb/bread-crumb";
+import Header from "@/components/header/header";
 
+// fontawesome
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import BreadCrumb from "@/components/bread-crumb/bread-crumb";
 config.autoAddCss = false;
 
 const geistSans = Geist({
@@ -32,10 +34,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="w-[100vw] h-[100vh] flex p-4">
+        <main className="w-[100vw] h-[100vh] flex p-4 pr-0">
           <Sidebar />
-          <section className="w-full h-full py-4 px-12">
-            <BreadCrumb title="Dashboard"/>
+          <section className="w-full h-full py-3 px-10">
+            <Header />
+            {/* <BreadCrumb title="Dashboard"/> */}
             {children}
           </section>
         </main>
