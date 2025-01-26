@@ -5,12 +5,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import MenuSubItem from "./menu-sub-item";
-
 interface SubSection {
   label: string;
   route: string;
 }
-
 interface SubItem {
   label: string;
   route: string;
@@ -18,20 +16,19 @@ interface SubItem {
   isExpandable?: boolean;
   subSections?: SubSection[];
 }
-
 interface MenuItemProps {
   subItem: SubItem;
   pathname: string;
+  isOpened: boolean;
   activeMenu: string;
-  isOpen: boolean;
   handleItemClick: (item: SubItem) => void;
 }
 
 export default function MenuItem({
   subItem,
   pathname,
+  isOpened,
   activeMenu,
-  isOpen,
   handleItemClick,
 }: MenuItemProps) {
   return (
@@ -39,7 +36,7 @@ export default function MenuItem({
       <div
         onClick={() => handleItemClick(subItem)}
         className={`flex items-center gap-3 py-3 px-4 rounded-md cursor-pointer ${
-          pathname === subItem.route || activeMenu === subItem.label
+          pathname.includes(subItem.route)
             ? "bg-slate-200 text-blue-800 font-medium"
             : "text-gray-800"
         }`}
@@ -58,18 +55,22 @@ export default function MenuItem({
         )}
       </div>
 
-      {/* Dropdown menu */}
-      {isOpen && activeMenu === subItem.label && (
+      {/* Menu Items */}
+      {isOpened && activeMenu === subItem.label && (
         <ul className="ml-6">
-          {subItem.subSections?.map((subSection) => (
-            <MenuSubItem
-              key={subSection.label}
-              subSection={subSection}
-              pathname={pathname}
-            />
-          ))}
+          {subItem.subSections?.map((subSection) => {
+            const completePath = subItem.route + subSection.route;
+            return (
+              <MenuSubItem
+                key={subSection.label}
+                subSection={subSection}
+                pathname={completePath}
+              />
+            );
+          })}
         </ul>
       )}
+      {/* Dropdown menu */}
     </div>
   );
 }

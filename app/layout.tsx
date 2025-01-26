@@ -36,7 +36,7 @@ export default function RootLayout({
       >
         <main className="w-[100vw] h-[100vh] flex p-4 pr-0">
           <Sidebar />
-          <section className="w-full h-full py-3 px-10">
+          <section className="w-full h-full py-2 px-10">
             <Header />
             {/* <BreadCrumb title="Dashboard"/> */}
             {children}

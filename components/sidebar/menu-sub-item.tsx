@@ -1,6 +1,7 @@
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface SubSection {
   label: string;
@@ -16,15 +17,15 @@ export default function MenuSubItem({
   subSection,
   pathname,
 }: MenuSubItemProps) {
+  const path = usePathname();
+
   return (
     <li>
       <Link
-        href={subSection.route}
+        href={pathname}
         key={subSection.label}
         className={`flex items-center gap-3 py-2 px-3 mt-1 rounded-md ${
-          pathname === subSection.route
-            ? "bg-slate-200 text-primary"
-            : "text-gray-800"
+          pathname === path ? "bg-slate-200 text-primary" : "text-gray-800"
         }`}
       >
         <FontAwesomeIcon

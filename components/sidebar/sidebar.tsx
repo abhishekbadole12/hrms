@@ -1,31 +1,30 @@
 "use client";
 
 import React from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { navItems } from "@/config/nav";
 import MenuLabel from "./menu-label";
 import MenuItem from "./menu-item";
 
 export const Sidebar = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpened, setIsOpened] = React.useState<boolean>(false);
   const [activeMenu, setActiveMenu] = React.useState<string>("");
   const pathname = usePathname();
+  const navigate = useRouter();
 
   // handle item click
   const handleItemClick = (subItem: any) => {
     if (subItem.isExpandable) {
-      setIsOpen(!isOpen);
       setActiveMenu(subItem.label);
+      setIsOpened(!isOpened);
+      return;
     }
-  };
-
-  // handle navigation
-  const handleNavigation = (route: string) => {
-    // 
+    navigate.push(subItem.route);
+    setIsOpened(!isOpened);
   };
 
   return (
-    <div className="min-w-[20%] h-full bg-slate-100 rounded-lg px-4 shadow-lg">
+    <div className="min-w-[20%] h-full bg-slate-100 border border-slate-100 rounded-lg px-4 shadow-xl">
       {/* Company Logo */}
       <div className="w-full border-b-2 border-slate-200 py-4">
         <h1 className="text-3xl font-bold text-center text-gray-800">
@@ -42,16 +41,18 @@ export const Sidebar = () => {
               <MenuLabel text={item.label} />
 
               {/* Sub Section */}
-              {item.subSections.map((subItem) => (
-                <MenuItem
-                  key={subItem.label}
-                  subItem={subItem}
-                  pathname={pathname}
-                  activeMenu={activeMenu}
-                  isOpen={isOpen}
-                  handleItemClick={handleItemClick}
-                />
-              ))}
+              {item.subSections.map((subItem) => {
+                return (
+                  <MenuItem
+                    key={subItem.label}
+                    subItem={subItem}
+                    pathname={pathname}
+                    isOpened={isOpened}
+                    activeMenu={activeMenu}
+                    handleItemClick={handleItemClick}
+                  />
+                );
+              })}
             </li>
           ))}
         </ul>
