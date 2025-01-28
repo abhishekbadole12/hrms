@@ -22,14 +22,14 @@ interface NavSection {
 
 interface NavItem {
   label: string;
-  subSections: NavSection[];
+  section: NavSection[];
 }
 
 export const navItems: NavItem[] = [
   // General Section
   {
     label: "Overview",
-    subSections: [
+    section: [
       {
         label: "Dashboard",
         iconComponent: faLayerGroup,
@@ -42,7 +42,7 @@ export const navItems: NavItem[] = [
   // Management Section
   {
     label: "Management",
-    subSections: [
+    section: [
       {
         label: "Employee",
         iconComponent: faLayerGroup,
@@ -165,7 +165,7 @@ export const navItems: NavItem[] = [
   // Master Data Section
   {
     label: "Master Data",
-    subSections: [
+    section: [
       {
         label: "Overview",
         iconComponent: faBuilding, // Updated to iconComponent
@@ -196,7 +196,7 @@ export const navItems: NavItem[] = [
   // Training & Recruitment Section
   {
     label: "Training & Recruitment",
-    subSections: [
+    section: [
       {
         label: "Training & Development",
         iconComponent: faLayerGroup, // Updated to iconComponent

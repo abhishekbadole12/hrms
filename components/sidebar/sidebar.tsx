@@ -41,7 +41,7 @@ export const Sidebar = () => {
               <MenuLabel text={item.label} />
 
               {/* Sub Section */}
-              {item.subSections.map((subItem) => {
+              {item.section.map((subItem) => {
                 return (
                   <MenuItem
                     key={subItem.label}
