@@ -11,8 +11,9 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        primary: "#121212",
-        ["secondary"]: "text-slate-200",
+        primary: "rgb(18,18,18)",
+        secondary: "rgb(99,115,129)",
+        third: "rgba(99,115,129,0.3)",
         ["nav-label"]: "#1C252E",
       },
     },
