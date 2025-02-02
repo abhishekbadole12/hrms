@@ -55,19 +55,19 @@ export const navItems: NavItem[] = [
           },
           {
             label: "Create Employee",
-            route: "/add-employee",
+            route: "/new",
           },
           {
             label: "View Employee",
-            route: "/view-employee/<EMPLOYEEID>",
+            route: "/view/<EMPLOYEEID>",
           },
           {
             label: "Edit Employee",
-            route: "/edit-employee/<EMPLOYEEID>",
+            route: "/edit/<EMPLOYEEID>",
           },
           {
             label: "Employee Documents",
-            route: "/employee-documents/<EMPLOYEEID>",
+            route: "/documents/<EMPLOYEEID>",
           },
         ],
       },

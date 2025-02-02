@@ -44,8 +44,7 @@ export default function RootLayout({
           <Sidebar />
           <section className="w-full h-full py-2 px-10">
             <Header />
-            {/* <BreadCrumb title="Dashboard"/> */}
-            {children}
+            <main className="px-20">{children}</main>
           </section>
         </main>
       </body>
