@@ -1,5 +1,5 @@
 import BreadCrumb from "@/components/bread-crumb/bread-crumb";
-import EmployeeComponent from "@/components/employee/employee-list";
+import EmployeeComponent from "@/components/employee/list/employee-list";
 import React from "react";
 
 export default function EmployeeListPage() {
