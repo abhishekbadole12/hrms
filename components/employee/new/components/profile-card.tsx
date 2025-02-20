@@ -11,7 +11,7 @@ export default function ProfileCard() {
       <StatusTag
         text={current_status}
         status={current_status}
-        className="ml-auto"
+        className=""
       />
 
       {/* Image  */}
@@ -44,7 +44,7 @@ export default function ProfileCard() {
           </div>
 
           {/* Toggle button */}
-          <Switch size="md"/>
+          <Switch size="md" className="ml-auto"/>
         </div>
       </div>
     </BoxWrapper>
