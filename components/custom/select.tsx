@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import clsx from "clsx";
 
 interface SelectProps {
   label?: string;
@@ -52,7 +53,9 @@ export default function Select({
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-between gap-2.5 border rounded-lg p-3 cursor-pointer select-none focus-within:ring-2 focus-within:ring-blue-500"
       >
-        <h4 className="text-sm">{selected ?? placeholder}</h4>
+        <h4 className={clsx("text-sm text-gray-400", selected && "text-gray-500")}>
+          {selected ?? placeholder}
+        </h4>
         <FontAwesomeIcon
           icon={faChevronDown}
           className={`text-gray-500 text-xs transition-transform ${
