@@ -8,6 +8,7 @@ export const GENDER_OPTIONS = [
 // Role Options
 export const ROLE_OPTIONS = [
   { value: "admin", label: "Admin" },
-  { value: "user", label: "User" },
+  { value: "hr", label: "Human Resource" },
+  { value: "employee", label: "Employee" },
   { value: "manager", label: "Manager" },
 ];
