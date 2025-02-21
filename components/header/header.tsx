@@ -21,7 +21,7 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full flex items-center justify-between mb-6">
+    <header className="w-full flex items-center justify-between mb-5">
       {/* Search */}
       {isOpen && <InputContainer />}
 

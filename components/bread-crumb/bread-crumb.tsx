@@ -16,7 +16,7 @@ export default function BreadCrumb({ title }: BreadCrumbProps) {
   const paths = pathname.split("/").filter(Boolean);
 
   return (
-    <div className="w-full mb-8">
+    <div className="w-full mb-10">
       <p className="text-2xl font-semibold text-primary tracking-tight mb-4">
         {title}
       </p>

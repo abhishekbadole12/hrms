@@ -23,7 +23,14 @@ export default function FormCard() {
           label="First name"
           type="text"
           placeholder="Enter first name"
-          value="abhishek"
+          value=""
+          onChange={() => {}}
+        />
+        <Input
+          label="Middle name"
+          type="text"
+          placeholder="Enter middle name"
+          value=""
           onChange={() => {}}
         />
         <Input
@@ -33,18 +40,18 @@ export default function FormCard() {
           value=""
           onChange={() => {}}
         />
+        <Select
+          label="Gender"
+          options={GENDER_OPTIONS}
+          selected={selectedGender}
+          onChange={() => {}}
+        />
         <Input
           label="Email address"
           type="email"
           placeholder="Enter first name"
           value=""
           Icon={<FontAwesomeIcon icon={faEnvelope} className="" />}
-          onChange={() => {}}
-        />
-        <Select
-          label="Gender"
-          options={GENDER_OPTIONS}
-          selected={selectedGender}
           onChange={() => {}}
         />
         <Input
@@ -56,7 +63,7 @@ export default function FormCard() {
           onChange={() => {}}
         />
         <Select
-          label="Department"
+          label="Role"
           options={ROLE_OPTIONS}
           selected={selectedRole}
           onChange={() => {}}
