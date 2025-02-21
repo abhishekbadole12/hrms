@@ -32,13 +32,13 @@ export default function StatusTag({
   return (
     <div
       className={clsx(
-        "inline-block items-center rounded-md font-semibold capitalize",
+        "inline-flex items-center rounded-md font-semibold capitalize",
         statusStyles[status],
         sizeStyles[size],
         className
       )}
     >
-      <p className="m-0 inline-block">{text}</p>
+      <span className="m-0">{text}</span>
     </div>
   );
 }

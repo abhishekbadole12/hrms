@@ -5,7 +5,7 @@ import clsx from "clsx";
 
 interface SwitchProps {
   checked?: boolean;
-  onChange?: (checked: boolean) => void;
+  onChange: (checked: boolean) => void;
   size?: "sm" | "md" | "lg";
   className?: string;
 }
@@ -34,7 +34,7 @@ export default function Switch({
         type="checkbox"
         className="sr-only peer"
         checked={checked}
-        onChange={() => {}}
+        onChange={() => handleToggle()}
       />
       <div
         className={clsx(

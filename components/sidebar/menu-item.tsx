@@ -48,8 +48,8 @@ export default function MenuItem({
         {subItem.isExpandable && (
           <FontAwesomeIcon
             icon={faAngleRight}
-            className={`ml-auto text-sm text-nav-label opacity-60 ${
-              subItem.route === pathname ? "-rotate-90 opacity-100" : ""
+            className={`ml-auto text-xs text-nav-label opacity-60 ${
+              isOpened && activeMenu === subItem.label ? "rotate-90 opacity-100 text-blue-800" : ""
             }`}
           />
         )}

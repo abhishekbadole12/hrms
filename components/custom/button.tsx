@@ -21,7 +21,7 @@ export default function Button({
       disabled={disabled}
       onClick={onClick}
       className={clsx(
-        "px-3 py-2 rounded-md text-white text-sm font-bold transition duration-300",
+        "block px-3 py-2 rounded-md text-white text-sm font-bold transition duration-300",
         {
           "bg-gray-400 cursor-not-allowed": disabled,
           "bg-blue-600 hover:bg-blue-700": !disabled,
