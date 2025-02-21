@@ -50,25 +50,25 @@ export const navItems: NavItem[] = [
         isExpandable: true,
         subSections: [
           {
-            label: "Employee List",
+            label: "Cards",
+            route: "/cards",
+          },
+          {
+            label: "List",
             route: "/list",
           },
           {
-            label: "Create Employee",
+            label: "Create",
             route: "/new",
           },
           {
-            label: "View Employee",
-            route: "/view/<EMPLOYEEID>",
-          },
-          {
-            label: "Edit Employee",
+            label: "Edit",
             route: "/edit/<EMPLOYEEID>",
           },
-          {
-            label: "Employee Documents",
-            route: "/documents/<EMPLOYEEID>",
-          },
+          // {
+          //   label: "Employee Documents",
+          //   route: "/documents/<EMPLOYEEID>",
+          // },
         ],
       },
       {
