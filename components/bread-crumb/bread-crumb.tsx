@@ -17,11 +17,11 @@ export default function BreadCrumb({ title }: BreadCrumbProps) {
 
   return (
     <div className="w-full mb-10">
-      <p className="text-2xl font-semibold text-primary tracking-tight mb-4">
+      <p className="text-[22px] font-bold text-primary tracking-tight mb-4">
         {title}
       </p>
 
-      <ul className="flex items-center space-x-5 text-sm text-primary">
+      <ul className="flex items-center space-x-5 text-sm text-primary font-medium">
         <li className="hover:underline">
           <Link href="/">Overview</Link>
         </li>
@@ -35,7 +35,6 @@ export default function BreadCrumb({ title }: BreadCrumbProps) {
 
         {paths.map((path, index) => {
           const isLast = index === paths.length - 1;
-
           return (
             <React.Fragment key={path}>
               <li
