@@ -1,15 +1,17 @@
 import clsx from "clsx";
-import React from "react";
+import React, { FormEvent } from "react";
 
 interface ButtonProps {
   children: React.ReactNode;
+  type?: "button" | "submit" | "reset";
   className?: string;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Button({
   children,
+  type,
   className,
   disabled,
   onClick,

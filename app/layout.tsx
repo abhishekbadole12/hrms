@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Open_Sans } from "next/font/google";
 import "./globals.css";
-import { Sidebar } from "@/components/sidebar/sidebar";
-import BreadCrumb from "@/components/bread-crumb/bread-crumb";
-import Header from "@/components/header/header";
 
 // fontawesome
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { AuthProvider } from "@/context/AuthContext";
+import LayoutWrapper from "@/components/layout-wrapper";
+
 config.autoAddCss = false;
 
 const geistSans = Geist({
@@ -40,13 +40,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${openSans.variable} antialiased`}
       >
-        <main className="w-[100vw] h-[100vh] flex p-4 pr-0">
-          <Sidebar />
-          <section className="w-full h-full py-2 px-10">
-            <Header />
-            <main className="px-20">{children}</main>
-          </section>
-        </main>
+        <AuthProvider>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </AuthProvider>
       </body>
     </html>
   );

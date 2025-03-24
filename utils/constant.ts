@@ -66,3 +66,11 @@ export const EMPLOYEE_DUMMY_DATA = [
     role: "Employee",
   },
 ];
+
+// Tab Options
+export const TAB_OPTIONS = [
+  { id: 1, label: "Personal Information", content: "" },
+  { id: 2, label: "Employment Information", content: "" },
+  { id: 3, label: "Bank Information", content: "" },
+  { id: 4, label: "Documents", content: "" },
+];
