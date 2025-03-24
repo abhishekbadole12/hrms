@@ -18,11 +18,11 @@ export default function Popover({
   contentStyles = "",
   position = "bottom",
 }: ModalProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => setIsOpen(!isOpen);
   const handleMouseEnter = () => setIsOpen(true);
-  const handleMouseLeave = () => setTimeout(() => setIsOpen(false), 300);
+  const handleMouseLeave = () => setTimeout(() => setIsOpen(false), 500);
 
   return (
     <div

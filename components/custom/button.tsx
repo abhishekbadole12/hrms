@@ -11,7 +11,7 @@ interface ButtonProps {
 
 export default function Button({
   children,
-  type,
+  type ="button",
   className,
   disabled,
   onClick,
@@ -19,7 +19,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      type="button"
+      type={type}
       disabled={disabled}
       onClick={onClick}
       className={clsx(

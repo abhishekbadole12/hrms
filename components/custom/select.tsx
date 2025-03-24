@@ -5,6 +5,7 @@ import clsx from "clsx";
 
 interface SelectProps {
   label?: string;
+  name?: string;
   options: { value: string; label: string }[];
   selected: string | null;
   value?: string;
@@ -16,6 +17,7 @@ interface SelectProps {
 
 export default function Select({
   label,
+  name,
   options,
   selected,
   value,
@@ -51,10 +53,10 @@ export default function Select({
       {/* Select Button */}
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between gap-2.5 border rounded-lg p-3 cursor-pointer select-none focus-within:ring-2 focus-within:ring-blue-500"
+        className="flex items-center justify-between gap-2.5 border rounded-lg p-2.5 cursor-pointer select-none focus-within:ring-2 focus-within:ring-blue-500"
       >
-        <h4 className={clsx("text-sm text-gray-400", selected && "text-gray-500")}>
-          {selected ?? placeholder}
+        <h4 className={clsx("text-sm text-gray-400 capitalize", selected && "text-zinc-700 font-medium")}>
+          {selected ? selected : placeholder}
         </h4>
         <FontAwesomeIcon
           icon={faChevronDown}

@@ -42,7 +42,7 @@ export default function Input({
           value={value}
           name={name}
           onChange={onChange}
-          className="w-full text-sm focus:outline-none"
+          className="w-full text-sm focus:outline-none text-zinc-700 font-medium"
           {...props}
         />
 
