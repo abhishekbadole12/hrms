@@ -13,6 +13,8 @@ import ProfilePicture from "./profile-picture";
 import HeaderIconButton from "./header-icon-button";
 import InputContainer from "./input-container";
 import { useAuth } from "@/context/AuthContext";
+import Popover from "../modal/popover";
+import PopoverItem from "../modal/popover-item";
 
 export default function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -47,11 +49,20 @@ export default function Header() {
             <HeaderIconButton icon={faBell} onClick={handleIconClick} />
             <HeaderIconButton icon={faUserGroup} onClick={handleIconClick} />
             <HeaderIconButton icon={faCommentDots} onClick={handleIconClick} />
-            <HeaderIconButton icon={faGear} onClick={handleIconClick} />
 
-            <ProfilePicture src="/profile.jpeg"/>
+            <Popover
+              Icon={<FontAwesomeIcon icon={faGear} className="text-gray-400" />}
+              position="bottom"
+              containerStyles="mr-2"
+            >
+              <PopoverItem>Profile</PopoverItem>
+              <PopoverItem>Settings</PopoverItem>
+              <PopoverItem>Logout</PopoverItem>
+            </Popover>
+
+            <ProfilePicture src="/profile.jpeg" />
           </>
-        ) : (
+        ) : ( // Not logged in
           <>
             <HeaderIconButton icon={faCommentDots} onClick={handleIconClick} />
             <HeaderIconButton icon={faGear} onClick={handleIconClick} />
