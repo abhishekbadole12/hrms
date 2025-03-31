@@ -1,10 +1,13 @@
 "use client";
 
+import { loginUser } from "@/services/auth";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 interface User {
+  user_id: number;
   email: string;
-  password: string;
+  user_role: string;
 }
 
 interface AuthContextType {
@@ -22,25 +25,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = React.useState(true);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
+  const router = useRouter();
 
-  const login = (email: string, password: string) => {
+  // Function to log in the user
+  const login = async (email: string, password: string) => {
     setLoading(true);
-    setTimeout(() => {
-      setUser({ email, password });
+    try {
+      const response = await loginUser({ email, password });
+
+      if (response.user) {
+        setUser(response?.user);
+        setIsLoggedIn(true);
+        router.push("/dashboard");
+      } else {
+        console.error("Login failed:", response.error);
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+    } finally {
       setLoading(false);
-      setIsLoggedIn(true);
-    }, 1000);
+    }
   };
 
   useEffect(() => {
-    async function fetchUser() {
-      setTimeout(() => {
-        setUser({ email: "test@gmail.com", password: "test@123" });
-        setLoading(false);
-        setIsLoggedIn(true);
-      }, 500);
-    }
-    fetchUser();
+    // console.log(cookieStore);
   }, []);
 
   // logout function
@@ -49,7 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login: () => {}, logout, isLoggedIn }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, isLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );

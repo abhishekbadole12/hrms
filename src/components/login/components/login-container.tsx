@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import Button from "@/components/custom/button";
 import Input from "@/components/custom/input";
@@ -13,13 +13,14 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 // import BackgroundGradient from "./background-gradient";
 
 export default function LoginContainer() {
-  const { login } = useAuth();
+  const { login, isLoggedIn, loading } = useAuth();
 
   const [input, setInput] = React.useState({
     email: "",
     password: "",
     checkbox: false,
   });
+  const [errorMsg, setErrorMsg] = useState<any>({});
 
   // Handle input changes
   const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,9 +32,14 @@ export default function LoginContainer() {
   };
 
   // Handle form submission
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(input);
+    try {
+      await login(input.email, input.password);
+    } catch (err) {
+      console.log(err);
+      setErrorMsg(err);
+    }
   };
 
   return (
@@ -60,48 +66,53 @@ export default function LoginContainer() {
 
       <HorizontalLine />
 
-      <Input
-        label="Your Email Address"
-        name="email"
-        type="email"
-        placeholder="Your Email Address"
-        onChange={handleChanges}
-        className="mb-3 text-zinc-800 font-medium"
-        Icon={<FontAwesomeIcon icon={faEnvelope} className="text-gray-400" />}
-      />
-      <Input
-        label="Password"
-        name="password"
-        type="password"
-        placeholder="Password"
-        onChange={handleChanges}
-        className="mb-5 text-zinc-800 font-medium"
-        Icon={<FontAwesomeIcon icon={faLock} className="text-gray-400" />}
-      />
+      <form onSubmit={handleSubmit}>
+        <Input
+          label="Your Email Address"
+          name="email"
+          type="email"
+          placeholder="Your Email Address"
+          onChange={handleChanges}
+          className="mb-3 text-zinc-800 font-medium"
+          Icon={<FontAwesomeIcon icon={faEnvelope} className="text-gray-400" />}
+        />
+        <Input
+          label="Password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          onChange={handleChanges}
+          className="mb-5 text-zinc-800 font-medium"
+          Icon={<FontAwesomeIcon icon={faLock} className="text-gray-400" />}
+        />
 
-      <div className="flex justify-between items-center mb-6">
-        {/* Remember me checkbox */}
-        <div className="flex justify-between items-center">
-          <input
-            type="checkbox"
-            className="mr-2 w-4 h-4 cursor-pointer"
-            onChange={handleChanges}
-          />
-          <span className="text-sm font-medium text-gray-700">Remember me</span>
+        <div className="flex justify-between items-center mb-6">
+          {/* Remember me checkbox */}
+          <div className="flex justify-between items-center">
+            <input
+              type="checkbox"
+              className="mr-2 w-4 h-4 cursor-pointer"
+              onChange={handleChanges}
+            />
+            <span className="text-sm font-medium text-gray-700">
+              Remember me
+            </span>
+          </div>
+
+          <a href="#" className="text-sm font-semibold text-gray-700 underline">
+            Forgot password?
+          </a>
         </div>
 
-        <a href="#" className="text-sm font-semibold text-gray-700 underline">
-          Forgot password?
-        </a>
-      </div>
-
-      <Button
-        type="submit"
-        className="w-full py-3 bg-zinc-800 hover:bg-zinc-700"
-        onClick={handleSubmit}
-      >
-        Login
-      </Button>
+        <Button
+          type="submit"
+          // disabled={!loading}
+          className="w-full py-3 bg-zinc-800 hover:bg-zinc-700"
+          // onClick={handleSubmit}
+        >
+          Login
+        </Button>
+      </form>
 
       <div className="flex justify-center items-center mt-5">
         <span className="text-sm text-gray-700">Don't have an account?</span>

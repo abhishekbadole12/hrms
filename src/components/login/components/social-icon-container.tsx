@@ -1,6 +1,7 @@
 import SocialIcon from "@/components/common/social-button";
 import { faB } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import React from "react";
 
 const SocialIconStyle =
@@ -12,6 +13,9 @@ export default function SocialIconContainer() {
       <SocialIcon href="#" className={SocialIconStyle}>
         <FontAwesomeIcon icon={faB} className="" />
       </SocialIcon>
+      {/* <div>
+        <Image src="/images/mobile" width={100} height={100} alt="mobile-icon"/>
+      </div> */}
 
       <SocialIcon href="#" className={SocialIconStyle}>
         <FontAwesomeIcon icon={faB} className="" />
