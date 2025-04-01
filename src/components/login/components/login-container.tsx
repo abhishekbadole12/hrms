@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
 import Button from "@/components/custom/button";
 import Input from "@/components/custom/input";
 //
@@ -13,8 +12,6 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 // import BackgroundGradient from "./background-gradient";
 
 export default function LoginContainer() {
-  const { login, isLoggedIn, loading } = useAuth();
-
   const [input, setInput] = React.useState({
     email: "",
     password: "",
@@ -34,12 +31,7 @@ export default function LoginContainer() {
   // Handle form submission
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    try {
-      await login(input.email, input.password);
-    } catch (err) {
-      console.log(err);
-      setErrorMsg(err);
-    }
+    console.log(input);
   };
 
   return (

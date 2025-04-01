@@ -1,5 +1,5 @@
 import axios from "axios";
-// import api from "./axiosInstance";
+// import { API_BASE_URL } from "./axiosInstance";
 
 interface ILoginuser {
   email: string;
@@ -18,9 +18,8 @@ interface ILoginResponse {
 
 export const loginUser = async (data: ILoginuser): Promise<ILoginResponse> => {
   try {
-    // const response = await api.post<ILoginResponse>("/user/login", data);
     const response = await axios.post<ILoginResponse>(
-      "http://localhost:5000/api/user/login",
+      `${process.env.NEXT_PUBLIC_API}/user/login`,
       data,
       { withCredentials: true }
     );
