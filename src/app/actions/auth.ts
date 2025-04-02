@@ -2,12 +2,14 @@
 
 import bcrypt from "bcrypt";
 //
-import { LoginFormState, LoginUserSchema } from "@/lib/definitions";
+import { LoginUserSchema } from "@/lib/definitions";
 import User from "@/models/User";
 //
-import { createSession } from "@/lib/session";
+import { createSession, deleteSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
+//
+// Login User
 export async function loginUser(state: unknown, formData: FormData) {
   // 1. validate field
   const validationResult = LoginUserSchema.safeParse({
@@ -42,8 +44,14 @@ export async function loginUser(state: unknown, formData: FormData) {
   const sessionResult = await createSession(String(existingUser.user_id));
 
   if (sessionResult.success) {
-    return redirect("/dashboard"); 
+    return redirect("/dashboard");
   }
 
   return { success: true, message: "Login successful" };
+}
+
+//
+// Logout User
+export async function logoutAction() {
+  await deleteSession();
 }

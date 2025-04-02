@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useActionState } from "react";
+//
 import Button from "@/components/custom/button";
 import Input from "@/components/custom/input";
 //
@@ -9,7 +10,8 @@ import SocialIconContainer from "./social-icon-container";
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import { loginUser } from "@/app/(auth)/login/action";
+//
+import { loginUser } from "@/app/actions/auth";
 
 // import BackgroundGradient from "./background-gradient";
 

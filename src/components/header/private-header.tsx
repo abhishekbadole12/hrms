@@ -8,7 +8,7 @@ import InputContainer from "./input-container";
 import Popover from "../modal/popover";
 import PopoverItem from "../modal/popover-item";
 //
-import { logoutAction } from "@/app/(dashboard)/action";
+import { logoutAction } from "@/app/actions/auth";
 //
 import {
   faBell,
