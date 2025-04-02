@@ -1,9 +1,19 @@
+export interface GenderOption {
+  value: string;
+  label: string;
+}
+
 // Gender Options
 export const GENDER_OPTIONS = [
   { value: "male", label: "Male" },
   { value: "female", label: "Female" },
   { value: "other", label: "Other" },
 ];
+
+export interface RoleOption {
+  value: string;
+  label: string;
+}
 
 // Role Options
 export const ROLE_OPTIONS = [
@@ -13,64 +23,24 @@ export const ROLE_OPTIONS = [
   { value: "manager", label: "Manager" },
 ];
 
-// Employee Dummy Data
-export const EMPLOYEE_DUMMY_DATA = [
-  {
-    id: "EMP00001",
-    firstName: "John",
-    middleName: "A.",
-    lastName: "Doe",
-    gender: "Male",
-    email: "john.doe@example.com",
-    mobileNumber: "9876543210",
-    role: "Employee",
-  },
-  {
-    id: "EMP00002",
-    firstName: "Emma",
-    middleName: "B.",
-    lastName: "Smith",
-    gender: "Female",
-    email: "emma.smith@example.com",
-    mobileNumber: "9876543211",
-    role: "Employee",
-  },
-  {
-    id: "ADM00001",
-    firstName: "Robert",
-    middleName: "C.",
-    lastName: "Johnson",
-    gender: "Male",
-    email: "robert.johnson@example.com",
-    mobileNumber: "9876543212",
-    role: "Admin",
-  },
-  {
-    id: "HRM00001",
-    firstName: "Sophia",
-    middleName: "D.",
-    lastName: "Williams",
-    gender: "Female",
-    email: "sophia.williams@example.com",
-    mobileNumber: "9876543213",
-    role: "HR Manager",
-  },
-  {
-    id: "EMP00003",
-    firstName: "Michael",
-    middleName: "E.",
-    lastName: "Brown",
-    gender: "Male",
-    email: "michael.brown@example.com",
-    mobileNumber: "9876543214",
-    role: "Employee",
-  },
-];
+export interface TabOption {
+  id: string;
+  label: string;
+  Icon: string;
+}
 
 // Tab Options
-export const TAB_OPTIONS = [
-  { id: 1, label: "Personal Information", content: "" },
-  { id: 2, label: "Employment Information", content: "" },
-  { id: 3, label: "Bank Information", content: "" },
-  { id: 4, label: "Documents", content: "" },
+export const TAB_OPTIONS: TabOption[] = [
+  {
+    id: "PERSONAL_DETAILS",
+    label: "Personal Details",
+    Icon: "",
+  },
+  {
+    id: "EMPLOYMENT_DETAILS",
+    label: "Employment Details",
+    Icon: "",
+  },
+  { id: "BANK_DETAILS", label: "Bank Details", Icon: "" },
+  { id: "DOCUMENTS", label: "Documents", Icon: "" },
 ];

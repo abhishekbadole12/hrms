@@ -13,9 +13,9 @@ export default function Authlayout({
         "bg-[#f9f9f9]": true,
       })}
     >
-      <section className="w-full h-full py-2 px-10 flex flex-col min-h-0">
+      <section className="w-full h-full py-2 px-12 flex flex-col min-h-0">
         <PublicHeader />
-        {children}
+        <div className="px-10">{children}</div>
       </section>
     </div>
   );
