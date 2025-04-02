@@ -5,8 +5,7 @@ import "./globals.css";
 // fontawesome
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { AuthProvider } from "@/context/AuthContext";
-import LayoutWrapper from "@/components/layout-wrapper";
+import clsx from "clsx";
 
 config.autoAddCss = false;
 
@@ -40,9 +39,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${openSans.variable} antialiased`}
       >
-        <AuthProvider>
-          <LayoutWrapper>{children}</LayoutWrapper>
-        </AuthProvider>
+        <main className="w-[100vw] h-[100vh]">{children}</main>
       </body>
     </html>
   );
