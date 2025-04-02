@@ -21,14 +21,14 @@ export default function Popover({
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => setIsOpen(!isOpen);
-  const handleMouseEnter = () => setIsOpen(true);
-  const handleMouseLeave = () => setTimeout(() => setIsOpen(false), 500);
+  // const handleMouseEnter = () => setIsOpen(true);
+  // const handleMouseLeave = () => setTimeout(() => setIsOpen(false), 500);
 
   return (
     <div
       className={clsx("relative inline-block ", containerStyles)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      // onMouseEnter={handleMouseEnter}
+      // onMouseLeave={handleMouseLeave}
     >
       <button onClick={handleClick} className="text-lg">
         {Icon}

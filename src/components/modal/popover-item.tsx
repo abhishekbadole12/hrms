@@ -6,8 +6,8 @@ interface PopoverItemProps {
 
 export default function PopoverItem({ children }: PopoverItemProps) {
   return (
-    <div className="py-2 px-3 text-sm text-primary rounded-md hover:bg-gray-100 cursor-pointer">
-      <p className="hover:font-medium">{children}</p>
+    <div className="py-2 px-3 text-sm text-primary rounded-md cursor-pointer hover:bg-gray-100 hover:font-medium">
+      <p className="">{children}</p>
     </div>
   );
 }
