@@ -38,8 +38,6 @@ export async function createSession(user_id: string) {
   const expiresAt = new Date(Date.now() + cookie.duration);
   const session = await encrypt({ user_id, expiresAt });
 
-//   console.log("Here before setting cookie:", session);
-
   (await cookies()).set("session", session, {
     httpOnly: true,
     secure: false,
@@ -48,9 +46,7 @@ export async function createSession(user_id: string) {
     // path: "/",
   });
 
-//   console.log("Here after setting cookie:", (await cookies()).get("session"));
-
-return { success: true };
+  return { success: true };
 }
 
 export async function verifySession() {

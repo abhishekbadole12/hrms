@@ -1,5 +1,15 @@
 "use client";
 
+import React, { useTransition } from "react";
+import ProfilePicture from "./profile-picture";
+import HeaderIconButton from "./header-icon-button";
+import InputContainer from "./input-container";
+//
+import Popover from "../modal/popover";
+import PopoverItem from "../modal/popover-item";
+//
+import { logoutAction } from "@/app/(dashboard)/action";
+//
 import {
   faBell,
   faCommentDots,
@@ -8,15 +18,10 @@ import {
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import ProfilePicture from "./profile-picture";
-import HeaderIconButton from "./header-icon-button";
-import InputContainer from "./input-container";
-import Popover from "../modal/popover";
-import PopoverItem from "../modal/popover-item";
 
 export default function PrivateHeader() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isPending, startTransition] = useTransition(); // logout action
 
   const handleIconClick = () => {
     console.log("Icon clicked");
@@ -51,7 +56,10 @@ export default function PrivateHeader() {
         >
           <PopoverItem>Profile</PopoverItem>
           <PopoverItem>Settings</PopoverItem>
-          <PopoverItem>Logout</PopoverItem>
+          {/* Logout Button */}
+          <form action={() => startTransition(() => logoutAction())}>
+            <PopoverItem>{isPending ? "Loading..." : "Logout"}</PopoverItem>
+          </form>
         </Popover>
 
         <ProfilePicture src="/profile.jpeg" />
