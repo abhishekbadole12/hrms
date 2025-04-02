@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelopeOpen, faEye, faEyeSlash, faSearch, faSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 type InputProps = {
   label?: string;
+  id?: string;
   name: string;
   type: string | "text" | "email" | "password" | "number";
   placeholder?: string;
   value?: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   Icon?: React.ReactNode;
+  errorMsg?: string[];
 };
 
 export default function Input({
   label,
+  id,
   name,
   type = "text",
   placeholder,
@@ -22,15 +25,18 @@ export default function Input({
   onChange,
   className = "",
   Icon,
+  errorMsg,
   ...props
 }: InputProps) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
 
   return (
-    <div className={`flex flex-col ${className}`}>
+    <div className={`flex flex-col relative ${className}`}>
       {label && (
-        <label className="mb-2 ml-[2px] text-sm font-medium text-gray-700">{label}</label>
+        <label className="mb-2 ml-[2px] text-sm font-medium text-gray-700">
+          {label}
+        </label>
       )}
 
       <div className="flex items-center border rounded-lg px-3 py-2.5 focus-within:ring-2 focus-within:ring-blue-500">
@@ -41,6 +47,7 @@ export default function Input({
           placeholder={placeholder}
           value={value}
           name={name}
+          id={id}
           onChange={onChange}
           className="w-full text-sm focus:outline-none text-zinc-700 font-medium"
           {...props}
@@ -60,6 +67,12 @@ export default function Input({
           </button>
         )}
       </div>
+
+      {errorMsg && (
+        <p className="absolute -bottom-4 left-4 text-xs font-semibold text-red-500">
+          {errorMsg}
+        </p>
+      )}
     </div>
   );
 }

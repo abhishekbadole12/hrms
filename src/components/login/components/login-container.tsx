@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useActionState } from "react";
 import Button from "@/components/custom/button";
 import Input from "@/components/custom/input";
 //
@@ -9,30 +9,12 @@ import SocialIconContainer from "./social-icon-container";
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import { loginUser } from "@/app/(auth)/login/action";
+
 // import BackgroundGradient from "./background-gradient";
 
 export default function LoginContainer() {
-  const [input, setInput] = React.useState({
-    email: "",
-    password: "",
-    checkbox: false,
-  });
-  const [errorMsg, setErrorMsg] = useState<any>({});
-
-  // Handle input changes
-  const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.type === "checkbox") {
-      setInput((prev) => ({ ...prev, checkbox: !prev.checkbox }));
-      return;
-    }
-    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    console.log(input);
-  };
+  const [state, action, isPending] = useActionState(loginUser, null);
 
   return (
     <div className="w-full rounded-2xl p-8 bg-white relative">
@@ -58,24 +40,26 @@ export default function LoginContainer() {
 
       <HorizontalLine />
 
-      <form onSubmit={handleSubmit}>
+      <form action={action}>
         <Input
           label="Your Email Address"
+          id="email"
           name="email"
           type="email"
           placeholder="Your Email Address"
-          onChange={handleChanges}
-          className="mb-3 text-zinc-800 font-medium"
+          className="mb-3.5 text-zinc-800 font-medium"
           Icon={<FontAwesomeIcon icon={faEnvelope} className="text-gray-400" />}
+          errorMsg={state?.errors?.email}
         />
         <Input
           label="Password"
+          id="password"
           name="password"
           type="password"
           placeholder="Password"
-          onChange={handleChanges}
           className="mb-5 text-zinc-800 font-medium"
           Icon={<FontAwesomeIcon icon={faLock} className="text-gray-400" />}
+          errorMsg={state?.errors?.password}
         />
 
         <div className="flex justify-between items-center mb-6">
@@ -84,7 +68,7 @@ export default function LoginContainer() {
             <input
               type="checkbox"
               className="mr-2 w-4 h-4 cursor-pointer"
-              onChange={handleChanges}
+              // onChange={handleChanges}
             />
             <span className="text-sm font-medium text-gray-700">
               Remember me
@@ -98,9 +82,8 @@ export default function LoginContainer() {
 
         <Button
           type="submit"
-          // disabled={!loading}
+          disabled={isPending}
           className="w-full py-3 bg-zinc-800 hover:bg-zinc-700"
-          // onClick={handleSubmit}
         >
           Login
         </Button>

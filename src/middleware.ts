@@ -1,24 +1,39 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { decrypt } from "./lib/session";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   try {
-    const token = request.cookies.get("token")?.value;
-    const isLoginPage = request.nextUrl.pathname === "/login";
+    // 1. Get the session cookie and decrypt it
+    const cookie = (await cookies()).get("session")?.value;
+    const session = await decrypt(cookie);
 
-    // Redirect unauthenticated users from protected routes
-    if (!token && !isLoginPage) {
-      return NextResponse.redirect(new URL("/login", request.url));
+    const isLoggedIn = !!session?.user_id;
+    // console.log("Is User LoggedIn:", isLoggedIn);
+
+    // 2. Define route types
+    // const protectedRoutes = ["/dashboard"];
+    // const publicRoutes = ["/login"];
+
+    const currentPath = request.nextUrl.pathname;
+
+    const isOnLoginPage = currentPath === "/login";
+    const isOnDashboard = currentPath.startsWith("/dashboard");
+
+    // Case 1: If NOT logged in and trying to access a protected route, redirect to login
+    if (isOnDashboard && !isLoggedIn) {
+      return NextResponse.redirect(new URL("/login", request.nextUrl));
     }
 
-    // Prevent authenticated users from accessing the login page
-    if (token && isLoginPage) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+    // Case 2: If logged in and trying to access login page, redirect to dashboard
+    if (isOnLoginPage && isLoggedIn) {
+      return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
     }
 
     return NextResponse.next();
   } catch (error) {
-    console.error("❌ Middleware Error:", error);
+    console.error("Middleware Error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

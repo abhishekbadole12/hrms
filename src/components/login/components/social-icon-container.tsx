@@ -5,7 +5,7 @@ import MobileIcon from "@/assets/images/mobile.jpg";
 import WhatsAppIcon from "@/assets/images/whatsapp.png";
 
 const SocialIconStyle =
-  "w-[72px] h-[72px] overflow-hidden p-3 rounded-full border-[1px] border-gray-200 flex justify-center items-center transition-transform duration-300 ease-out hover:scale-110 hover:bg-gray-50";
+  "w-[72px] h-[72px] overflow-hidden p-3 rounded-full border-[1px] border-gray-200 flex justify-center items-center cursor-pointer transition-transform duration-300 ease-out hover:scale-110 hover:bg-gray-50";
 
 export default function SocialIconContainer() {
   return (
