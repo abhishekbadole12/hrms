@@ -1,18 +1,40 @@
-import React from "react";
-import ProfileCard from "./components/profile-card";
-import FormCard from "./components/form-card";
+"use client";
+
+import React, { useState } from "react";
+//
+//
+import PersonalDetailsForm from "./content/personal-details";
+import EmploymentDetailsForm from "./content/employment-details";
+import BankDetailsForm from "./content/bank-details";
+import ProfessionalDetailsForm from "./content/professional-details";
+//
+import Tabs from "@/components/common/tabs/tabs";
+//
+import FormWrapper from "./components/form-wrapper";
+//
+import { TAB_OPTIONS } from "@/utils/constant";
 
 export default function EmployeeNewComponent() {
-  return (
-    <div className="w-full grid gap-6 grid-cols-3">
-      <div className="col-span-1">
-        <ProfileCard />
-      </div>
+  const [activeTab, setActiveTab] = useState(TAB_OPTIONS[0].id); // Default to first tab
 
-      {/* Form Card */}
-      <div className="col-span-2">
-        <FormCard />
-      </div>
-    </div>
+  return (
+    <>
+      <div className="mt-4" />
+      <Tabs
+        tabs={TAB_OPTIONS}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
+      <div className="h-10" />
+
+      <FormWrapper>
+        <>
+          {activeTab === "PERSONAL_DETAILS" && <PersonalDetailsForm />}
+          {activeTab === "EMPLOYMENT_DETAILS" && <EmploymentDetailsForm />}
+          {activeTab === "BANK_DETAILS" && <BankDetailsForm />}
+          {activeTab === "DOCUMENTS" && <ProfessionalDetailsForm />}
+        </>
+      </FormWrapper>
+    </>
   );
 }

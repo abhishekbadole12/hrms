@@ -7,22 +7,20 @@ import { TabOption } from "@/utils/constant";
 
 interface TabsProps {
   tabs: TabOption[];
-  defaultTab?: any;
-  onChange: (id: string) => void;
+  activeTab?: TabOption;
+  onTabChange: (id: string) => void;
   isHorizontal?: boolean;
 }
 
 export default function Tabs({
   tabs,
-  defaultTab = tabs[0],
-  onChange,
+  activeTab = tabs[0],
+  onTabChange,
   isHorizontal = true,
 }: TabsProps) {
-  const [activeTab, setActiveTab] = useState<string>(defaultTab);
 
   const handlePress = (id: string) => {
-    setActiveTab(id);
-    if (onChange) onChange(id);
+    if (onTabChange) onTabChange(id);
   };
 
   return (
@@ -32,7 +30,7 @@ export default function Tabs({
           isHorizontal ? "flex overflow-x-auto gap-4" : "flex flex-col"
         )}
       >
-        {tabs.map((tab: any) => (
+        {tabs.map((tab: TabOption) => (
           <TabButton
             key={tab.id}
             tab={tab}
