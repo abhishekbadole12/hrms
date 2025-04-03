@@ -61,7 +61,7 @@ export default function LoginContainer() {
           placeholder="Password"
           className="mb-5 text-zinc-800 font-medium"
           Icon={<FontAwesomeIcon icon={faLock} className="text-gray-400" />}
-          errorMsg={state?.errors?.password}
+          errorMsg={state?.errors?.password || state?.message}
         />
 
         <div className="flex justify-between items-center mb-6">

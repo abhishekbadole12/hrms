@@ -12,7 +12,7 @@ type InputProps = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   Icon?: React.ReactNode;
-  errorMsg?: string[];
+  errorMsg?: string[] |  string;
 };
 
 export default function Input({
