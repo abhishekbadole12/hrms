@@ -5,9 +5,9 @@ export interface GenderOption {
 
 // Gender Options
 export const GENDER_OPTIONS = [
-  { value: "male", label: "Male" },
-  { value: "female", label: "Female" },
-  { value: "other", label: "Other" },
+  { value: "MALE", label: "Male" },
+  { value: "FEMALE", label: "Female" },
+  { value: "OTHER", label: "Other" },
 ];
 
 export interface RoleOption {
@@ -17,10 +17,10 @@ export interface RoleOption {
 
 // Role Options
 export const ROLE_OPTIONS = [
-  { value: "admin", label: "Admin" },
-  { value: "hr", label: "Human Resource" },
-  { value: "employee", label: "Employee" },
-  { value: "manager", label: "Manager" },
+  { value: "ADMIN", label: "Admin" },
+  { value: "HR", label: "Human Resource" },
+  { value: "EMPLOYEE", label: "Employee" },
+  { value: "MANAGER", label: "Manager" },
 ];
 
 export interface TabOption {

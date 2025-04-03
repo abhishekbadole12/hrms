@@ -4,7 +4,8 @@ import { PROCESS } from "@/database/env";
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { SessionPayload } from "./definitions";
+import { ISessionPayload } from "./definitions";
+
 
 const secretKey = PROCESS.JWT.SECRET;
 const key = new TextEncoder().encode(secretKey);
@@ -15,7 +16,7 @@ const cookie = {
   duration: 24 * 60 * 60 * 100,
 };
 
-export async function encrypt(payload: SessionPayload) {
+export async function encrypt(payload: ISessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -23,12 +24,12 @@ export async function encrypt(payload: SessionPayload) {
     .sign(key);
 }
 
-export async function decrypt(session: string | undefined = "") {
+export async function decrypt(session: string | undefined = ""): Promise<ISessionPayload | null> {
   try {
     const { payload } = await jwtVerify(session, key, {
       algorithms: ["HS256"],
     });
-    return payload;
+    return payload as ISessionPayload;
   } catch (error) {
     return null;
   }
@@ -49,7 +50,7 @@ export async function createSession(user_id: string) {
   return { success: true };
 }
 
-export async function verifySession() {
+export async function verifySession(): Promise<{ isAuth: boolean; user_id: string }> {
   const cookie = (await cookies()).get("session")?.value;
   const session = await decrypt(cookie);
 
@@ -57,7 +58,7 @@ export async function verifySession() {
     redirect("/login");
   }
 
-  return { isAuth: true, user_id: Number(session.userId) };
+  return { isAuth: true, user_id: session.user_id };
 }
 
 export async function deleteSession() {
