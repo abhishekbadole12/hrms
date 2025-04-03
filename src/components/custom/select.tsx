@@ -13,6 +13,7 @@ interface SelectProps {
   placeholder?: string;
   className?: string;
   Icon?: React.ReactNode;
+  errorMsg?: string[] | string;
 }
 
 export default function Select({
@@ -25,10 +26,15 @@ export default function Select({
   placeholder = "Select",
   className = "",
   Icon,
+  errorMsg,
   ...props
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Find label from options based on selected value
+  const selectedLabel =
+    options.find((opt) => opt.value === selected)?.label || placeholder;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -45,7 +51,10 @@ export default function Select({
   }, []);
 
   return (
-    <div className={`flex flex-col relative ${className}`} ref={dropdownRef}>
+    <div
+      className={clsx("flex flex-col relative", className)}
+      ref={dropdownRef}
+    >
       {label && (
         <label className="mb-2 ml-[2px] text-sm font-medium">{label}</label>
       )}
@@ -55,14 +64,20 @@ export default function Select({
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-between gap-2.5 border rounded-lg p-2.5 cursor-pointer select-none focus-within:ring-2 focus-within:ring-blue-500"
       >
-        <h4 className={clsx("text-sm text-gray-400 capitalize", selected && "text-zinc-700 font-medium")}>
-          {selected ? selected : placeholder}
+        <h4
+          className={clsx(
+            "text-sm text-gray-400 capitalize",
+            selected && "text-zinc-700 font-medium"
+          )}
+        >
+          {selectedLabel}
         </h4>
         <FontAwesomeIcon
           icon={faChevronDown}
-          className={`text-gray-500 text-xs transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
+          className={clsx(
+            "text-gray-500 text-xs transition-transform",
+            isOpen && "rotate-180"
+          )}
         />
       </div>
 
@@ -76,14 +91,21 @@ export default function Select({
                 onChange(item.value);
                 setIsOpen(false);
               }}
-              className={`py-2 px-3 text-sm text-primary rounded-md hover:bg-gray-100 cursor-pointer ${
-                selected === item.value ? "font-semibold bg-gray-100" : ""
-              }`}
+              className={clsx(
+                "py-2 px-3 text-sm text-primary rounded-md hover:bg-gray-100 cursor-pointer",
+                selected === item.value && "font-semibold bg-gray-100"
+              )}
             >
               {item.label}
             </div>
           ))}
         </div>
+      )}
+
+      {errorMsg && (
+        <p className="absolute -bottom-4 left-4 text-xs font-semibold text-red-500">
+          {errorMsg}
+        </p>
       )}
     </div>
   );
