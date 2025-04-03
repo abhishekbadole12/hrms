@@ -13,7 +13,7 @@ interface UserAttributes {
   phone_number: string;
   email: string;
   user_role: "ADMIN" | "MANAGER" | "EMPLOYEE" | "HR";
-  password: string;
+  password?: string;
   status?: "ACTIVE" | "INACTIVE" | "SUSPENDED";
   created_by?: string; // Self-referencing Foreign Key
 }
@@ -118,7 +118,16 @@ User.init(
     timestamps: true,
     hooks: {
       beforeCreate: async (user: User) => {
-        await user.hashPassword();
+        if (!user.password) {
+          const randomPassword = crypto.randomUUID() // generate random UUID
+          user.password = await bcrypt.hash(randomPassword, 10); // hash randomPassword
+    
+          // You can store `randomPassword` in another field if needed (optional)
+          (user as any)._plainPassword = randomPassword; // Temporary store for reference
+        } else if (!user.password.startsWith("$2b$")) {
+          // Hash only if not already hashed
+          user.password = await bcrypt.hash(user.password, 10);
+        }
       },
     },
     indexes: [
