@@ -23,14 +23,14 @@ export const ROLE_OPTIONS = [
   { value: "MANAGER", label: "Manager" },
 ];
 
-export interface TabOption {
+export interface ITabOption {
   id: string;
   label: string;
   Icon: string;
 }
 
 // Tab Options
-export const TAB_OPTIONS: TabOption[] = [
+export const TAB_OPTIONS: ITabOption[] = [
   {
     id: "PERSONAL_DETAILS",
     label: "Personal Details",

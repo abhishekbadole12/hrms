@@ -17,6 +17,10 @@ export const RegisterUserSchema = z.object({
     errorMap: () => ({ message: "User role is required" }),
   }),
   status: z.enum(["ACTIVE", "INACTIVE"]),
+  isVerified: z.boolean({
+    required_error: "isVerified is required",
+    invalid_type_error: "isVerified must be a boolean",
+  })
 });
 
 // Login user Zod schema

@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import clsx from "clsx";
 
 type InputProps = {
   label?: string;
   id?: string;
   name: string;
-  type?:  "text" | "email" | "password" | "number";
+  type?:  "text" | "email" | "password" | "number" | "tel";
   placeholder?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  inputStyle?: string;
   Icon?: React.ReactNode;
   errorMsg?: string[] |  string;
 };
@@ -24,6 +26,7 @@ export default function Input({
   value,
   onChange,
   className = "",
+  inputStyle='',
   Icon,
   errorMsg,
   ...props
@@ -49,7 +52,10 @@ export default function Input({
           name={name}
           id={id}
           onChange={onChange}
-          className="w-full text-sm focus:outline-none text-zinc-700 font-medium"
+          className={clsx(
+            'w-full text-sm focus:outline-none text-zinc-700 font-medium',
+            inputStyle && inputStyle
+          )}
           {...props}
         />
 

@@ -23,6 +23,7 @@ export async function registerUser(state: unknown, formData: FormData) {
     phone_number: formData.get("phone_number"),
     user_role: formData.get("user_role"),
     status: formData.get("status") || "ACTIVE",
+    isVerified: Boolean(formData.get("isVerified")),
   });
 
   if (!validationResult.success) {
@@ -68,8 +69,10 @@ export async function registerUser(state: unknown, formData: FormData) {
     return { message: "Failed to create user. Please try again." };
   }
 
-  // console.log(
-  //   `Generated password for ${newUser.email}:`,
-  //   (newUser as any)._plainPassword
-  // );
+  console.log(
+    `Generated password for ${newUser.email}:`,
+    (newUser as any)._plainPassword
+  );
+
+  return { success: true };
 }
