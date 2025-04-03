@@ -6,7 +6,7 @@ type InputProps = {
   label?: string;
   id?: string;
   name: string;
-  type: string | "text" | "email" | "password" | "number";
+  type?:  "text" | "email" | "password" | "number";
   placeholder?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -43,7 +43,7 @@ export default function Input({
         {Icon && <span className="mr-3 text-gray-400">{Icon}</span>}
 
         <input
-          type={isPassword && !showPassword ? "password" : "text"}
+          type={isPassword && !showPassword ? "password" : type}
           placeholder={placeholder}
           value={value}
           name={name}
