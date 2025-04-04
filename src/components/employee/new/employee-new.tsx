@@ -5,6 +5,7 @@ import React, { useState } from "react";
 //
 import PersonalDetailsForm from "./content/personal-details";
 import EmploymentDetailsForm from "./content/employment-details";
+import PreviousJobForm from "./content/previous-employement";
 import BankDetailsForm from "./content/bank-details";
 import SocialAndMore from "./content/social-and-more";
 //
@@ -39,6 +40,7 @@ export default function EmployeeNewComponent() {
       <FormWrapper>
         {activeTab === "PERSONAL_DETAILS" && <PersonalDetailsForm onSubmit={handleFormSubmit}/>}
         {activeTab === "EMPLOYMENT_DETAILS" && <EmploymentDetailsForm  onSubmit={handleFormSubmit}/>}
+        {activeTab === "PREVIOUS_JOB_DETAILS" && <PreviousJobForm  onSubmit={handleFormSubmit}/>}
         {activeTab === "BANK_DETAILS" && <BankDetailsForm onSubmit={handleFormSubmit}/>}
         {activeTab === "DOCUMENTS" && <SocialAndMore />}
       </FormWrapper>
