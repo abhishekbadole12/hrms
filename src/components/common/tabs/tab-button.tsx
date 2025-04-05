@@ -1,11 +1,11 @@
-import { TabOption } from "@/utils/constant";
+import { ITabOption } from "@/utils/constant";
 import { faBuildingColumns } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import React from "react";
 
 interface ITabButton {
-  tab: TabOption;
+  tab: ITabOption;
   isActive: boolean;
   onClick: () => void;
 }
@@ -20,7 +20,7 @@ export function TabButton({ tab, isActive, onClick }: ITabButton) {
       )}
     >
       <FontAwesomeIcon icon={faBuildingColumns} className="text-[18px] mr-3" />
-      {tab.label}
+      {tab.name}
     </button>
   );
 }
