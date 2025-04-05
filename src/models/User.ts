@@ -14,7 +14,8 @@ interface UserAttributes {
   email: string;
   user_role: "ADMIN" | "MANAGER" | "EMPLOYEE" | "HR";
   password?: string;
-  status?: "ACTIVE" | "INACTIVE" | "SUSPENDED";
+  status?: "ACTIVE" | "INACTIVE" | "SUSPENDED" | "RESIGNED" | "TERMINATED";
+  isVerified?: boolean;
   created_by?: string; // Self-referencing Foreign Key
 }
 
@@ -29,7 +30,12 @@ class User extends Model<UserAttributes> implements UserAttributes {
   public email!: string;
   public user_role!: "ADMIN" | "MANAGER" | "EMPLOYEE" | "HR";
   public password!: string;
-  public status?: "ACTIVE" | "INACTIVE" | "SUSPENDED";
+  public status?:
+    | "ACTIVE"
+    | "INACTIVE"
+    | "SUSPENDED"
+    | "RESIGNED"
+    | "TERMINATED";
   public created_by?: string;
 
   // Hash password before saving
@@ -82,7 +88,7 @@ User.init(
     },
     email: {
       type: DataTypes.STRING,
-      unique: true,
+      unique: false,
       allowNull: false,
       validate: {
         isEmail: true,
@@ -119,9 +125,9 @@ User.init(
     hooks: {
       beforeCreate: async (user: User) => {
         if (!user.password) {
-          const randomPassword = crypto.randomUUID() // generate random UUID
+          const randomPassword = crypto.randomUUID(); // generate random UUID
           user.password = await bcrypt.hash(randomPassword, 10); // hash randomPassword
-    
+
           // You can store `randomPassword` in another field if needed (optional)
           (user as any)._plainPassword = randomPassword; // Temporary store for reference
         } else if (!user.password.startsWith("$2b$")) {
