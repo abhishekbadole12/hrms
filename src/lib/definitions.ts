@@ -20,7 +20,7 @@ export const RegisterUserSchema = z.object({
   isVerified: z.boolean({
     required_error: "isVerified is required",
     invalid_type_error: "isVerified must be a boolean",
-  })
+  }),
 });
 
 // Login user Zod schema
@@ -43,3 +43,24 @@ export type LoginFormState = {
   };
   message?: string;
 };
+
+// User registration form state
+export const UpdateEmploymentDetails = z.object({
+  user_id: z.string().min(1, "Employee ID is required"),
+  job_title: z.string().min(1, "Job title is required"),
+  department_id: z.string().min(1, "Department is required"),
+  reporting_manager_id: z.string().optional(),
+  employment_type: z.enum(["FULL_TIME", "PART_TIME", "CONTRACT", "INTERNSHIP"], {
+    errorMap: () => ({ message: "Employment type is required" }),
+  }),
+  work_location: z.string().min(1, "Work location is required"),
+  join_date: z.date(),
+  end_date: z.date().optional(),
+  probation_end_date: z.date(),
+  confirmation_date: z.date().optional(),
+  salary: z.number().optional(),
+  currency_unit: z.enum(["INR", "USD", "EUR"]).optional(),
+  is_active: z.boolean().optional(),
+  created_by: z.string().optional(),
+  updated_by: z.string().optional(),
+})
