@@ -1,31 +1,31 @@
 export interface GenderOption {
   value: string;
-  label: string;
+  name: string;
 }
 
 // Gender Options
 export const GENDER_OPTIONS = [
-  { value: "MALE", label: "Male" },
-  { value: "FEMALE", label: "Female" },
-  { value: "OTHER", label: "Other" },
+  { value: "MALE", name: "Male" },
+  { value: "FEMALE", name: "Female" },
+  { value: "OTHER", name: "Other" },
 ];
 
 export interface RoleOption {
   value: string;
-  label: string;
+  name: string;
 }
 
 // Role Options
 export const ROLE_OPTIONS = [
-  { value: "ADMIN", label: "Admin" },
-  { value: "HR", label: "Human Resource" },
-  { value: "EMPLOYEE", label: "Employee" },
-  { value: "MANAGER", label: "Manager" },
+  { value: "ADMIN", name: "Admin" },
+  { value: "HR", name: "Human Resource" },
+  { value: "EMPLOYEE", name: "Employee" },
+  { value: "MANAGER", name: "Manager" },
 ];
 
 export interface ITabOption {
   id: string;
-  label: string;
+  name: string;
   Icon: string;
 }
 
@@ -33,54 +33,57 @@ export interface ITabOption {
 export const TAB_OPTIONS: ITabOption[] = [
   {
     id: "PERSONAL_DETAILS",
-    label: "Personal Details",
+    name: "Personal Details",
     Icon: "",
   },
   {
     id: "EMPLOYMENT_DETAILS",
-    label: "Employment Details",
+    name: "Employment Details",
     Icon: "",
   },
   {
     id: "PREVIOUS_JOB_DETAILS",
-    label: "Previous Job Details",
+    name: "Previous Job Details",
     Icon: "",
   },
-  { id: "BANK_DETAILS", label: "Bank Details", Icon: "" },
-  { id: "DOCUMENTS", label: "Documents", Icon: "" },
+  { id: "BANK_DETAILS", name: "Bank Details", Icon: "" },
+  { id: "DOCUMENTS", name: "Documents", Icon: "" },
 ];
 
+interface IDEPARTMENT_OPTIONS {
+  id: number;
+  value: string;
+  name: string;
+}
+
 // Department options
-export const DEPARTMENT_OPTIONS = [
-  { value: "HR", label: "Human Resource" },
-  { value: "IT", label: "Information Technology" },
-  { value: "FINANCE", label: "Finance" },
-  { value: "MARKETING", label: "Marketing" },
-  { value: "SALES", label: "Sales" },
+export const DEPARTMENT_OPTIONS: IDEPARTMENT_OPTIONS[] = [
+  { id: 1, value: "HR", name: "Human Resource" },
+  { id: 2, value: "IT", name: "Information Technology" },
+  { id: 3, value: "FINANCE", name: "Finance" },
+  { id: 4, value: "MARKETING", name: "Marketing" },
+  { id: 5, value: "SALES", name: "Sales" },
 ];
 
 // Employeement type options
 export const EMPLOYMENT_TYPE_OPTIONS = [
-  { value: "FULL_TIME", label: "Full Time" },
-  { value: "PART_TIME", label: "Part Time" },
-  { value: "CONTRACT", label: "Contract" },
-  { value: "INTERN", label: "Intern" },
-  { value: "FREELANCE", label: "Freelance" },
-  { value: "TEMPORARY", label: "Temporary" },
-  { value: "PROBATION", label: "Probation" },
+  { value: "FULL_TIME", name: "Full Time" },
+  { value: "PART_TIME", name: "Part Time" },
+  { value: "CONTRACT", name: "Contract" },
+  { value: "INTERN", name: "Intern" }
 ];
 
 // Work location options
 export const WORK_LOCATION_OPTIONS = [
-  { value: "REMOTE", label: "Remote" },
-  { value: "ONSITE", label: "Onsite" },
-  { value: "HYBRID", label: "Hybrid" },
+  { value: "REMOTE", name: "Remote" },
+  { value: "ONSITE", name: "Onsite" },
+  { value: "HYBRID", name: "Hybrid" },
 ];
 
 // Work schedule options
 export const WORK_SCHEDULE_OPTIONS = [
-  { value: "FULL_TIME", label: "Full Time" },
-  { value: "PART_TIME", label: "Part Time" },
-  { value: "FLEXIBLE", label: "Flexible" },
-  { value: "SHIFT", label: "Shift" },
+  { value: "FULL_TIME", name: "Full Time" },
+  { value: "PART_TIME", name: "Part Time" },
+  { value: "FLEXIBLE", name: "Flexible" },
+  { value: "SHIFT", name: "Shift" },
 ];

@@ -6,9 +6,11 @@ import User from "./User";
 interface DepartmentAttributes {
   department_id?: string;
   name: string;
+  value?: string;
   description?: string;
   manager_id?: string; // Manager is also a user
   created_by?: string; // Creator of the department
+  status?: "ACTIVE" | "INACTIVE";
 }
 
 class Department
@@ -20,6 +22,15 @@ class Department
   public description?: string;
   public manager_id?: string;
   public created_by?: string;
+
+  // Virtuals
+  public get value() {
+    return this.department_id;
+  }
+
+  // Timestamps
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 Department.init(
@@ -58,6 +69,19 @@ Department.init(
       },
       onUpdate: "CASCADE",
       onDelete: "SET NULL",
+    },
+    status: {
+      type: DataTypes.ENUM("ACTIVE", "INACTIVE"),
+      defaultValue: "ACTIVE",
+    },
+
+    // Virtuals
+    // This is a virtual field that will not be stored in the database
+    value: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return this.getDataValue("department_id");
+      },
     },
   },
   {
