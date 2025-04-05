@@ -7,14 +7,15 @@ type InputProps = {
   label?: string;
   id?: string;
   name: string;
-  type?:  "text" | "email" | "password" | "number" | "tel" | "date";
+  type?: "text" | "email" | "password" | "number" | "tel" | "date";
   placeholder?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   inputStyle?: string;
   Icon?: React.ReactNode;
-  errorMsg?: string[] |  string;
+  errorMsg?: string[] | string;
+  disabled?: boolean;
 };
 
 export default function Input({
@@ -26,9 +27,10 @@ export default function Input({
   value,
   onChange,
   className = "",
-  inputStyle='',
+  inputStyle = "",
   Icon,
   errorMsg,
+  disabled = false,
   ...props
 }: InputProps) {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,7 +44,12 @@ export default function Input({
         </label>
       )}
 
-      <div className="flex items-center border rounded-lg px-3 py-2.5 focus-within:ring-2 focus-within:ring-blue-500">
+      <div
+        className={clsx(
+          "flex items-center border rounded-lg px-3 py-2.5 focus-within:ring-2 focus-within:ring-blue-500",
+          disabled && "bg-gray-100"
+        )}
+      >
         {Icon && <span className="mr-3 text-gray-400">{Icon}</span>}
 
         <input
@@ -53,9 +60,11 @@ export default function Input({
           id={id}
           onChange={onChange}
           className={clsx(
-            'w-full text-sm focus:outline-none text-zinc-700 font-medium',
-            inputStyle && inputStyle
+            "w-full text-sm focus:outline-none text-zinc-700 font-medium",
+            inputStyle && inputStyle,
+            disabled && "text-zinc-400 opacity-75",
           )}
+          disabled={disabled}
           {...props}
         />
 

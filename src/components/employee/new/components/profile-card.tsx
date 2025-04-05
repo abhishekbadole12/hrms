@@ -7,7 +7,7 @@ import React, { useState } from "react";
 
 interface ProfileCardProps {
   profileImage: File |null;
-  status: boolean;
+  status: "ACTIVE" | "INACTIVE";
   onStatusChange: (newStatus: boolean) => void;
   isVerified: boolean;
   onVerificationChange: (isVerified: boolean) => void;
@@ -83,7 +83,7 @@ export default function ProfileCard({
           <Switch
             size="md"
             className="ml-auto"
-            checked={status}
+            checked={status === "ACTIVE"}
             onChange={() => onStatusChange(!status)}
           />
         </div>

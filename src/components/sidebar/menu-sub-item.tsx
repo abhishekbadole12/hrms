@@ -25,7 +25,7 @@ export default function MenuSubItem({
         href={pathname}
         key={subSection.label}
         className={`flex items-center gap-3 py-2 px-3 mt-1 rounded-md ${
-          pathname === path ? "bg-slate-200 text-primary" : "text-gray-800"
+          pathname.split('?')[0] === path ? "bg-slate-200 text-primary" : "text-gray-800"
         }`}
       >
         <FontAwesomeIcon

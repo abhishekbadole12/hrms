@@ -30,7 +30,7 @@ interface FormInputs {
   country_code?: string;
   phone_number: string;
   user_role: string;
-  status: boolean;
+  status: "ACTIVE" | "INACTIVE";
   isVerified: boolean;
   profile_image: File |null;
 }
@@ -38,7 +38,7 @@ interface FormInputs {
 export default function PersonalDetailsForm({
   onSubmit,
 }: {
-  onSubmit: () => void;
+  onSubmit: (user_id: string) => void;
 }) {
   // Local state for form inputs
   const [formInputs, setFormInputs] = useState<FormInputs>({
@@ -50,7 +50,7 @@ export default function PersonalDetailsForm({
     country_code: "+91",
     phone_number: "",
     user_role: "",
-    status: true,
+    status: 'ACTIVE',
     isVerified: false,
     profile_image: null,
   });
@@ -87,7 +87,7 @@ export default function PersonalDetailsForm({
   };
 
   // Toggle
-  const handleStatusChange = (newStatus: boolean) => {
+  const handleStatusChange = (newStatus: "ACTIVE"|"INACTIVE") => {
     setFormInputs((prev) => ({ ...prev, status: newStatus }));
   };
 
@@ -110,7 +110,7 @@ export default function PersonalDetailsForm({
 
   useEffect(() => {
     if (state?.success) {
-      onSubmit();
+      onSubmit(state?.user_id);
     }
   }, [state, onSubmit]);
 
