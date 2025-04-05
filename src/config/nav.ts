@@ -59,7 +59,7 @@ export const navItems: NavItem[] = [
           },
           {
             label: "Create",
-            route: "/new",
+            route: "/new?tab=PERSONAL_DETAILS",
           },
           {
             label: "Edit",
