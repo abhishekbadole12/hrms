@@ -6,7 +6,7 @@ import clsx from "clsx";
 interface SelectProps {
   label?: string;
   name?: string;
-  options: { value: string; label: string }[];
+  options: { name: string; value: string }[];
   selected: string | null;
   value?: string;
   onChange: (value: string) => void;
@@ -14,6 +14,7 @@ interface SelectProps {
   className?: string;
   Icon?: React.ReactNode;
   errorMsg?: string[] | string;
+  tabIndex?: number;
 }
 
 export default function Select({
@@ -27,6 +28,7 @@ export default function Select({
   className = "",
   Icon,
   errorMsg,
+  tabIndex,
   ...props
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +36,7 @@ export default function Select({
 
   // Find label from options based on selected value
   const selectedLabel =
-    options.find((opt) => opt.value === selected)?.label || placeholder;
+    options.find((opt) => opt.value === selected)?.name || placeholder;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -86,7 +88,8 @@ export default function Select({
         <div className="absolute top-full left-0 mt-1 w-full p-1 bg-white border rounded-lg shadow-lg z-10">
           {options.map((item) => (
             <div
-              key={String(item.label)}
+            tabIndex={tabIndex? tabIndex : -1}
+              key={String(item.name)}
               onClick={() => {
                 onChange(item.value);
                 setIsOpen(false);
@@ -96,7 +99,7 @@ export default function Select({
                 selected === item.value && "font-semibold bg-gray-100"
               )}
             >
-              {item.label}
+              {item.name}
             </div>
           ))}
         </div>
