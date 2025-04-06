@@ -39,7 +39,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${openSans.variable} antialiased`}
       >
-        <main className="w-[100vw] h-[100vh]">{children}</main>
+        <main className="min-w-screen min-h-screen">{children}</main>
       </body>
     </html>
   );
