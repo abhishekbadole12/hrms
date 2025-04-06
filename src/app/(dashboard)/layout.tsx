@@ -1,7 +1,8 @@
 import React from "react";
-import PrivateHeader from "@/components/header/private-header";
-import { Sidebar } from "@/components/sidebar/sidebar";
 import clsx from "clsx";
+//
+import PrivateHeader from "@/components/header/private-header";
+import SidebarWrapper from "@/components/wrapper/sidebar-wrapper";
 
 export default function DashboardLayout({
   children,
@@ -14,7 +15,7 @@ export default function DashboardLayout({
         "bg-[#f9f9f9]": true,
       })}
     >
-      <Sidebar />
+      <SidebarWrapper />
 
       <section className="w-full h-full py-2 px-12 flex flex-col min-h-0">
         <PrivateHeader />

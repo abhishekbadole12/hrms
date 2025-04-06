@@ -25,7 +25,7 @@ interface NavItem {
   section: NavSection[];
 }
 
-export const navItems: NavItem[] = [
+export const getNavItems = (userId: string) =>  [
   // General Section
   {
     label: "Overview",
@@ -63,12 +63,8 @@ export const navItems: NavItem[] = [
           },
           {
             label: "Edit",
-            route: "/edit/<EMPLOYEEID>",
-          },
-          // {
-          //   label: "Employee Documents",
-          //   route: "/documents/<EMPLOYEEID>",
-          // },
+            route: `/edit/${userId}?tab=PERSONAL_DETAILS`,
+          }
         ],
       },
       {

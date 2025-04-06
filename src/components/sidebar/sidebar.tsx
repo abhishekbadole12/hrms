@@ -2,15 +2,23 @@
 
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { navItems } from "@/config/nav";
+//
+import { getNavItems } from "@/config/nav";
+//
 import MenuLabel from "./menu-label";
 import MenuItem from "./menu-item";
 
-export const Sidebar = () => {
+interface SidebarProps {
+  user_id: string;
+}
+
+export const Sidebar = ({ user_id }: SidebarProps) => {
   const [isOpened, setIsOpened] = React.useState<boolean>(false);
   const [activeMenu, setActiveMenu] = React.useState<string>("");
   const pathname = usePathname();
   const navigate = useRouter();
+
+  const navItems = getNavItems(user_id);
 
   // handle item click
   const handleItemClick = (subItem: any) => {
