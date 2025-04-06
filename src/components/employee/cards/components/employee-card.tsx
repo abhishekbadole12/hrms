@@ -5,10 +5,10 @@ import React from "react";
 import SocialIcon from "../../../common/social-button";
 
 interface Employee {
-  id: string;
-  firstName: string;
-  lastName: string;
-  role: string;
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
 }
 
 interface EmployeeCardProps {
@@ -29,9 +29,9 @@ export default function EmployeeCard({ item }: EmployeeCardProps) {
         {/* User Details */}
         <div className="text-center">
           <h5 className="text-base text-primary font-semibold mb-1">
-            {item.firstName} {item.lastName}
+            {item.first_name} {item.last_name}
           </h5>
-          <p className="text-sm text-secondary font-normal">{item.role}</p>
+          <p className="text-sm text-secondary font-normal">{item.email}</p>
         </div>
 
         {/* Social Media's */}

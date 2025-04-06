@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function EmployeeNew() {
   return (
-    <div>
+    // <div className="">
       <EmployeeCardsPage />
-    </div>
+    // </div>
   );
 }

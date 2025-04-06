@@ -4,7 +4,7 @@ import React from "react";
 
 export default function EmployeeCardsPage() {
   return (
-    <div>
+    <div className="w-full h-[80%]">
       <BreadCrumb title="Employee cards" />
       <EmployeeCardsComponent />
     </div>
