@@ -9,13 +9,13 @@ export default function Authlayout({
 }>) {
   return (
     <div
-      className={clsx("h-full flex p-4 pr-0", {
+      className={clsx("h-screen flex p-4 pr-0", {
         "bg-[#f9f9f9]": true,
       })}
     >
       <section className="w-full h-full py-2 px-12 flex flex-col min-h-0">
         <PublicHeader />
-        <div className="px-10">{children}</div>
+        <div className="px-10 h-full">{children}</div>
       </section>
     </div>
   );
