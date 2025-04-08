@@ -17,6 +17,7 @@ interface UserAttributes {
   status?: "ACTIVE" | "INACTIVE" | "SUSPENDED" | "RESIGNED" | "TERMINATED";
   isVerified?: boolean;
   created_by?: string; // Self-referencing Foreign Key
+  updated_by?: string;
 }
 
 class User extends Model<UserAttributes> implements UserAttributes {
@@ -37,6 +38,7 @@ class User extends Model<UserAttributes> implements UserAttributes {
     | "RESIGNED"
     | "TERMINATED";
   public created_by?: string;
+  public updated_by?: string;
 
   // Hash password before saving
   public async hashPassword(): Promise<void> {
@@ -116,6 +118,16 @@ User.init(
       onUpdate: "CASCADE",
       onDelete: "SET NULL",
     },
+    updated_by: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+      // references: {
+      //   model: "users",
+      //   key: "user_id",
+      // },
+      // onUpdate: "CASCADE",
+      // onDelete: "SET NULL",
+    },
   },
   {
     sequelize,
@@ -149,6 +161,11 @@ User.init(
 User.hasOne(User, {
   foreignKey: "created_by",
   as: "creator",
+});
+
+User.hasOne(User, {
+  foreignKey: "updated_by",
+  as: "updater",
 });
 
 export default User;
