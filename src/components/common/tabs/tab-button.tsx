@@ -1,8 +1,9 @@
-import { ITabOption } from "@/utils/constant";
-import { faBuildingColumns } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import clsx from "clsx";
 import React from "react";
+import clsx from "clsx";
+//
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//
+import { ITabOption } from "@/utils/constant";
 
 interface ITabButton {
   tab: ITabOption;
@@ -11,6 +12,8 @@ interface ITabButton {
 }
 
 export function TabButton({ tab, isActive, onClick }: ITabButton) {
+  const { name, Icon } = tab;
+
   return (
     <button
       onClick={onClick}
@@ -19,8 +22,8 @@ export function TabButton({ tab, isActive, onClick }: ITabButton) {
         { "text-zinc-600 border-zinc-600 ": isActive }
       )}
     >
-      <FontAwesomeIcon icon={faBuildingColumns} className="text-[18px] mr-3" />
-      {tab.name}
+      <FontAwesomeIcon icon={Icon} className="text-[18px] mr-3" />
+      {name}
     </button>
   );
 }
