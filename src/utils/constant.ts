@@ -1,3 +1,12 @@
+import {
+  faBriefcase,
+  faBuildingColumns,
+  faBusinessTime,
+  faFileLines,
+  faUser,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
+
 export interface GenderOption {
   value: string;
   name: string;
@@ -26,7 +35,7 @@ export const ROLE_OPTIONS = [
 export interface ITabOption {
   id: string;
   name: string;
-  Icon: string;
+  Icon: IconDefinition;
 }
 
 // Tab Options
@@ -34,20 +43,28 @@ export const TAB_OPTIONS: ITabOption[] = [
   {
     id: "PERSONAL_DETAILS",
     name: "Personal Details",
-    Icon: "",
+    Icon: faUser,
   },
   {
     id: "EMPLOYMENT_DETAILS",
     name: "Employment Details",
-    Icon: "",
+    Icon: faBriefcase,
   },
   {
     id: "PREVIOUS_JOB_DETAILS",
     name: "Previous Job Details",
-    Icon: "",
+    Icon: faBusinessTime,
   },
-  { id: "BANK_DETAILS", name: "Bank Details", Icon: "" },
-  { id: "DOCUMENTS", name: "Documents", Icon: "" },
+  {
+    id: "BANK_DETAILS",
+    name: "Bank Details",
+    Icon: faBuildingColumns,
+  },
+  {
+    id: "DOCUMENTS",
+    name: "Documents",
+    Icon: faFileLines,
+  },
 ];
 
 interface IDEPARTMENT_OPTIONS {
@@ -70,7 +87,7 @@ export const EMPLOYMENT_TYPE_OPTIONS = [
   { value: "FULL_TIME", name: "Full Time" },
   { value: "PART_TIME", name: "Part Time" },
   { value: "CONTRACT", name: "Contract" },
-  { value: "INTERN", name: "Intern" }
+  { value: "INTERN", name: "Intern" },
 ];
 
 // Work location options
