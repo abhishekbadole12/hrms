@@ -1,24 +1,72 @@
 "use client";
+
 import StatusTag from "@/components/common/status-tag";
 import Switch from "@/components/custom/switch";
 import BoxWrapper from "@/components/wrapper/box-wrapper";
-import React from "react";
+import React, { useState } from "react";
 
-export default function ProfileCardEdit() {
-  const current_status = "pending";
+interface ProfileCardProps {
+  profileImage: File |null;
+  status: "ACTIVE" | "INACTIVE";
+  onStatusChange: (newStatus: boolean) => void;
+  isVerified: boolean;
+  onVerificationChange: (isVerified: boolean) => void;
+  onImageChange: (file: File | null) => void;
+}
+
+export default function ProfileCardEdit({
+  profileImage,
+  status,
+  isVerified,
+  onStatusChange,
+  onVerificationChange,
+  onImageChange,
+}: ProfileCardProps) {
+  const [previewImage, setPreviewImage] = useState<any>(profileImage || null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    if (file) {
+      setPreviewImage(URL.createObjectURL(file)); // Show preview
+    }
+    onImageChange(file);
+  };
 
   return (
-    <BoxWrapper className="flex flex-col p-6">
+    <BoxWrapper className="p-6 flex flex-col">
       <StatusTag
-        text={current_status}
-        status={current_status}
+        text={status ? "active" : "disabled"}
+        status={status ? "success" : "warning"}
         className="ml-auto"
+        textStyle="lowercase"
       />
 
       {/* Image  */}
-      <div className="w-fit my-10 mx-auto p-2 border border-third rounded-full overflow-hidden">
-        <div className="w-[115px] h-[115px] bg-third rounded-full" />
-      </div>
+      <label
+        htmlFor="profile-upload"
+        className="w-fit my-10 mx-auto p-2 border border-third rounded-full overflow-hidden cursor-pointer"
+      >
+        <input
+          id="profile-upload"
+          type="file"
+          accept="image/*"
+          className="hidden cursor-pointer"
+          onChange={handleFileChange}
+        />
+
+        {profileImage ? (
+          <img
+            src={
+              previewImage ||
+              (typeof profileImage === "string" ? profileImage : "")
+            }
+            alt="Profile"
+            className="w-[115px] h-[115px] rounded-full object-cover"
+          />
+        ) : (
+          <div className="w-[115px] h-[115px] bg-third rounded-full" />
+        )}
+      </label>
 
       {/* content */}
       <div>
@@ -32,7 +80,12 @@ export default function ProfileCardEdit() {
           </div>
 
           {/* Toggle button */}
-          <Switch size="md" className="ml-auto" onChange={() => {}} />
+          <Switch
+            size="md"
+            className="ml-auto"
+            checked={status === "ACTIVE"}
+            onChange={() => onStatusChange(!status)}
+          />
         </div>
 
         {/* Verification */}
@@ -50,8 +103,8 @@ export default function ProfileCardEdit() {
           <Switch
             size="md"
             className="ml-auto"
-            checked={true}
-            onChange={() => {}}
+            checked={isVerified}
+            onChange={() => onVerificationChange(!isVerified)}
           />
         </div>
       </div>

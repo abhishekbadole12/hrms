@@ -2,21 +2,33 @@ import { DataTypes, Model } from "sequelize";
 import User from "./User";
 import sequelize from "@/database/connection";
 
+export type EmploymentType =
+  | "FULL_TIME"
+  | "PART_TIME"
+  | "CONTRACT"
+  | "INTERNSHIP";
+export type EmploymentStatus =
+  | "ACTIVE"
+  | "INACTIVE"
+  | "TERMINATED"
+  | "RESIGNED";
+export type Currency = "INR" | "USD" | "EUR";
+
 interface EmploymentDetailAttributes {
   id?: string;
   user_id: string; // Foreign Key to User
   job_title: string;
   department_id?: string;
   reporting_manager_id?: string; // Foreign Key to User
-  employment_type: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP";
-  employment_status?: "ACTIVE" | "INACTIVE" | "TERMINATED" | "RESIGNED";
+  employment_type: EmploymentType;
+  employment_status?: EmploymentStatus;
   work_location: string;
   join_date: Date;
   end_date?: Date;
   probation_end_date: Date;
   confirmation_date?: Date;
   salary?: number;
-  currency_unit?: "INR" | "USD" | "EUR";
+  currency_unit?: Currency;
   is_active?: boolean;
   created_by: string; // Self-referencing Foreign Key
   updated_by: string; // Self-referencing Foreign Key
@@ -31,19 +43,15 @@ class EmploymentDetail
   public job_title!: string;
   public department_id!: string;
   public reporting_manager_id?: string;
-  public employment_type!:
-    | "FULL_TIME"
-    | "PART_TIME"
-    | "CONTRACT"
-    | "INTERNSHIP";
-  public employment_status?: "ACTIVE" | "INACTIVE" | "TERMINATED" | "RESIGNED";
+  public employment_type!: EmploymentType;
+  public employment_status?: EmploymentStatus;
   public work_location!: string;
   public join_date!: Date;
   public end_date?: Date;
   public probation_end_date!: Date;
   public confirmation_date?: Date;
   public salary?: number;
-  public currency_unit?: "INR" | "USD" | "EUR";
+  public currency_unit?: Currency;
   public is_active?: boolean;
   public created_by!: string;
   public updated_by!: string;

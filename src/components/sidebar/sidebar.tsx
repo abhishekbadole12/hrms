@@ -32,7 +32,7 @@ export const Sidebar = ({ user_id }: SidebarProps) => {
   };
 
   return (
-    <div className="min-w-[20%] min-h-full bg-slate-100 border border-slate-100 rounded-lg px-4 shadow-xl">
+    <div className="min-w-[20%] h-full bg-slate-100 border border-slate-100 rounded-lg px-4 shadow-xl">
       {/* Company Logo */}
       <div className="w-full border-b-2 border-slate-200 py-4">
         <h1 className="text-3xl font-bold text-center text-gray-800">

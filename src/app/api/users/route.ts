@@ -1,6 +1,8 @@
 import User from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 
+// GET /api/users
+// This route fetches all users from the database
 export async function GET(request: NextRequest, response: NextResponse) {
   try {
     const session = request.cookies.get("session");

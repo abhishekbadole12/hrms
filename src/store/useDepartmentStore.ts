@@ -8,14 +8,16 @@ interface Department {
   manager_id?: string; // Manager is also a user
 }
 
-interface DepartmentState {
+interface DepartmentStore {
   departments: Department[];
-  fetchDepartments: () => Promise<void>;
+  getDepartments: () => Promise<void>;
 }
 
-export const useDepartmentStore = create<DepartmentState>((set) => ({
+export const useDepartmentStore = create<DepartmentStore>((set) => ({
   departments: [],
-  fetchDepartments: async () => {
+  
+  // get all departments
+  getDepartments: async () => {
     try {
       const res = await fetch("/api/departments");
       const data = await res.json();
