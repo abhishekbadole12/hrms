@@ -6,7 +6,6 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ISessionPayload } from "./definitions";
 
-
 const secretKey = PROCESS.JWT.SECRET;
 const key = new TextEncoder().encode(secretKey);
 
@@ -24,7 +23,9 @@ export async function encrypt(payload: ISessionPayload) {
     .sign(key);
 }
 
-export async function decrypt(session: string | undefined = ""): Promise<ISessionPayload | null> {
+export async function decrypt(
+  session: string | undefined = ""
+): Promise<ISessionPayload | null> {
   try {
     const { payload } = await jwtVerify(session, key, {
       algorithms: ["HS256"],
@@ -35,9 +36,9 @@ export async function decrypt(session: string | undefined = ""): Promise<ISessio
   }
 }
 
-export async function createSession(user_id: string) {
+export async function createSession(user_id: string, user_role: string) {
   const expiresAt = new Date(Date.now() + cookie.duration);
-  const session = await encrypt({ user_id, expiresAt });
+  const session = await encrypt({ user_id, user_role, expiresAt });
 
   (await cookies()).set("session", session, {
     httpOnly: true,
@@ -50,7 +51,11 @@ export async function createSession(user_id: string) {
   return { success: true };
 }
 
-export async function verifySession(): Promise<{ isAuth: boolean; user_id: string }> {
+export async function verifySession(): Promise<{
+  isAuth: boolean;
+  user_id: string;
+  user_role: string;
+}> {
   const cookie = (await cookies()).get("session")?.value;
   const session = await decrypt(cookie);
 
@@ -58,7 +63,11 @@ export async function verifySession(): Promise<{ isAuth: boolean; user_id: strin
     redirect("/login");
   }
 
-  return { isAuth: true, user_id: session.user_id };
+  return {
+    isAuth: true,
+    user_id: session.user_id,
+    user_role: session.user_role,
+  };
 }
 
 export async function deleteSession() {
