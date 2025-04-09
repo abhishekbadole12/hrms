@@ -2,6 +2,7 @@ import sequelize from "@/database/connection";
 import { DataTypes, Model } from "sequelize";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
 
 interface UserAttributes {
   user_id?: string;
@@ -41,9 +42,9 @@ class User extends Model<UserAttributes> implements UserAttributes {
   public updated_by?: string;
 
   // Hash password before saving
-  public async hashPassword(): Promise<void> {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
+  // public async hashPassword(): Promise<void> {
+  //   this.password = await bcrypt.hash(this.password, 10);
+  // }
 }
 
 User.init(
@@ -82,7 +83,7 @@ User.init(
     phone_number: {
       type: DataTypes.STRING(15),
       allowNull: false,
-      unique: false,
+      unique: true,
       validate: {
         isNumeric: true,
         len: [10, 15],
@@ -90,7 +91,7 @@ User.init(
     },
     email: {
       type: DataTypes.STRING,
-      unique: false,
+      unique: true,
       allowNull: false,
       validate: {
         isEmail: true,
@@ -108,25 +109,17 @@ User.init(
       type: DataTypes.ENUM("ACTIVE", "INACTIVE", "SUSPENDED"),
       defaultValue: "ACTIVE",
     },
+    isVerified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     created_by: {
       type: DataTypes.STRING(20),
       allowNull: true,
-      references: {
-        model: "users",
-        key: "user_id",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "SET NULL",
     },
     updated_by: {
       type: DataTypes.STRING(20),
       allowNull: true,
-      // references: {
-      //   model: "users",
-      //   key: "user_id",
-      // },
-      // onUpdate: "CASCADE",
-      // onDelete: "SET NULL",
     },
   },
   {
@@ -148,24 +141,7 @@ User.init(
         }
       },
     },
-    indexes: [
-      {
-        unique: true,
-        fields: ["email", "phone_number"],
-      },
-    ],
   }
 );
-
-// Define association for self-referencing created_by field
-User.hasOne(User, {
-  foreignKey: "created_by",
-  as: "creator",
-});
-
-User.hasOne(User, {
-  foreignKey: "updated_by",
-  as: "updater",
-});
 
 export default User;

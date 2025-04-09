@@ -41,7 +41,10 @@ export async function loginUser(state: unknown, formData: FormData) {
   }
 
   // Create session
-  const sessionResult = await createSession(String(existingUser.user_id));
+  const sessionResult = await createSession(
+    existingUser.user_id,
+    existingUser.user_role
+  );
 
   if (sessionResult.success) {
     return redirect("/dashboard");
