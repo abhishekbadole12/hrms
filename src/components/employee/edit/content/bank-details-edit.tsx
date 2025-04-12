@@ -1,28 +1,23 @@
 "use client";
 
-import React, { useState, startTransition } from "react";
+import React, { useState, startTransition, useActionState } from "react";
 import BoxWrapper from "@/components/wrapper/box-wrapper";
 import Button from "@/components/custom/button";
 import Input from "@/components/custom/input";
 import Select from "@/components/custom/select";
 
 const ACCOUNT_TYPES = [
-  { value: "savings", label: "Savings" },
-  { value: "current", label: "Current" },
-  { value: "salary", label: "Salary" },
+  { value: "SAVING", name: "Savings" },
+  { value: "CURRENT", name: "Current" },
 ];
 
-const TAX_STATUSES = [
-  { value: "single", label: "Single" },
-  { value: "married", label: "Married" },
-  { value: "head", label: "Head of Household" },
+const MARTIAL_STATUS = [
+  { value: "SINGLE", name: "Single" },
+  { value: "MARRIED", name: "Married" },
+  { valye: "WIDOW", name: "Widow" },
 ];
 
-export default function BankDetailsForm({
-  onSubmit,
-}: {
-  onSubmit: () => void;
-}) {
+export default function BankDetailsEditForm({ userId }: { userId: string }) {
   const [formInputs, setFormInputs] = useState({
     account_holder: "",
     account_number: "",
@@ -36,19 +31,28 @@ export default function BankDetailsForm({
     tax_exemptions: "",
   });
 
+  const [state, formAction, isPending] = useActionState(updateBank, null);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormInputs((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (name, value) => {
+  const handleSelectChange = (name: string, value: string) => {
     setFormInputs((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const formData = new FormData();
+
+    Object.entries(formInputs).forEach(([Key, value]) => {
+      formData.set(Key, value);
+    });
+
     startTransition(() => {
-      console.log("Submitting: ", formInputs);
+      formAction(formData);
     });
   };
 
@@ -105,28 +109,6 @@ export default function BankDetailsForm({
           name="pan_number"
           placeholder="Enter PAN number"
           value={formInputs.pan_number}
-          onChange={handleInputChange}
-        />
-        <Input
-          label="Tax ID / TIN"
-          name="tax_id"
-          placeholder="Enter tax ID"
-          value={formInputs.tax_id}
-          onChange={handleInputChange}
-        />
-        <Select
-          label="Tax Status"
-          name="tax_status"
-          options={TAX_STATUSES}
-          selected={formInputs.tax_status}
-          onChange={(value) => handleSelectChange("tax_status", value)}
-        />
-        <Input
-          label="Tax Exemptions"
-          name="tax_exemptions"
-          type="number"
-          placeholder="Enter number of exemptions"
-          value={formInputs.tax_exemptions}
           onChange={handleInputChange}
         />
       </form>

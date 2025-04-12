@@ -9,11 +9,7 @@ const arr = [
   { name: "Third employement", value: "third" },
 ];
 
-export default function PreviousJobForm({
-  onSubmit,
-}: {
-  onSubmit: () => void;
-}) {
+export default function PreviousJobEditForm({ userId }: { userId: string }) {
   return (
     <div className="w-full grid grid-cols-4 gap-6">
       <BoxWrapper className="col-span-3 p-6">
@@ -104,7 +100,6 @@ export default function PreviousJobForm({
           <Button
             type="button"
             className="w-full bg-black text-white px-4 py-2 mt-6 rounded-md"
-            onClick={onSubmit}
           >
             + Add New Employment
           </Button>
