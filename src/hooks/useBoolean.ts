@@ -1,13 +1,24 @@
 import React, { useCallback, useMemo, useState } from "react";
 
-export default function useBoolean(initialValue = false) {
+type UseBooleanReturn = {
+  value: boolean;
+  setTrue: () => void;
+  setFalse: () => void;
+  toggle: () => void;
+};
+
+export default function useBoolean(
+  initialValue: boolean = false
+): UseBooleanReturn {
   const [value, setValue] = useState<boolean>(initialValue);
 
-  const setTrue = useCallback((): void => setValue(true), []);
-
-  const setFalse = useCallback((): void => setValue(false), []);
-
-  const toggle = useCallback((): void => setValue((prev) => !prev), []);
-
-  return useMemo(() => ({ value, setTrue, setFalse, toggle }), []);
+  return useMemo(
+    () => ({
+      value,
+      setTrue: () => setValue(true),
+      setFalse: () => setValue(false),
+      toggle: () => setValue((prev) => !prev),
+    }),
+    [value]
+  );
 }
