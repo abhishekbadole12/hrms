@@ -110,3 +110,12 @@ export const ACCOUNT_TYPES = [
   { value: "SAVINGS", name: "Savings" },
   { value: "CURRENT", name: "Current" },
 ];
+
+// Document types
+export const DOCUMENT_TYPES = [
+  { value: "PROFILE", name: "Profile" },
+  { value: "AADHAR", name: "Aadhaar Card" },
+  { value: "PAN", name: "Pan Card" },
+  { value: "SIGNED_OFFER_LETTER", name: "Signed Offer Letter" },
+  { value: "RESUME", name: "Resume" },
+];

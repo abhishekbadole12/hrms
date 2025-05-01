@@ -7,6 +7,7 @@ import PersonalDetailsForm from "./content/personal-details";
 import EmploymentDetailsForm from "./content/employment-details";
 import PreviousJobForm from "./content/previous-employement";
 import BankDetailsForm from "./content/bank-details";
+import Documents from "./content/documents";
 import SocialAndMore from "./content/social-and-more";
 //
 import Tabs from "@/components/common/tabs/tabs";
@@ -75,7 +76,7 @@ export default function EmployeeNewComponent() {
         {activeTab === "BANK_DETAILS" && (
           <BankDetailsForm onSubmit={handleFormSubmit} />
         )}
-        {activeTab === "DOCUMENTS" && <SocialAndMore />}
+        {activeTab === "DOCUMENTS" && <Documents />}
       </FormWrapper>
     </>
   );
