@@ -98,6 +98,7 @@ export default function PersonalDetailsForm({
   // Handle form submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
     const formData = new FormData();
     Object.entries(formInputs).forEach(([key, value]) => {
       formData.set(key, value);
@@ -201,7 +202,7 @@ export default function PersonalDetailsForm({
             />
             <div className="col-span-2 flex justify-end mt-2">
               <Button type="submit" className="ml-auto">
-                {isPending ? "Saving..." : "Save changes"}
+                {isPending ? "Saving..." : "Save & next"}
               </Button>
             </div>
           </div>
