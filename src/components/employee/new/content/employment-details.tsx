@@ -48,7 +48,7 @@ export default function EmploymentDetailsForm({
     ? params.user_id[0]
     : params.user_id ?? "";
 
-  const { departments, fetchDepartments } = useDepartmentStore();
+  const { departments, getDepartments } = useDepartmentStore();
 
   // Local state for form inputs
   const [formInputs, setFormInputs] = useState<FormInputs>({
@@ -89,6 +89,7 @@ export default function EmploymentDetailsForm({
   // Handle form submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const formData = new FormData();
     Object.entries(formInputs).forEach(([key, value]) => {
       formData.set(key, value);
@@ -100,10 +101,13 @@ export default function EmploymentDetailsForm({
   };
 
   useEffect(() => {
+    getDepartments();
+  }, []);
+
+  useEffect(() => {
     if (state?.success) {
       onSubmit();
     }
-    fetchDepartments();
   }, [state, onSubmit]);
 
   return (
