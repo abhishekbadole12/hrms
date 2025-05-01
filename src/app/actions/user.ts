@@ -6,10 +6,12 @@ import {
   CreateEmploymentDetails,
   UpdateUserSchema,
   UpdateEmploymentDetails,
+  CreatePreviousEmploymentDetail,
 } from "@/lib/definitions";
 //
 import EmploymentDetails from "@/models/EmploymentDetail";
 import User from "@/models/User";
+import PreviousEmploymentDetail from "@/models/PreviousEmploymentDetails";
 //
 import { canUpdate, UserRole } from "@/utils/canUpdateUser";
 
@@ -303,8 +305,8 @@ export async function updateEmploymentDetails(
     work_location: formData.get("work_location"),
     join_date: formattedDate(formData.get("join_date") as string), // Format date
     end_date: formData.get("end_date")
-    ? formattedDate(formData.get("end_date") as string)
-    : undefined, // Format date
+      ? formattedDate(formData.get("end_date") as string)
+      : undefined, // Format date
     probation_end_date: formattedDate(formData.get("probation_end") as string), // Format date
     confirmation_date: formData.get("confirmation_date")
       ? formattedDate(formData.get("confirmation_date") as string)
@@ -403,5 +405,87 @@ export async function updateEmploymentDetails(
     result = { message: "Employment details created successfully" };
   }
 
-  return result;
+  return { success: true, result };
+}
+
+//
+//
+// This function is used to update previous employement details
+export async function createPreviousEmployementDetail(
+  state: unknown,
+  formData: FormData
+) {
+  const session = await verifySession();
+
+  if (!session.isAuth) {
+    return { message: "Unauthroized" };
+  }
+
+  const validationResult = CreatePreviousEmploymentDetail.safeParse({
+    user_id: formData.get("user_id"),
+    company_name: formData.get("company_name"),
+    position: formData.get("position"),
+    employment_type: formData.get("employment_type"),
+    start_date: formattedDate(formData.get("start_date") as string), // Format date
+    end_date: formattedDate(formData.get("end_date") as string), // Format date
+    salary: Number(formData.get("salary")), // Convert to number
+    reference_name: formData.get("reference_name"),
+    reference_email: formData.get("reference_email"),
+    reference_phone_number: formData.get("reference_phone_number"),
+    created_by: session?.user_id,
+    updated_by: session?.user_id,
+  });
+
+  if (!validationResult.success) {
+    return {
+      errors: validationResult.error.flatten().fieldErrors,
+    };
+  }
+
+  const {
+    user_id,
+    company_name,
+    position,
+    employment_type,
+    start_date,
+    end_date,
+    salary,
+    reference_name,
+    reference_email,
+    reference_phone_number,
+  } = validationResult.data;
+
+  // 2. Check if employee id  exists or not
+  const existingEmployee = await User.findOne({
+    where: { user_id },
+  });
+
+  if (!existingEmployee) {
+    return { message: "Employee not found" };
+  }
+
+  // 3. Create previous employment details in the database
+  const createPreviousEmploymentDetail = await PreviousEmploymentDetail.create({
+    user_id,
+    company_name,
+    position,
+    employment_type,
+    start_date,
+    end_date,
+    salary,
+    reference_name,
+    reference_email,
+    reference_phone_number,
+    created_by: session?.user_id,
+    updated_by: session?.user_id,
+  });
+
+  if (!createPreviousEmploymentDetail) {
+    return {
+      message:
+        "Failed to create previous employment details. Please try again.",
+    };
+  }
+
+  return { success: true };
 }

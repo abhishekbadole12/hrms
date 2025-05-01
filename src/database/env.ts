@@ -1,4 +1,6 @@
 export const PROCESS = {
+  NODE_ENV: process.env.NEXT_PUBLIC_NODE_ENV || "DEVELOPMENT",
+  //
   DB: {
     HOST: process.env.NEXT_PUBLIC_DB_HOST || "localhost",
     PORT: process.env.NEXT_PUBLIC_DB_PORT || 27017,

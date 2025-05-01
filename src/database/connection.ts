@@ -22,10 +22,18 @@ const sequelize = new Sequelize({
 (async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ alter: true }); // Sync tables
-    console.log("Database connected and models synced.");
+    console.log("✅ Database connection authenticated");
+
+    // Sync tables
+    if (PROCESS.NODE_ENV === "PRODUCTION") {
+      await sequelize.sync({ alter: true });
+      console.log("✅ Database connection established successfully. env: ", PROCESS.NODE_ENV);
+    } else {
+      await sequelize.sync();
+      console.log("✅ Database connection established successfully. env: ", PROCESS.NODE_ENV);
+    }
   } catch (error) {
-    console.error("Database connection failed:", error);
+    console.error("❌ Database connection failed:", (error as Error).message);
   }
 })();
 
