@@ -202,8 +202,8 @@ export default function EmploymentDetailsForm({
 
         {/* save button */}
         <div className="col-span-2 flex justify-end mt-2">
-          <Button type="submit" className="px-4 py-2">
-            save & next
+          <Button type="submit" disabled={isPending} className="px-4 py-2">
+            {isPending ? "saving..." : "save & next"}
           </Button>
         </div>
       </form>

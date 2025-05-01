@@ -136,3 +136,26 @@ export const CreatePreviousEmploymentDetail = z.object({
   created_by: z.string().nonempty("Created by is required"),
   updated_by: z.string().nonempty("Updated by is required"),
 });
+
+// Add Bank Details Form
+export const AddBankDetails = z.object({
+  account_holder: z.string().nonempty("Account holder name is required"),
+  account_number: z.string().nonempty("Account number is required"),
+  bank_name: z.string().nonempty("Bank name is required"),
+  branch_name: z.string().nonempty("Branch name is required"),
+  ifsc_code: z
+    .string()
+    .nonempty("IFSC code is required")
+    .regex(/^[A-Z]{4}0[A-Z0-9]{6}$/, "Invalid IFSC code format"),
+  account_type: z.enum(["SAVINGS", "CURRENT"], {
+    errorMap: () => ({ message: "Account type is required" }),
+  }),
+  pan_number: z
+    .string()
+    .nonempty("PAN number is required")
+    .regex(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Invalid PAN number format"),
+  //
+  user_id: z.string().nonempty("User ID is required"),
+  created_by: z.string().nonempty("Created by is required"),
+  updated_by: z.string().nonempty("Updated by is required"),
+});

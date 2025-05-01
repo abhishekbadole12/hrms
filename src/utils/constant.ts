@@ -104,3 +104,9 @@ export const WORK_SCHEDULE_OPTIONS = [
   { value: "FLEXIBLE", name: "Flexible" },
   { value: "SHIFT", name: "Shift" },
 ];
+
+// Account types
+export const ACCOUNT_TYPES = [
+  { value: "SAVINGS", name: "Savings" },
+  { value: "CURRENT", name: "Current" },
+];

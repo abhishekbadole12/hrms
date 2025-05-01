@@ -16,9 +16,10 @@ interface PreviousEmploymentDetailAttributes {
   reference_phone_number?: string;
   created_by: string; // Self-referencing Foreign Key
   updated_by: string; // Self-referencing Foreign Key
+  is_active?: boolean;
+  // Timestamps
   created_at?: Date;
   updated_at?: Date;
-  is_active?: boolean;
 }
 
 class PreviousEmploymentDetail
@@ -113,6 +114,11 @@ PreviousEmploymentDetail.init(
       },
       onUpdate: "CASCADE",
     },
+    is_active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -122,11 +128,6 @@ PreviousEmploymentDetail.init(
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: DataTypes.NOW,
-    },
-    is_active: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: true,
     },
   },
   {

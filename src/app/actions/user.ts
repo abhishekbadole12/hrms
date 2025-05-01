@@ -7,6 +7,7 @@ import {
   UpdateUserSchema,
   UpdateEmploymentDetails,
   CreatePreviousEmploymentDetail,
+  AddBankDetails,
 } from "@/lib/definitions";
 //
 import EmploymentDetails from "@/models/EmploymentDetail";
@@ -14,6 +15,7 @@ import User from "@/models/User";
 import PreviousEmploymentDetail from "@/models/PreviousEmploymentDetails";
 //
 import { canUpdate, UserRole } from "@/utils/canUpdateUser";
+import BankDetails from "@/models/BankDetails";
 
 // Helper function to format date
 const formattedDate = (date: string) => new Date(date);
@@ -410,7 +412,7 @@ export async function updateEmploymentDetails(
 
 //
 //
-// This function is used to update previous employement details
+// This function is used to create previous employement details
 export async function createPreviousEmployementDetail(
   state: unknown,
   formData: FormData
@@ -487,5 +489,78 @@ export async function createPreviousEmployementDetail(
     };
   }
 
+  return { success: true };
+}
+
+//
+//
+// This function is used to add bank details
+export async function addBankDetails(state: unknown, formData: FormData) {
+  // Extract user from session
+  const session = await verifySession();
+
+  if (!session.isAuth) {
+    return { message: "Unauthroized" };
+  }
+
+  // 1. Validate input fields
+  const validationResult = AddBankDetails.safeParse({
+    user_id: formData.get("user_id"),
+    account_holder: formData.get("account_holder"),
+    account_number: formData.get("account_number"),
+    bank_name: formData.get("bank_name"),
+    branch_name: formData.get("branch_name"),
+    ifsc_code: formData.get("ifsc_code"),
+    account_type: formData.get("account_type"),
+    pan_number: formData.get("pan_number"),
+    created_by: session?.user_id,
+    updated_by: session?.user_id,
+  });
+
+  if (!validationResult.success) {
+    return {
+      errors: validationResult.error.flatten().fieldErrors,
+    };
+  }
+
+  const {
+    user_id,
+    account_holder,
+    account_number,
+    bank_name,
+    branch_name,
+    ifsc_code,
+    account_type,
+    pan_number,
+  } = validationResult.data;
+
+  // 2. Check if employee id  exists or not
+  const existingEmployee = await User.findOne({
+    where: { user_id },
+  });
+
+  if (!existingEmployee) {
+    return { message: "Employee not found" };
+  }
+
+  // 3. Create previous employment details in the database
+  const createPreviousEmploymentDetail = await BankDetails.create({
+    user_id,
+    account_holder,
+    account_number,
+    bank_name,
+    branch_name,
+    ifsc_code,
+    account_type,
+    pan_number,
+    created_by: session?.user_id,
+    updated_by: session?.user_id,
+  });
+  if (!createPreviousEmploymentDetail) {
+    return {
+      message:
+        "Failed to create previous employment details. Please try again.",
+    };
+  }
   return { success: true };
 }
