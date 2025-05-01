@@ -77,6 +77,7 @@ export default function EmployeeNewComponent() {
           <BankDetailsForm onSubmit={handleFormSubmit} />
         )}
         {activeTab === "DOCUMENTS" && <Documents />}
+        {activeTab === "SOCIAL_AND_MORE" && <SocialAndMore />}
       </FormWrapper>
     </>
   );

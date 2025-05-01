@@ -8,14 +8,16 @@ import {
   UpdateEmploymentDetails,
   CreatePreviousEmploymentDetail,
   AddBankDetails,
+  AddSocialDetails,
 } from "@/lib/definitions";
 //
 import EmploymentDetails from "@/models/EmploymentDetail";
 import User from "@/models/User";
 import PreviousEmploymentDetail from "@/models/PreviousEmploymentDetails";
+import BankDetails from "@/models/BankDetails";
+import SocialAndMore from "@/models/SocialAndMore";
 //
 import { canUpdate, UserRole } from "@/utils/canUpdateUser";
-import BankDetails from "@/models/BankDetails";
 
 // Helper function to format date
 const formattedDate = (date: string) => new Date(date);
@@ -556,11 +558,72 @@ export async function addBankDetails(state: unknown, formData: FormData) {
     created_by: session?.user_id,
     updated_by: session?.user_id,
   });
+
   if (!createPreviousEmploymentDetail) {
     return {
       message:
         "Failed to create previous employment details. Please try again.",
     };
   }
+
+  return { success: true };
+}
+
+//
+//
+// This function is used to add social details
+export async function addSocialDetails(state: unknown, formData: FormData) {
+  // Extract user from session
+  const session = await verifySession();
+
+  if (!session.isAuth) {
+    return { message: "Unauthroized" };
+  }
+
+  // 1. Validate input fields
+  const validationResult = AddSocialDetails.safeParse({
+    user_id: formData.get("user_id"),
+    linkedin_url: formData.get("linkedin_url"),
+    twitter_url: formData.get("twitter_url"),
+    github_url: formData.get("github_url"),
+    created_by: session?.user_id,
+    updated_by: session?.user_id,
+  });
+
+  if (!validationResult.success) {
+    return {
+      errors: validationResult.error.flatten().fieldErrors,
+    };
+  }
+
+  const { user_id, linkedin_url, twitter_url, github_url } =
+    validationResult.data;
+
+  // 2. Check if employee id  exists or not
+  const existingEmployee = await User.findOne({
+    where: { user_id },
+  });
+
+  if (!existingEmployee) {
+    return { message: "Employee not found" };
+  }
+
+  // 3. Create previous employment details in the database
+  const createPreviousEmploymentDetail = await SocialAndMore.create({
+    user_id,
+    linkedin_url,
+    twitter_url,
+    github_url,
+    created_by: session?.user_id,
+    updated_by: session?.user_id,
+  });
+
+  if (!createPreviousEmploymentDetail) {
+    return {
+      message:
+        "Failed to create previous employment details. Please try again.",
+    };
+  }
+
   return { success: true };
 }

@@ -3,6 +3,7 @@ import {
   faBuildingColumns,
   faBusinessTime,
   faFileLines,
+  faHashtag,
   faUser,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
@@ -64,6 +65,11 @@ export const TAB_OPTIONS: ITabOption[] = [
     id: "DOCUMENTS",
     name: "Documents",
     Icon: faFileLines,
+  },
+  {
+    id: "SOCIAL_AND_MORE",
+    name: "Social & More",
+    Icon: faHashtag,
   },
 ];
 

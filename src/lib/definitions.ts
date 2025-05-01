@@ -159,3 +159,14 @@ export const AddBankDetails = z.object({
   created_by: z.string().nonempty("Created by is required"),
   updated_by: z.string().nonempty("Updated by is required"),
 });
+
+// Add Social Details Form
+export const AddSocialDetails = z.object({
+  linkedin_url: z.string().optional(),
+  twitter_url: z.string().optional(),
+  github_url: z.string().optional(),
+  //
+  user_id: z.string().nonempty("User ID is required"),
+  created_by: z.string().nonempty("Created by is required"),
+  updated_by: z.string().nonempty("Updated by is required"),
+});
