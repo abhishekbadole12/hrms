@@ -46,7 +46,7 @@ export default function EmploymentDetailsEditForm({
 }: {
   userId: string;
 }) {
-  const { departments } = useDepartmentStore(); // useDepartment store
+  const { departments, getDepartments } = useDepartmentStore(); // useDepartment store
   const { userProfileDetails } = useUserStore();
 
   // Local state for form inputs
@@ -92,7 +92,7 @@ export default function EmploymentDetailsEditForm({
   // Handle form submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     const formData = new FormData();
     Object.entries(formInputs).forEach(([key, value]) => {
       formData.set(key, value);
@@ -102,6 +102,10 @@ export default function EmploymentDetailsEditForm({
       formAction(formData);
     });
   };
+
+  useEffect(() => {
+    getDepartments();
+  }, []);
 
   useEffect(() => {
     if (userProfileDetails) {
