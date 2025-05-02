@@ -133,7 +133,23 @@ export const CreatePreviousEmploymentDetail = z.object({
   reference_phone_number: z.string().nonempty("Reference number is required"),
   //
   user_id: z.string().nonempty("User ID is required"),
-  created_by: z.string().nonempty("Created by is required"),
+  updated_by: z.string().nonempty("Updated by is required"),
+});
+
+// Update Previous Employment Details Form
+export const UpdatePreviousEmploymentDetail = z.object({
+  id: z.string().nonempty("ID is required"),
+  company_name: z.string().nonempty("Company name is required"),
+  position: z.string().nonempty("Position is required"),
+  employment_type: z.string().nonempty("Employment type is required"),
+  start_date: z.date({ required_error: "Start date is required" }),
+  end_date: z.date({ required_error: "End date is required" }),
+  salary: z.number({ required_error: "Salary is required" }),
+  reference_name: z.string().nonempty("Reference name is required"),
+  reference_email: z.string().email("Invalid email format"),
+  reference_phone_number: z.string().nonempty("Reference number is required"),
+  //
+  user_id: z.string().nonempty("User ID is required"),
   updated_by: z.string().nonempty("Updated by is required"),
 });
 

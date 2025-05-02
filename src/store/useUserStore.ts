@@ -25,9 +25,22 @@ interface EmploymentDetail {
   salary: string;
 }
 
+interface PreviousEmploymentDetail {
+  company_name: string;
+  position: string;
+  employment_type: string;
+  start_date: string;
+  end_date: string;
+  salary: number;
+  reference_name: string;
+  reference_email: string;
+  reference_phone_number: string;
+}
+
 interface UserProfileResponse {
   userDetails: userDetails;
   employmentDetails: EmploymentDetail;
+  previousEmploymentDetails: PreviousEmploymentDetail;
 }
 
 interface UserStore {

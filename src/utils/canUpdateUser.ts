@@ -19,6 +19,9 @@ export function hasAccess(
   currentRole: UserRole,
   targetRole: UserRole
 ): boolean {
+  if (currentRole === UserRole.ADMIN && targetRole === UserRole.ADMIN) {
+    return true; // Admin can access admin
+  }
   return RoleHierarchy[currentRole] > RoleHierarchy[targetRole];
 }
 

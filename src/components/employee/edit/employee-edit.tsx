@@ -10,13 +10,13 @@ import Tabs from "@/components/common/tabs/tabs";
 //
 import EmploymentDetailsEditForm from "./content/employment-details-edit";
 import PersonalDetailsEditForm from "./content/personal-details-edit";
-import PreviousJobEditForm from "./content/previous-job-edit";
+import PreviousJobEditForm from "./content/previous-employement-edit";
+import BankDetailsEditForm from "./content/bank-details-edit";
+//
+import { useUserStore } from "@/store/useUserStore";
 //
 import { TAB_OPTIONS } from "@/utils/constant";
 //
-import { useUserStore } from "@/store/useUserStore";
-import { useDepartmentStore } from "@/store/useDepartmentStore";
-import BankDetailsEditForm from "./content/bank-details-edit";
 
 export default function EmployeeEditComponent({
   user_id,
@@ -30,7 +30,6 @@ export default function EmployeeEditComponent({
   const initialTab = searchParams.get("tab") || "PERSONAL_DETAILS";
 
   const { getUserProfileDetailsById } = useUserStore(); // useUserStore store
-  const { getDepartments } = useDepartmentStore(); // useDepartment store
 
   const [activeTab, setActiveTab] = useState(initialTab); // Default to first tab
 
@@ -43,7 +42,6 @@ export default function EmployeeEditComponent({
   //
   useEffect(() => {
     getUserProfileDetailsById(user_id);
-    getDepartments();
   }, []);
 
   return (
@@ -65,9 +63,9 @@ export default function EmployeeEditComponent({
           <EmploymentDetailsEditForm userId={user_id} />
         )}
 
-        {/* {activeTab === "PREVIOUS_JOB_DETAILS" && (
+        {activeTab === "PREVIOUS_JOB_DETAILS" && (
           <PreviousJobEditForm userId={user_id} />
-        )} */}
+        )}
 
         {activeTab === "BANK_DETAILS" && (
           <BankDetailsEditForm userId={user_id} />

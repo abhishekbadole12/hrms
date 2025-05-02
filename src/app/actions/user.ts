@@ -9,6 +9,7 @@ import {
   CreatePreviousEmploymentDetail,
   AddBankDetails,
   AddSocialDetails,
+  UpdatePreviousEmploymentDetail,
 } from "@/lib/definitions";
 //
 import EmploymentDetails from "@/models/EmploymentDetail";
@@ -492,6 +493,92 @@ export async function createPreviousEmployementDetail(
   }
 
   return { success: true };
+}
+
+//
+//
+// This function is used to update previous employement details
+export async function updatePreviousEmployementDetail(
+  state: unknown,
+  formData: FormData
+) {
+  const session = await verifySession();
+
+  if (!session.isAuth) {
+    return { message: "Unauthroized" };
+  }
+
+  // 1. Validate input fields
+  const validationResult = UpdatePreviousEmploymentDetail.safeParse({
+    id: formData.get("id"),
+    user_id: formData.get("user_id"),
+    company_name: formData.get("company_name"),
+    position: formData.get("position"),
+    employment_type: formData.get("employment_type"),
+    start_date: formattedDate(formData.get("start_date") as string), // Format date
+    end_date: formattedDate(formData.get("end_date") as string), // Format date
+    salary: Number(formData.get("salary")), // Convert to number
+    reference_name: formData.get("reference_name"),
+    reference_email: formData.get("reference_email"),
+    reference_phone_number: formData.get("reference_phone_number"),
+    updated_by: session?.user_id,
+  });
+
+  if (!validationResult.success) {
+    console.log(validationResult.error.flatten().fieldErrors);
+
+    return {
+      errors: validationResult.error.flatten().fieldErrors,
+    };
+  }
+
+  const {
+    id,
+    user_id,
+    company_name,
+    position,
+    employment_type,
+    start_date,
+    end_date,
+    salary,
+    reference_name,
+    reference_email,
+    reference_phone_number,
+  } = validationResult.data;
+
+  // 2. Check if employee id exists or not
+  const existingEmployee = await User.findOne({
+    where: { user_id },
+  });
+
+  if (!existingEmployee) {
+    return { message: "Employee not found" };
+  }
+
+  // 3. Update previous employment details in the database
+  const [affectedCount] = await PreviousEmploymentDetail.update(
+    {
+      company_name,
+      position,
+      employment_type,
+      start_date,
+      end_date,
+      salary,
+      reference_name,
+      reference_email,
+      reference_phone_number,
+      updated_by: session.user_id,
+    },
+    {
+      where: { id, user_id },
+    }
+  );
+
+  if (affectedCount === 0) {
+    return { message: "Failed to update previous employment details" };
+  }
+
+  return { success: true, user_id };
 }
 
 //

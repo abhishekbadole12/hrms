@@ -92,6 +92,7 @@ export default function EmploymentDetailsEditForm({
   // Handle form submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
     const formData = new FormData();
     Object.entries(formInputs).forEach(([key, value]) => {
       formData.set(key, value);
