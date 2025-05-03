@@ -96,7 +96,7 @@ export default function PreviousEmployementEditForm({
       if (data && data.length > 0) {
         setFormInputs((prev) => ({
           ...prev,
-          ...data,
+          ...data[0],
           start_date: data[0].start_date?.split("T")[0] || "",
           end_date: data[0].end_date?.split("T")[0] || "",
         }));
@@ -202,11 +202,11 @@ export default function PreviousEmployementEditForm({
                 // Handle cancel action
               }}
             >
-              Cancel
+              cancel
             </Button>
 
             <Button type="submit" disabled={isPending} className="ml-auto px-5">
-              Save
+              update
             </Button>
           </div>
         </form>
