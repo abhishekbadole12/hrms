@@ -12,6 +12,7 @@ import EmploymentDetailsEditForm from "./content/employment-details-edit";
 import PersonalDetailsEditForm from "./content/personal-details-edit";
 import PreviousJobEditForm from "./content/previous-employement-edit";
 import BankDetailsEditForm from "./content/bank-details-edit";
+import DocumentsEditForm from "./content/documents-edit";
 //
 import { useUserStore } from "@/store/useUserStore";
 //
@@ -58,18 +59,17 @@ export default function EmployeeEditComponent({
         {activeTab === "PERSONAL_DETAILS" && (
           <PersonalDetailsEditForm userId={user_id} />
         )}
-
         {activeTab === "EMPLOYMENT_DETAILS" && (
           <EmploymentDetailsEditForm userId={user_id} />
         )}
-
         {activeTab === "PREVIOUS_JOB_DETAILS" && (
           <PreviousJobEditForm userId={user_id} />
         )}
-
         {activeTab === "BANK_DETAILS" && (
           <BankDetailsEditForm userId={user_id} />
         )}
+        {activeTab === "DOCUMENTS" && <DocumentsEditForm />}
+        {/* {activeTab === "SOCIAL_AND_MORE" && <SocialAndMore />} */}
       </FormWrapper>
     </>
   );
