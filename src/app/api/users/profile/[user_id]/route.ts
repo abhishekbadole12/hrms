@@ -6,6 +6,7 @@ import User from "@/models/User";
 import EmploymentDetail from "@/models/EmploymentDetail";
 import PreviousEmploymentDetail from "@/models/PreviousEmploymentDetails";
 import BankDetails from "@/models/BankDetails";
+import SocialAndMore from "@/models/SocialAndMore";
 //
 import { canUpdate, UserRole } from "@/utils/canUpdateUser";
 
@@ -84,12 +85,24 @@ export async function GET(
           "branch_name",
           "account_type",
           "ifsc_code",
-          "pan_number"
+          "pan_number",
         ],
+      }),
+      SocialAndMore.findOne({
+        where: {
+          user_id: targetUserId,
+        },
+        attributes: ["id", "linkedin_url", "twitter_url", "github_url"],
       }),
     ]);
 
-    const [userResult, employmentResult, previousEmploymentResult, bankResult] = results;
+    const [
+      userResult,
+      employmentResult,
+      previousEmploymentResult,
+      bankResult,
+      SocialAndMoreResult,
+    ] = results;
 
     const userDetails =
       userResult.status === "fulfilled" ? userResult.value?.dataValues : null;
@@ -99,7 +112,7 @@ export async function GET(
         ? employmentResult.value?.dataValues
         : null;
 
-    const previousEmploymentDetails =  
+    const previousEmploymentDetails =
       previousEmploymentResult.status === "fulfilled"
         ? previousEmploymentResult.value?.map((item) => item.dataValues)
         : null;
@@ -107,6 +120,11 @@ export async function GET(
     const bankDetails =
       bankResult.status === "fulfilled"
         ? bankResult.value?.map((item) => item.dataValues)
+        : null;
+
+    const socialAndMore =
+      SocialAndMoreResult.status === "fulfilled"
+        ? SocialAndMoreResult.value?.dataValues
         : null;
 
     // Helper function to check current role can chnage or not
@@ -141,6 +159,10 @@ export async function GET(
         bankDetails: {
           status: bankResult.status,
           data: bankDetails,
+        },
+        socialAndMore: {
+          status: SocialAndMoreResult.status,
+          data: socialAndMore,
         },
       },
       { status: 200 }

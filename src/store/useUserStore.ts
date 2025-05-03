@@ -46,6 +46,12 @@ interface BankDetail {
   account_type: "SAVINGS" | "CURRENT";
 }
 
+interface SocialAndMore {
+  github_url: string;
+  linkedin_url: string;
+  twitter_url: string;
+} 
+
 interface UserProfileResponse {
   userDetails: {
     status: string;
@@ -62,6 +68,10 @@ interface UserProfileResponse {
   bankDetails: {
     status: string;
     data: BankDetail[];
+  };
+  socialAndMore: {
+    status: string;
+    data: SocialAndMore;
   };
 }
 

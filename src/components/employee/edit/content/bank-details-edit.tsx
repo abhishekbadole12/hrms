@@ -4,7 +4,6 @@ import React, {
   useState,
   startTransition,
   useActionState,
-  ChangeEvent,
   useEffect,
 } from "react";
 //
@@ -31,6 +30,7 @@ interface formInputs {
 }
 
 export default function BankDetailsEditForm({ userId }: { userId: string }) {
+  
   const { userProfileDetails } = useUserStore();
 
   const [formInputs, setFormInputs] = useState<formInputs>({

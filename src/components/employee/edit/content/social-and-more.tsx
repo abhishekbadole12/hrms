@@ -1,109 +1,114 @@
+"use client"
+
+import { useActionState, useEffect, useState } from "react";
+import Image from "next/image";
+//
+import {  updateSocialDetails } from "@/app/actions/user";
+//
 import Button from "@/components/custom/button";
+import Input from "@/components/custom/input";
+import BoxWrapper from "@/components/wrapper/box-wrapper";
+//
+import linkedinIcon from "@/assets/icons/linkedin-icon.svg";
+import twitterIcon from "@/assets/icons/twitter-icon.svg";
+import githubIcon from "@/assets/icons/github-icon.svg";
+//
+import { useUserStore } from "@/store/useUserStore";
 
+interface formInputs {
+  user_id: string;
+  twitter_url: string;
+  linkedin_url: string;
+  github_url: string;
+}
 
+export default function SocialAndMoreEditForm({ userId }: { userId: string }) {
 
-export default function SocialAndMore() {
+  const { userProfileDetails } = useUserStore();
+
+  const [formInputs, setFormInputs] = useState<formInputs>({
+    user_id: userId || "",
+    twitter_url: "",
+    linkedin_url: "",
+    github_url: "",
+  });
+
+  const [state, formAction, isPending] = useActionState(updateSocialDetails, null);
+
+  // Handle input change
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormInputs((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Update form input
+  useEffect(() => {
+    if (userProfileDetails?.socialAndMore.status === "fulfilled") {
+      const data = userProfileDetails.socialAndMore.data;
+      setFormInputs((prev) => ({ ...prev, ...data }));
+    }
+  }, [userProfileDetails]);
+
   return (
-    <div className="p-6">
-      {/* <Tabs defaultValue="social">
-        <TabsList className="mb-4">
-          <TabsTrigger value="social">Social Profiles</TabsTrigger>
-          <TabsTrigger value="documents">Documents</TabsTrigger>
-          <TabsTrigger value="emergency">Emergency Contacts</TabsTrigger>
-        </TabsList>
+    <BoxWrapper className="w-full">
+      <form action={formAction} className="p-2">
+        <div className="grid grid-cols-1 gap-6">
+          <input type="hidden" name="user_id" value={userId} />
+          <Input
+            Icon={
+              <Image src={linkedinIcon} alt="LinkedIn" width={26} height={26} />
+            }
+            id="linkedin_url"
+            name="linkedin_url"
+            placeholder="Enter linkedin profile"
+            value={formInputs.linkedin_url}
+            onChange={handleInputChange}
+            errorMsg={state?.errors?.linkedin_url}
+            className="w-full"
+          />
+          <Input
+            Icon={
+              <Image src={twitterIcon} alt="LinkedIn" width={26} height={26} />
+            }
+            id="twitter_url"
+            name="twitter_url"
+            placeholder="Enter twitter profile"
+            value={formInputs.twitter_url}
+            onChange={handleInputChange}
+            errorMsg={state?.errors?.twitter_url}
+            className="w-full"
+          />
+          <Input
+            Icon={
+              <Image src={githubIcon} alt="LinkedIn" width={26} height={26} />
+            }
+            id="github_url"
+            name="github_url"
+            placeholder="Enter github profile"
+            value={formInputs.github_url}
+            onChange={handleInputChange}
+            errorMsg={state?.errors?.github_url}
+            className="w-full"
+          />
+        </div>
 
-        <TabsContent value="social" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="linkedin">LinkedIn</Label>
-              <Input id="linkedin" placeholder="Enter LinkedIn profile URL" />
-            </div>
+        {/* save & cancel button */}
+        <div className="col-span-2 flex justify-end mt-4">
+          <Button
+            type="button"
+            className="mr-4 bg-red-500 hover:bg-red-600 text-white"
+            onClick={() => {
+              // Handle cancel action
+            }}
+          >
+            cancel
+          </Button>
 
-            <div className="space-y-2">
-              <Label htmlFor="twitter">Twitter</Label>
-              <Input id="twitter" placeholder="Enter Twitter profile URL" />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="facebook">Facebook</Label>
-              <Input id="facebook" placeholder="Enter Facebook profile URL" />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="github">GitHub</Label>
-              <Input id="github" placeholder="Enter GitHub profile URL" />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="portfolio">Portfolio Website</Label>
-              <Input id="portfolio" placeholder="Enter portfolio website URL" />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="blog">Blog</Label>
-              <Input id="blog" placeholder="Enter blog URL" />
-            </div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="documents" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="id-proof">ID Proof</Label>
-              <div className="flex gap-2">
-                <Select>
-                  <SelectTrigger id="id-proof-type">
-                    <SelectValue placeholder="Select ID type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="passport">Passport</SelectItem>
-                    <SelectItem value="driving-license">Driving License</SelectItem>
-                    <SelectItem value="national-id">National ID</SelectItem>
-                    <SelectItem value="voter-id">Voter ID</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Button variant="outline">Upload</Button>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="address-proof">Address Proof</Label>
-              <div className="flex gap-2">
-                <Select>
-                  <SelectTrigger id="address-proof-type">
-                    <SelectValue placeholder="Select proof type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="utility-bill">Utility Bill</SelectItem>
-                    <SelectItem value="bank-statement">Bank Statement</SelectItem>
-                    <SelectItem value="rental-agreement">Rental Agreement</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Button variant="outline">Upload</Button>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="education-certificate">Education Certificate</Label>
-              <div className="flex gap-2">
-                <Input id="education-certificate" placeholder="Certificate name" />
-                <Button variant="outline">Upload</Button>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="experience-certificate">Experience Certificate</Label>
-              <div className="flex gap-2">
-                <Input id="experience-certificate" placeholder="Certificate name" />
-                <Button variant="outline">Upload</Button>
-              </div>
-            </div>
-          </div>
-        </TabsContent>
-      </Tabs> */}
-      <div className="mt-6 flex justify-end">
-        <Button>Save Changes</Button>
-      </div>
-    </div>
+          <Button type="submit" disabled={isPending}>
+            update
+          </Button>
+        </div>
+      </form>
+    </BoxWrapper>
   );
 }

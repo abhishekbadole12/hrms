@@ -652,10 +652,7 @@ export async function addBankDetails(state: unknown, formData: FormData) {
 //
 //
 // This function is used to update bank details
-export async function updateBankDetails(
-  state: unknown,
-  formData: FormData
-) {
+export async function updateBankDetails(state: unknown, formData: FormData) {
   // Extract user from session
   const session = await verifySession();
 
@@ -782,4 +779,69 @@ export async function addSocialDetails(state: unknown, formData: FormData) {
   }
 
   return { success: true };
+}
+
+//
+//
+// This function is used to update social details
+export async function updateSocialDetails(state: unknown, formData: FormData) {
+  const session = await verifySession();
+
+  if (!session.isAuth) {
+    return { message: "Unauthroized" };
+  }
+
+  // const id = formData.get("id") as string;
+
+  // 1. Validate input fields
+  const validationResult = AddSocialDetails.safeParse({
+    user_id: formData.get("user_id"),
+    linkedin_url: formData.get("linkedin_url"),
+    twitter_url: formData.get("twitter_url"),
+    github_url: formData.get("github_url"),
+    updated_by: session?.user_id,
+  });
+
+  if (!validationResult.success) {
+    return {
+      errors: validationResult.error.flatten().fieldErrors,
+    };
+  }
+
+  const payload = validationResult.data;
+
+  // 2. Check if employee id exists or not
+  const existingEmployee = await User.findOne({
+    where: { user_id: payload.user_id },
+  });
+
+  if (!existingEmployee) {
+    return { message: "Employee not found" };
+  }
+
+  const existingSocial = await SocialAndMore.findOne({
+    where: { user_id: payload.user_id },
+  });
+
+  if (existingSocial) {
+    await SocialAndMore.update(
+      { ...payload },
+      { where: { user_id: payload.user_id } }
+    );
+    return {
+      success: true,
+      user_id: payload.user_id,
+      action: "updated",
+    };
+  } else {
+    await SocialAndMore.create({
+      ...payload,
+      created_by: session.user_id,
+    });
+    return {
+      success: true,
+      user_id: payload.user_id,
+      action: "created",
+    };
+  }
 }

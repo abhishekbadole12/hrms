@@ -17,6 +17,7 @@ import DocumentsEditForm from "./content/documents-edit";
 import { useUserStore } from "@/store/useUserStore";
 //
 import { TAB_OPTIONS } from "@/utils/constant";
+import SocialAndMoreEditForm from "./content/social-and-more";
 //
 
 export default function EmployeeEditComponent({
@@ -69,7 +70,7 @@ export default function EmployeeEditComponent({
           <BankDetailsEditForm userId={user_id} />
         )}
         {activeTab === "DOCUMENTS" && <DocumentsEditForm />}
-        {/* {activeTab === "SOCIAL_AND_MORE" && <SocialAndMore />} */}
+        {activeTab === "SOCIAL_AND_MORE" && <SocialAndMoreEditForm userId={user_id}/>}
       </FormWrapper>
     </>
   );
