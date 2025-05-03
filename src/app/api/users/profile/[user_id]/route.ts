@@ -72,9 +72,24 @@ export async function GET(
           "reference_phone_number",
         ],
       }),
+      BankDetails.findAll({
+        where: {
+          user_id: targetUserId,
+        },
+        attributes: [
+          "id",
+          "account_holder",
+          "account_number",
+          "bank_name",
+          "branch_name",
+          "account_type",
+          "ifsc_code",
+          "pan_number"
+        ],
+      }),
     ]);
 
-    const [userResult, employmentResult, previousEmploymentResult] = results;
+    const [userResult, employmentResult, previousEmploymentResult, bankResult] = results;
 
     const userDetails =
       userResult.status === "fulfilled" ? userResult.value?.dataValues : null;
@@ -87,6 +102,11 @@ export async function GET(
     const previousEmploymentDetails =  
       previousEmploymentResult.status === "fulfilled"
         ? previousEmploymentResult.value?.map((item) => item.dataValues)
+        : null;
+
+    const bankDetails =
+      bankResult.status === "fulfilled"
+        ? bankResult.value?.map((item) => item.dataValues)
         : null;
 
     // Helper function to check current role can chnage or not
@@ -117,6 +137,10 @@ export async function GET(
         previousEmploymentDetails: {
           status: previousEmploymentResult.status,
           data: previousEmploymentDetails,
+        },
+        bankDetails: {
+          status: bankResult.status,
+          data: bankDetails,
         },
       },
       { status: 200 }

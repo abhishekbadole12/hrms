@@ -172,7 +172,6 @@ export const AddBankDetails = z.object({
     .regex(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Invalid PAN number format"),
   //
   user_id: z.string().nonempty("User ID is required"),
-  created_by: z.string().nonempty("Created by is required"),
   updated_by: z.string().nonempty("Updated by is required"),
 });
 

@@ -37,6 +37,15 @@ interface PreviousEmploymentDetail {
   reference_phone_number: string;
 }
 
+interface BankDetail {
+  account_holder: string;
+  account_number: string;
+  ifsc_code: string;
+  bank_name: string;
+  branch_name: string;
+  account_type: "SAVINGS" | "CURRENT";
+}
+
 interface UserProfileResponse {
   userDetails: {
     status: string;
@@ -49,6 +58,10 @@ interface UserProfileResponse {
   previousEmploymentDetails: {
     status: string;
     data: PreviousEmploymentDetail[];
+  };
+  bankDetails: {
+    status: string;
+    data: BankDetail[];
   };
 }
 

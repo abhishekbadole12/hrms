@@ -1,52 +1,76 @@
 "use client";
 
-import React, { useState, startTransition, useActionState } from "react";
+import React, {
+  useState,
+  startTransition,
+  useActionState,
+  ChangeEvent,
+  useEffect,
+} from "react";
+//
 import BoxWrapper from "@/components/wrapper/box-wrapper";
 import Button from "@/components/custom/button";
 import Input from "@/components/custom/input";
 import Select from "@/components/custom/select";
+//
+import { updateBankDetails } from "@/app/actions/user";
+//
+import { useUserStore } from "@/store/useUserStore";
+//
+import { ACCOUNT_TYPES } from "@/utils/constant";
 
-const ACCOUNT_TYPES = [
-  { value: "SAVING", name: "Savings" },
-  { value: "CURRENT", name: "Current" },
-];
-
-const MARTIAL_STATUS = [
-  { value: "SINGLE", name: "Single" },
-  { value: "MARRIED", name: "Married" },
-  { valye: "WIDOW", name: "Widow" },
-];
+interface formInputs {
+  user_id: string;
+  account_holder: string;
+  account_number: string;
+  bank_name: string;
+  branch_name: string;
+  ifsc_code: string;
+  account_type: "SAVINGS" | "CURRENT";
+  pan_number: string;
+}
 
 export default function BankDetailsEditForm({ userId }: { userId: string }) {
-  const [formInputs, setFormInputs] = useState({
+  const { userProfileDetails } = useUserStore();
+
+  const [formInputs, setFormInputs] = useState<formInputs>({
+    user_id: userId || "",
     account_holder: "",
     account_number: "",
     bank_name: "",
     branch_name: "",
     ifsc_code: "",
-    account_type: "",
+    account_type: "SAVINGS",
     pan_number: "",
-    tax_id: "",
-    tax_status: "",
-    tax_exemptions: "",
   });
 
-  const [state, formAction, isPending] = useActionState(updateBank, null);
+  const [state, formAction, isPending] = useActionState(
+    updateBankDetails,
+    null
+  );
 
-  const handleInputChange = (e) => {
+  // Handle input change
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormInputs((prev) => ({ ...prev, [name]: value }));
+
+    const formattedValue =
+      name === "ifsc_code" || name === "pan_number"
+        ? value.toUpperCase()
+        : value;
+
+    setFormInputs((prev) => ({ ...prev, [name]: formattedValue }));
   };
 
+  // Handle select change
   const handleSelectChange = (name: string, value: string) => {
     setFormInputs((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle form submit
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData();
-
     Object.entries(formInputs).forEach(([Key, value]) => {
       formData.set(Key, value);
     });
@@ -56,65 +80,96 @@ export default function BankDetailsEditForm({ userId }: { userId: string }) {
     });
   };
 
+  // Update input values
+  useEffect(() => {
+    if (userProfileDetails?.bankDetails.status === "fulfilled") {
+      const data = userProfileDetails?.bankDetails.data[0];
+      setFormInputs((prev) => ({ ...prev, ...data }));
+    }
+  }, [userProfileDetails]);
+
   return (
     <BoxWrapper className="w-full p-6">
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
-      >
-        <Input
-          label="Account Holder Name"
-          name="account_holder"
-          placeholder="Enter account holder name"
-          value={formInputs.account_holder}
-          onChange={handleInputChange}
-        />
-        <Input
-          label="Account Number"
-          name="account_number"
-          placeholder="Enter account number"
-          value={formInputs.account_number}
-          onChange={handleInputChange}
-        />
-        <Input
-          label="Bank Name"
-          name="bank_name"
-          placeholder="Enter bank name"
-          value={formInputs.bank_name}
-          onChange={handleInputChange}
-        />
-        <Input
-          label="Branch Name"
-          name="branch_name"
-          placeholder="Enter branch name"
-          value={formInputs.branch_name}
-          onChange={handleInputChange}
-        />
-        <Input
-          label="IFSC Code"
-          name="ifsc_code"
-          placeholder="Enter IFSC code"
-          value={formInputs.ifsc_code}
-          onChange={handleInputChange}
-        />
-        <Select
-          label="Account Type"
-          name="account_type"
-          options={ACCOUNT_TYPES}
-          selected={formInputs.account_type}
-          onChange={(value) => handleSelectChange("account_type", value)}
-        />
-        <Input
-          label="PAN Number"
-          name="pan_number"
-          placeholder="Enter PAN number"
-          value={formInputs.pan_number}
-          onChange={handleInputChange}
-        />
+      <form onSubmit={handleSubmit} className="p-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Input
+            label="Account Holder Name"
+            name="account_holder"
+            placeholder="Enter account holder name"
+            value={formInputs.account_holder}
+            onChange={handleInputChange}
+            errorMsg={state?.errors?.account_holder}
+            inputStyle="uppercase"
+          />
+          <Input
+            label="Account Number"
+            name="account_number"
+            placeholder="Enter account number"
+            value={formInputs.account_number}
+            onChange={handleInputChange}
+            errorMsg={state?.errors?.account_number}
+          />
+          <Input
+            label="Bank Name"
+            name="bank_name"
+            placeholder="Enter bank name"
+            value={formInputs.bank_name}
+            onChange={handleInputChange}
+            errorMsg={state?.errors?.bank_name}
+          />
+          <Input
+            label="Branch Name"
+            name="branch_name"
+            placeholder="Enter branch name"
+            value={formInputs.branch_name}
+            onChange={handleInputChange}
+            errorMsg={state?.errors?.branch_name}
+          />
+          <Input
+            label="IFSC Code"
+            name="ifsc_code"
+            placeholder="Enter IFSC code"
+            value={formInputs.ifsc_code}
+            onChange={handleInputChange}
+            errorMsg={state?.errors?.ifsc_code}
+            inputStyle="uppercase"
+          />
+          <Select
+            label="Account Type"
+            name="account_type"
+            options={ACCOUNT_TYPES}
+            selected={formInputs.account_type}
+            onChange={(value) => handleSelectChange("account_type", value)}
+            errorMsg={state?.errors?.account_type}
+          />
+          <Input
+            label="PAN Number"
+            name="pan_number"
+            placeholder="Enter PAN number"
+            value={formInputs.pan_number}
+            onChange={handleInputChange}
+            errorMsg={state?.errors?.pan_number}
+            inputStyle="uppercase"
+          />
+        </div>
+
+        {/* save & cancel button */}
+        <div className="col-span-2 flex justify-end mt-4">
+          <Button
+            type="button"
+            className="mr-4 bg-red-500 hover:bg-red-600 text-white"
+            onClick={() => {
+              // Handle cancel action
+            }}
+          >
+            cancel
+          </Button>
+
+          <Button type="submit" disabled={isPending}>
+            update
+          </Button>
+        </div>
       </form>
-      <div className="mt-6 flex justify-end">
-        <Button onClick={handleSubmit}>Save Changes</Button>
-      </div>
     </BoxWrapper>
   );
 }

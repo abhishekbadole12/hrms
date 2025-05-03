@@ -651,6 +651,82 @@ export async function addBankDetails(state: unknown, formData: FormData) {
 
 //
 //
+// This function is used to update bank details
+export async function updateBankDetails(
+  state: unknown,
+  formData: FormData
+) {
+  // Extract user from session
+  const session = await verifySession();
+
+  if (!session.isAuth) {
+    return { message: "Unauthroized" };
+  }
+
+  const id = formData.get("id") as string;
+
+  // 1. Validate input fields
+  const validationResult = AddBankDetails.safeParse({
+    user_id: formData.get("user_id"),
+    account_holder: formData.get("account_holder"),
+    account_number: formData.get("account_number"),
+    bank_name: formData.get("bank_name"),
+    branch_name: formData.get("branch_name"),
+    ifsc_code: formData.get("ifsc_code"),
+    account_type: formData.get("account_type"),
+    pan_number: formData.get("pan_number"),
+    updated_by: session?.user_id,
+  });
+
+  if (!validationResult.success) {
+    return {
+      errors: validationResult.error.flatten().fieldErrors,
+    };
+  }
+
+  const payload = {
+    user_id: validationResult.data.user_id,
+    account_holder: validationResult.data.account_holder,
+    account_number: validationResult.data.account_number,
+    bank_name: validationResult.data.bank_name,
+    branch_name: validationResult.data.branch_name,
+    ifsc_code: validationResult.data.ifsc_code,
+    account_type: validationResult.data.account_type,
+    pan_number: validationResult.data.pan_number,
+    updated_by: session.user_id,
+  };
+
+  // 2. Check if employee id exists or not
+  const existingEmployee = await User.findOne({
+    where: { user_id: payload.user_id },
+  });
+
+  if (!existingEmployee) {
+    return { message: "Employee not found" };
+  }
+
+  // 3. Check if previous employment details already exist
+  if (id) {
+    const [updatedCount] = await BankDetails.update(payload, {
+      where: { id, user_id: payload.user_id },
+    });
+
+    // If no record was actually updated, optionally handle it
+    if (updatedCount === 0) {
+      return { message: "Record not found or not updated" };
+    }
+  } else {
+    await BankDetails.create({
+      ...payload,
+      created_by: session.user_id,
+    });
+  }
+
+  return { success: true, user_id: payload.user_id };
+}
+
+//
+//
 // This function is used to add social details
 export async function addSocialDetails(state: unknown, formData: FormData) {
   // Extract user from session
