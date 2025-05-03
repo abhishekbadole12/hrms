@@ -90,20 +90,17 @@ export default function PreviousEmployementEditForm({
 
   // To update state values on render
   useEffect(() => {
-    const prevEmployment = userProfileDetails?.previousEmploymentDetails;
-    if (prevEmployment) {
-      setFormInputs((prev) => ({
-        ...prev,
-        ...prevEmployment,
-        start_date:
-          userProfileDetails.previousEmploymentDetails.start_date?.split(
-            "T"
-          )[0] || "",
-          end_date:
-          userProfileDetails.previousEmploymentDetails.end_date?.split(
-            "T"
-          )[0] || "",
-      }));
+    if (userProfileDetails?.previousEmploymentDetails.status === "fulfilled") {
+      const data = userProfileDetails.previousEmploymentDetails.data; // Get 1st detail from array
+
+      if (data && data.length > 0) {
+        setFormInputs((prev) => ({
+          ...prev,
+          ...data,
+          start_date: data[0].start_date?.split("T")[0] || "",
+          end_date: data[0].end_date?.split("T")[0] || "",
+        }));
+      }
     }
   }, [userProfileDetails]);
 
@@ -208,7 +205,7 @@ export default function PreviousEmployementEditForm({
               Cancel
             </Button>
 
-            <Button type="submit" disabled={isPending} className="ml-auto px-5" >
+            <Button type="submit" disabled={isPending} className="ml-auto px-5">
               Save
             </Button>
           </div>

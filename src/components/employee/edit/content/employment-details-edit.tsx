@@ -108,20 +108,15 @@ export default function EmploymentDetailsEditForm({
   }, []);
 
   useEffect(() => {
-    if (userProfileDetails) {
+    if (userProfileDetails?.employmentDetails.status === "fulfilled") {
+      const data = userProfileDetails?.employmentDetails.data;
+
       setFormInputs((prev) => ({
         ...prev,
-        ...userProfileDetails.employmentDetails,
-        confirmation_date:
-          userProfileDetails.employmentDetails.confirmation_date?.split(
-            "T"
-          )[0] || "",
-        join_date:
-          userProfileDetails.employmentDetails.join_date?.split("T")[0] || "",
-        end_date:
-          userProfileDetails.employmentDetails.confirmation_date?.split(
-            "T"
-          )[0] || "",
+        ...data,
+        confirmation_date: data.confirmation_date?.split("T")[0] || "",
+        join_date: data.join_date?.split("T")[0] || "",
+        end_date: data.confirmation_date?.split("T")[0] || "",
       }));
     }
   }, [userProfileDetails]);
@@ -225,7 +220,7 @@ export default function EmploymentDetailsEditForm({
         </div>
 
         {/* save button */}
-        <div className="col-span-2 flex justify-between mt-2">
+        <div className="col-span-2 flex justify-between mt-4">
           <Button
             type="button"
             className="mr-4 bg-red-500 hover:bg-red-600 text-white"

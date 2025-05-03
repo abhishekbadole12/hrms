@@ -123,10 +123,10 @@ export default function PersonalDetailsEditForm({
   };
 
   useEffect(() => {
-    if (userProfileDetails) {
+    if (userProfileDetails?.userDetails.status === "fulfilled") {
       setFormInputs((prev) => ({
         ...prev,
-        ...userProfileDetails.userDetails
+        ...userProfileDetails.userDetails.data,
       }));
     }
   }, [userProfileDetails]);

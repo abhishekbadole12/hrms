@@ -508,9 +508,10 @@ export async function updatePreviousEmployementDetail(
     return { message: "Unauthroized" };
   }
 
+  const id = formData.get("id") as string;
+
   // 1. Validate input fields
   const validationResult = UpdatePreviousEmploymentDetail.safeParse({
-    id: formData.get("id"),
     user_id: formData.get("user_id"),
     company_name: formData.get("company_name"),
     position: formData.get("position"),
@@ -525,60 +526,52 @@ export async function updatePreviousEmployementDetail(
   });
 
   if (!validationResult.success) {
-    console.log(validationResult.error.flatten().fieldErrors);
-
     return {
       errors: validationResult.error.flatten().fieldErrors,
     };
   }
 
-  const {
-    id,
-    user_id,
-    company_name,
-    position,
-    employment_type,
-    start_date,
-    end_date,
-    salary,
-    reference_name,
-    reference_email,
-    reference_phone_number,
-  } = validationResult.data;
+  const payload = {
+    user_id: validationResult.data.user_id,
+    company_name: validationResult.data.company_name,
+    position: validationResult.data.position,
+    employment_type: validationResult.data.employment_type,
+    start_date: validationResult.data.start_date,
+    end_date: validationResult.data.end_date,
+    salary: validationResult.data.salary,
+    reference_name: validationResult.data.reference_name,
+    reference_email: validationResult.data.reference_email,
+    reference_phone_number: validationResult.data.reference_phone_number,
+    updated_by: session.user_id,
+  };
 
   // 2. Check if employee id exists or not
   const existingEmployee = await User.findOne({
-    where: { user_id },
+    where: { user_id: payload.user_id },
   });
 
   if (!existingEmployee) {
     return { message: "Employee not found" };
   }
 
-  // 3. Update previous employment details in the database
-  const [affectedCount] = await PreviousEmploymentDetail.update(
-    {
-      company_name,
-      position,
-      employment_type,
-      start_date,
-      end_date,
-      salary,
-      reference_name,
-      reference_email,
-      reference_phone_number,
-      updated_by: session.user_id,
-    },
-    {
-      where: { id, user_id },
-    }
-  );
+  // 3. Check if previous employment details already exist
+  if (id) {
+    const [updatedCount] = await PreviousEmploymentDetail.update(payload, {
+      where: { id, user_id: payload.user_id },
+    });
 
-  if (affectedCount === 0) {
-    return { message: "Failed to update previous employment details" };
+    // If no record was actually updated, optionally handle it
+    if (updatedCount === 0) {
+      return { message: "Record not found or not updated" };
+    }
+  } else {
+    await PreviousEmploymentDetail.create({
+      ...payload,
+      created_by: session.user_id,
+    });
   }
 
-  return { success: true, user_id };
+  return { success: true, user_id: payload.user_id };
 }
 
 //

@@ -138,7 +138,7 @@ export const CreatePreviousEmploymentDetail = z.object({
 
 // Update Previous Employment Details Form
 export const UpdatePreviousEmploymentDetail = z.object({
-  id: z.string().nonempty("ID is required"),
+  id: z.string().optional(),
   company_name: z.string().nonempty("Company name is required"),
   position: z.string().nonempty("Position is required"),
   employment_type: z.string().nonempty("Employment type is required"),

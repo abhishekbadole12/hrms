@@ -26,29 +26,75 @@ export async function GET(
       );
     }
 
-    const userDetails = await User.findOne({
-      where: { user_id: targetUserId },
-      attributes: [
-        "first_name",
-        "middle_name",
-        "last_name",
-        "email",
-        "phone_number",
-        "gender",
-        "user_role",
-      ],
-    });
+    const results = await Promise.allSettled([
+      User.findOne({
+        where: { user_id: targetUserId },
+        attributes: [
+          "first_name",
+          "middle_name",
+          "last_name",
+          "email",
+          "phone_number",
+          "gender",
+          "user_role",
+        ],
+      }),
+      EmploymentDetail.findOne({
+        where: {
+          user_id: targetUserId,
+        },
+        attributes: [
+          "job_title",
+          "department_id",
+          "reporting_manager_id",
+          "employment_type",
+          "work_location",
+          "join_date",
+          "probation_end_date",
+          "confirmation_date",
+          "salary",
+        ],
+      }),
+      PreviousEmploymentDetail.findAll({
+        where: {
+          user_id: targetUserId,
+        },
+        attributes: [
+          "id",
+          "company_name",
+          "position",
+          "employment_type",
+          "start_date",
+          "end_date",
+          "salary",
+          "reference_name",
+          "reference_email",
+          "reference_phone_number",
+        ],
+      }),
+    ]);
 
-    if (!userDetails) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
+    const [userResult, employmentResult, previousEmploymentResult] = results;
+
+    const userDetails =
+      userResult.status === "fulfilled" ? userResult.value?.dataValues : null;
+
+    const employmentDetails =
+      employmentResult.status === "fulfilled"
+        ? employmentResult.value?.dataValues
+        : null;
+
+    const previousEmploymentDetails =  
+      previousEmploymentResult.status === "fulfilled"
+        ? previousEmploymentResult.value?.map((item) => item.dataValues)
+        : null;
 
     // Helper function to check current role can chnage or not
     const isAllowed = canUpdate(
       session.user_id,
       targetUserId,
       session.user_role as UserRole,
-      userDetails.user_role as UserRole
+      userDetails?.user_role as UserRole
     );
 
     if (!isAllowed) {
@@ -58,80 +104,20 @@ export async function GET(
       );
     }
 
-    const employmentDetails = await EmploymentDetail.findOne({
-      where: {
-        user_id: targetUserId,
-      },
-      attributes: [
-        "job_title",
-        "department_id",
-        "reporting_manager_id",
-        "employment_type",
-        "work_location",
-        "join_date",
-        "probation_end_date",
-        "confirmation_date",
-        "salary",
-      ],
-    });
-
-    if (!employmentDetails) {
-      return NextResponse.json(
-        { error: "Employment details not found" },
-        { status: 404 }
-      );
-    }
-
-    const previousEmploymentDetails = await PreviousEmploymentDetail.findOne({
-      where: {
-        user_id: targetUserId,
-      },
-      attributes: [
-        "id",
-        "company_name",
-        "position",
-        "employment_type",
-        "start_date",
-        "end_date",
-        "salary",
-        "reference_name",
-        "reference_email",
-        "reference_phone_number",
-      ],
-    });
-
-    console.log(previousEmploymentDetails);
-
-    if (!previousEmploymentDetails) {
-      return NextResponse.json(
-        { error: "Previous employment details not found" },
-        { status: 404 }
-      );
-    }
-
-    // const bankDetails = await BankDetails.findOne({
-    //   where: {
-    //     user_id: targetUserId,
-    //   },
-    //   attributes: [
-    //     "bank_name",
-    //     "account_number",
-    //     "ifsc_code",
-    //     "branch_name",
-    //     "account_type",
-    //     "pan_number",
-    //     "aadhaar_number",
-    //   ],
-    // });
-
     return NextResponse.json(
       {
-        userDetails: { ...userDetails.dataValues },
-        employmentDetails: { ...employmentDetails?.dataValues },
-        previousEmploymentDetails: {
-          ...previousEmploymentDetails?.dataValues,
+        userDetails: {
+          status: userResult.status,
+          data: userDetails,
         },
-        // bankDetails: { ...bankDetails?.dataValues },
+        employmentDetails: {
+          status: employmentResult.status,
+          data: employmentDetails,
+        },
+        previousEmploymentDetails: {
+          status: previousEmploymentResult.status,
+          data: previousEmploymentDetails,
+        },
       },
       { status: 200 }
     );

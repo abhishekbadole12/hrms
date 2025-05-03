@@ -38,9 +38,18 @@ interface PreviousEmploymentDetail {
 }
 
 interface UserProfileResponse {
-  userDetails: userDetails;
-  employmentDetails: EmploymentDetail;
-  previousEmploymentDetails: PreviousEmploymentDetail;
+  userDetails: {
+    status: string;
+    data: userDetails;
+  };
+  employmentDetails: {
+    status: string;
+    data: EmploymentDetail;
+  };
+  previousEmploymentDetails: {
+    status: string;
+    data: PreviousEmploymentDetail[];
+  };
 }
 
 interface UserStore {
