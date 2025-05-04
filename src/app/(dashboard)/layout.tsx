@@ -20,7 +20,7 @@ export default function DashboardLayout({
       <section className="w-full h-full py-2 px-12 flex flex-col min-h-0">
         <PrivateHeader />
 
-        <div className="px-10 h-full">{children}</div>
+        <div className="px-10 h-full overflow-auto">{children}</div>
       </section>
     </div>
   );
