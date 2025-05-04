@@ -32,6 +32,16 @@ export async function registerUser(state: unknown, formData: FormData) {
 
   if (!session.isAuth) {
     return { message: "Unauthroized" };
+  };
+
+  // Check if the user has the required role
+  // Only ADMIN, HR, and MANAGER can register a new user
+  if (
+    session.user_role !== UserRole.ADMIN &&
+    session.user_role !== UserRole.HR &&
+    session.user_role !== UserRole.MANAGER
+  ) {
+    return { message: "Unauthorized to register user" };
   }
 
   // 1. Validate input fields
