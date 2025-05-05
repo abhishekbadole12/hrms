@@ -1,6 +1,10 @@
 import { useState, useRef, useEffect } from "react";
+//
+import clsx from "clsx";
+//
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//
 
 interface DropdownProps<T> {
   options: T[];
@@ -8,6 +12,7 @@ interface DropdownProps<T> {
   onChange: (value: T) => void;
   placeholder?: string;
   className?: string;
+  Icon: any;
 }
 
 export default function Dropdown<T extends string | number>({
@@ -16,6 +21,7 @@ export default function Dropdown<T extends string | number>({
   onChange,
   placeholder = "Select",
   className = "",
+  Icon,
 }: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -35,12 +41,16 @@ export default function Dropdown<T extends string | number>({
   }, []);
 
   return (
-    <div className={`relative ${className}`} ref={dropdownRef}>
+    <div className='relative' ref={dropdownRef}>
       {/* Dropdown Button */}
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between gap-2.5 border border-third rounded-lg py-1.5 px-2.5 cursor-pointer select-none bg-white"
+        className={clsx(
+          "flex items-center justify-between gap-2.5 border border-third rounded-lg py-1.5 px-2.5 cursor-pointer select-none bg-white",
+          className && className
+        )}
       >
+        {Icon}
         <h4 className="text-sm font-semibold text-primary">
           {selected ?? placeholder}
         </h4>
