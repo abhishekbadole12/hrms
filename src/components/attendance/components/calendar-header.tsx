@@ -19,7 +19,7 @@ enum TABS {
 const MONTHS = ["January", "Feb"];
 
 export default function CalendarHeader() {
-  const [activeTab, setActiveTab] = useState(TABS.WEEK);
+  const [activeTab, setActiveTab] = useState(TABS.MONTH);
 
   const tabList = Object.values(TABS);
   const tabIndex = tabList.indexOf(activeTab);
@@ -29,7 +29,7 @@ export default function CalendarHeader() {
   };
 
   return (
-    <div className="w-full flex items-center gap-4">
+    <div className="w-full flex items-center gap-4 mb-8">
       <Dropdown
         options={MONTHS}
         selected={MONTHS[0]}

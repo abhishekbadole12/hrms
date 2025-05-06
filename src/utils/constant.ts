@@ -125,3 +125,16 @@ export const DOCUMENT_TYPES = [
   { value: "SIGNED_OFFER_LETTER", name: "Signed Offer Letter" },
   { value: "RESUME", name: "Resume" },
 ];
+
+// Calendar days
+type Day = { label: string; value: string };
+
+export const DAYS: Day[] = [
+  { label: "Monday", value: "MONDAY" },
+  { label: "Tuesday", value: "TUESDAY" },
+  { label: "Wednesday", value: "WEDNESDAY" },
+  { label: "Thursday", value: "THURSDAY" },
+  { label: "Friday", value: "FRIDAY" },
+  { label: "Saturday", value: "SATURDAY" },
+  { label: "Sunday", value: "SUNDAY" },
+];
