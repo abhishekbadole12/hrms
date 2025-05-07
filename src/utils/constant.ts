@@ -130,11 +130,11 @@ export const DOCUMENT_TYPES = [
 type Day = { label: string; value: string };
 
 export const DAYS: Day[] = [
+  { label: "Sunday", value: "SUNDAY" },
   { label: "Monday", value: "MONDAY" },
   { label: "Tuesday", value: "TUESDAY" },
   { label: "Wednesday", value: "WEDNESDAY" },
   { label: "Thursday", value: "THURSDAY" },
   { label: "Friday", value: "FRIDAY" },
   { label: "Saturday", value: "SATURDAY" },
-  { label: "Sunday", value: "SUNDAY" },
 ];
