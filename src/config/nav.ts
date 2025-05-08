@@ -1,7 +1,9 @@
+import { icon } from "@fortawesome/fontawesome-svg-core";
 import {
   faBuilding,
   faCalendarCheck,
   faClipboardCheck,
+  faCommentDots,
   faLandmark,
   faLayerGroup,
   faPlaneDeparture,
@@ -11,7 +13,6 @@ interface SubSection {
   label: string;
   route: string;
 }
-
 
 interface NavSection {
   label: string;
@@ -26,7 +27,7 @@ interface NavItem {
   section: NavSection[];
 }
 
-export const getNavItems = (userId: string) =>  [
+export const getNavItems = (userId: string) => [
   // General Section
   {
     label: "Overview",
@@ -65,7 +66,7 @@ export const getNavItems = (userId: string) =>  [
           {
             label: "Edit",
             route: `/edit/${userId}?tab=PERSONAL_DETAILS`,
-          }
+          },
         ],
       },
       {
@@ -155,6 +156,12 @@ export const getNavItems = (userId: string) =>  [
             route: "/employee-appraisal",
           },
         ],
+      },
+      {
+        label: "Chat",
+        iconComponent: faCommentDots,
+        route: "/chat",
+        isExpandable: false,
       },
     ],
   },
