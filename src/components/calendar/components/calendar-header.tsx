@@ -3,6 +3,7 @@ import clsx from "clsx";
 //
 import Dropdown from "@/components/custom/dropdown";
 import Button from "@/components/custom/button";
+import Divider from "@/components/common/divider/divider";
 //
 import { faCalendar as farCalendar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,6 +36,7 @@ interface CalendarHeaderProps {
   activeTab: TabOption;
   onTabChange?: (tab: TabOption) => void;
   onMonthChange: (index: number) => void;
+  isTab: boolean;
 }
 
 export default function CalendarHeader({
@@ -42,6 +44,7 @@ export default function CalendarHeader({
   activeTab,
   onTabChange,
   onMonthChange,
+  isTab = true,
 }: CalendarHeaderProps) {
   const handleTabChange = () => {};
 
@@ -51,7 +54,7 @@ export default function CalendarHeader({
   };
 
   return (
-    <div className="w-full flex items-center gap-4 mb-8">
+    <div className="w-full flex items-center gap-4 mb-6">
       <Dropdown
         options={DEFAULT_MONTHS}
         selected={DEFAULT_MONTHS[selectedMonth]}
@@ -65,27 +68,30 @@ export default function CalendarHeader({
         className="py-2"
       />
 
-      {/* Line Break */}
-      <div className="h-[32px] border-r border-zinc-200" />
+      {isTab && (
+        <>
+          <Divider orientation={"vertical"} />
 
-      {/* Toggle Tabs */}
-      <div className="flex bg-zinc-100 rounded-lg p-1 overflow-hidden">
-        {Object.values(TabOption).map((tab) => (
-          <button
-            key={tab}
-            onClick={() => onTabChange?.(tab)}
-            className={clsx(
-              "min-w-[4rem] flex-1 px-2.5 py-1.5 rounded-md text-sm font-medium transition-all duration-300",
-              {
-                "bg-white text-black font-semibold": activeTab === tab,
-                "text-zinc-700": activeTab !== tab,
-              }
-            )}
-          >
-            {tab.charAt(0) + tab.slice(1).toLowerCase()}
-          </button>
-        ))}
-      </div>
+          {/* Toggle Tabs */}
+          <div className="flex bg-zinc-100 rounded-lg p-1 overflow-hidden">
+            {Object.values(TabOption).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => onTabChange?.(tab)}
+                className={clsx(
+                  "min-w-[4rem] flex-1 px-2.5 py-1.5 rounded-md text-sm font-medium transition-all duration-300",
+                  {
+                    "bg-white text-black font-semibold": activeTab === tab,
+                    "text-zinc-700": activeTab !== tab,
+                  }
+                )}
+              >
+                {tab.charAt(0) + tab.slice(1).toLowerCase()}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
 
       <Button className="ml-auto px-4">Today</Button>
     </div>

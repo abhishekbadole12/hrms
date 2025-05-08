@@ -6,9 +6,11 @@ import BoxWrapper from "../wrapper/box-wrapper";
 import CalendarHeader, { TabOption } from "./components/calendar-header";
 import CalendarBody from "./components/calendar-body";
 
-interface ICalendarProps {}
+interface ICalendarProps {
+  isTab: boolean;
+}
 
-export default function Calendar({}: ICalendarProps) {
+export default function Calendar({ isTab }: ICalendarProps) {
   const todaysDate = new Date();
 
   const [activeTab, setActiveTab] = useState(TabOption.MONTH);
@@ -25,13 +27,17 @@ export default function Calendar({}: ICalendarProps) {
       <CalendarHeader
         selectedMonth={currentMonth}
         selectedYear={currentYear}
-        //
+        isTab={isTab}
         activeTab={activeTab}
         onTabChange={setActiveTab}
         //
         onMonthChange={handleMonthChange}
       />
-      <CalendarBody todaysDate={todaysDate} month={currentMonth} year={currentYear} />
+      <CalendarBody
+        todaysDate={todaysDate}
+        month={currentMonth}
+        year={currentYear}
+      />
     </BoxWrapper>
   );
 }
