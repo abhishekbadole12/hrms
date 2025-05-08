@@ -17,7 +17,7 @@ export default function DashboardLayout({
     >
       <SidebarWrapper />
 
-      <section className="w-full h-full py-2 px-12 flex flex-col min-h-0">
+      <section className="w-full h-full pt-2 px-12 flex flex-col min-h-0">
         <PrivateHeader />
 
         <div className="px-10 h-full overflow-auto">{children}</div>
