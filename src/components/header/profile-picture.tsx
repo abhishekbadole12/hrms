@@ -1,7 +1,17 @@
 import Image from "next/image";
 import React from "react";
 
-export default function ProfilePicture({ src }: { src?: string }) {
+interface IProfilePictureProps {
+  size?: number;
+  src?: any;
+}
+
+export default function ProfilePicture({
+  size = 40,
+  src,
+}: IProfilePictureProps) {
+  const imageSize = `${size}px`;
+
   if (src) {
     return (
       <div className="border-[1px] border-slate-200 p-[2px] rounded-full overflow-hidden">
@@ -9,16 +19,19 @@ export default function ProfilePicture({ src }: { src?: string }) {
           src={"/profile.jpeg"}
           alt="Profile picture"
           className="w-10 h-10 rounded-full"
-          width={40}
-          height={40}
+          width={size}
+          height={size}
         />
       </div>
     );
   }
 
   return (
-    <div className="border-[1px] border-slate-200 p-[2px] rounded-full overflow-hidden">
-      <div className="w-10 h-10 bg-zinc-200 rounded-full" />
+    <div className="w-fit border-[1px] border-slate-200 p-[2px] rounded-full overflow-hidden">
+      <div
+        className="w-10 h-10 bg-zinc-200 rounded-full"
+        style={{ width: imageSize, height: imageSize }}
+      />
     </div>
   );
 }
