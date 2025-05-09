@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function ChatMainFooter() {
   return (
-    <div className='flex items-center py-2 px-4 mt-auto border-y-[.85px] border-zinc-200'>
+    <div className='flex items-center py-2 px-4 mt-auto border-t-[.85px] border-zinc-200'>
       <div className='w-full mr-2'>
         <input type="text" name="" id="" placeholder='type message here'  className='w-full text-sm p-2 focus:outline-none'/>
       </div>
