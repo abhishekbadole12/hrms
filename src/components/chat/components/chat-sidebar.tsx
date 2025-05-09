@@ -14,7 +14,7 @@ export default function ChatSidebar() {
   const isActive = true;
 
   return (
-    <div className="w-4/12 h-full pr-4 border-r-[.85px] border-zinc-200">
+    <div className="w-4/12 h-full p-4 border-r-[.85px] border-zinc-200">
       {/* Header */}
       <ChatSidebarHeader isActive />
 
