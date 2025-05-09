@@ -37,6 +37,7 @@ export default function ChatSidebar() {
                 "bg-zinc-100": i === 3,
               }
             )}
+            key={i}
           >
             <ProfilePicture />
             <div>

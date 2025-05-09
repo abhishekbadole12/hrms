@@ -7,9 +7,9 @@ import ChatMain from "./components/chat-main";
 
 export default function ChatComponent() {
   return (
-    <BoxWrapper className="w-full h-full flex p-0">
+    <BoxWrapper className="w-full h-[88%] flex !p-0">
       <ChatSidebar />
-      <ChatMain/>
+      <ChatMain />
     </BoxWrapper>
   );
 }
