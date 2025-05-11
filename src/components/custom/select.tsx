@@ -1,18 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+//
 import clsx from "clsx";
+//
+import Icon from "../common/icon/icon";
+//
 
 interface SelectProps {
   label?: string;
   name?: string;
   options: { name: string; value: string }[];
-  selected: string | null;
+  selected?: string | null;
   value?: string;
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
-  Icon?: React.ReactNode;
+  FirstIcon?: React.ReactNode;
   errorMsg?: string[] | string;
   tabIndex?: number;
 }
@@ -26,7 +28,7 @@ export default function Select({
   onChange,
   placeholder = "Select",
   className = "",
-  Icon,
+  FirstIcon,
   errorMsg,
   tabIndex,
   ...props
@@ -64,38 +66,42 @@ export default function Select({
       {/* Select Button */}
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between gap-2.5 border rounded-lg p-2.5 cursor-pointer select-none focus-within:ring-2 focus-within:ring-blue-500"
+        className="flex items-center justify-between w-full border rounded-lg py-2.5 px-3 cursor-pointer select-none focus-within:ring-2 focus-within:ring-blue-500"
       >
-        <h4
+        <div className="flex items-center justify-between gap-2">
+          {FirstIcon && FirstIcon}
+
+          <h4
+            className={clsx("text-sm text-gray-400 capitalize", {
+              "text-zinc-700 font-medium": selected,
+            })}
+          >
+            {selectedLabel}
+          </h4>
+        </div>
+
+        <Icon
+          icon="arrow"
           className={clsx(
-            "text-sm text-gray-400 capitalize",
-            selected && "text-zinc-700 font-medium"
-          )}
-        >
-          {selectedLabel}
-        </h4>
-        <FontAwesomeIcon
-          icon={faChevronDown}
-          className={clsx(
-            "text-gray-500 text-xs transition-transform",
-            isOpen && "rotate-180"
+            "text-gray-500 text-xs p-1 transition-transform duration-200",
+            { "rotate-180": isOpen }
           )}
         />
       </div>
 
       {/* Select Menu */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-full p-1 bg-white border rounded-lg shadow-lg z-10">
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 min-w-full p-1 bg-white border rounded-lg shadow-lg z-10">
           {options.map((item) => (
             <div
-            tabIndex={tabIndex? tabIndex : -1}
+              tabIndex={tabIndex ? tabIndex : -1}
               key={String(item.name)}
               onClick={() => {
                 onChange(item.value);
                 setIsOpen(false);
               }}
               className={clsx(
-                "py-2 px-3 text-sm text-primary rounded-md hover:bg-gray-100 cursor-pointer",
+                "py-2.5 px-3 text-sm text-primary rounded-md hover:bg-gray-100 cursor-pointer whitespace-nowrap",
                 selected === item.value && "font-semibold bg-gray-100"
               )}
             >
