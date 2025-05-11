@@ -13,9 +13,7 @@ import BoxWrapper from "@/components/wrapper/box-wrapper";
 import Button from "@/components/custom/button";
 import Input from "@/components/custom/input";
 import Select from "@/components/custom/select";
-//
-import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Icon from "@/components/common/icon/icon";
 //
 import { GENDER_OPTIONS, ROLE_OPTIONS } from "@/utils/constant";
 //
@@ -177,7 +175,7 @@ export default function PersonalDetailsForm({
               name="email"
               type="email"
               placeholder="Enter first name"
-              Icon={<FontAwesomeIcon icon={faEnvelope} className="" />}
+              Icon={<Icon icon="email" className="mr-3"/>}
               value={formInputs.email}
               onChange={handleInputChange}
               errorMsg={state?.errors?.email}
@@ -187,7 +185,7 @@ export default function PersonalDetailsForm({
               name="phone_number"
               type="tel"
               placeholder="Enter mobile number"
-              Icon={<FontAwesomeIcon icon={faPhone} className="" />}
+               Icon={<Icon icon="phone" className="mr-3"/>}
               value={formInputs.phone_number}
               onChange={handleInputChange}
               errorMsg={state?.errors?.phone_number}
