@@ -138,3 +138,14 @@ export const DAYS: Day[] = [
   { label: "Friday", value: "FRIDAY" },
   { label: "Saturday", value: "SATURDAY" },
 ];
+
+// Sort options
+export interface ISortOption {
+  value: string;
+  name: string;
+}
+
+export const SORT_OPTIONS = [
+  { value: "ASC", name: "Ascending" },
+  { value: "DESC", name: "Descending" },
+];
