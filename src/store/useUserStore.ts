@@ -5,11 +5,14 @@ import { create } from "zustand";
 interface userDetails {
   user_id: string;
   first_name: string;
+  middle_name?: string;
   last_name: string;
   email: string;
+  country_code?: string;
   phone_number: string;
   gender: string;
   user_role: string;
+  status: string;
   // more
 }
 
