@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import clsx from "clsx";
+//
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import clsx from "clsx";
 
 type InputProps = {
   label?: string;
@@ -46,11 +47,11 @@ export default function Input({
 
       <div
         className={clsx(
-          "flex items-center border rounded-lg px-3 py-2.5 focus-within:ring-2 focus-within:ring-blue-500",
+          "flex items-center border rounded-lg py-2.5 p-3 focus-within:ring-2 focus-within:ring-blue-500",
           disabled && "bg-gray-100"
         )}
       >
-        {Icon && <span className="mr-3 text-gray-400">{Icon}</span>}
+        {Icon && Icon}
 
         <input
           type={isPassword ? (showPassword ? "text" : "password") : type}
@@ -62,7 +63,9 @@ export default function Input({
           className={clsx(
             "w-full text-sm focus:outline-none text-zinc-700 font-medium",
             inputStyle && inputStyle,
-            disabled && "text-zinc-400 bg-gray-100 opacity-75"
+            disabled && "text-zinc-400 bg-gray-100 opacity-75",
+            { "py-0": Icon },
+            { "py-[2px]": !Icon }
           )}
           disabled={disabled}
           {...props}
