@@ -3,7 +3,6 @@
 //
 import React, {
   startTransition,
-  use,
   useActionState,
   useEffect,
   useState,
@@ -15,9 +14,7 @@ import Button from "@/components/custom/button";
 import Input from "@/components/custom/input";
 import Select from "@/components/custom/select";
 import Loading from "@/components/common/snakebar/loading";
-//
-import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Icon from "@/components/common/icon/icon";
 //
 import { updateUser } from "@/app/actions/user";
 //
@@ -201,7 +198,7 @@ export default function PersonalDetailsEditForm({
               name="email"
               type="email"
               placeholder="Enter first name"
-              Icon={<FontAwesomeIcon icon={faEnvelope} className="" />}
+              Icon={<Icon icon="email" className="mr-3" />}
               value={formInputs.email}
               onChange={handleInputChange}
               // errorMsg={state?.errors?.email}
@@ -212,7 +209,7 @@ export default function PersonalDetailsEditForm({
               name="phone_number"
               type="tel"
               placeholder="Enter mobile number"
-              Icon={<FontAwesomeIcon icon={faPhone} className="" />}
+              Icon={<Icon icon="phone" className="mr-3" />}
               value={formInputs.phone_number}
               onChange={handleInputChange}
               errorMsg={state?.errors?.phone_number}
