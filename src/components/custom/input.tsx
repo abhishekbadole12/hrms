@@ -64,7 +64,7 @@ export default function Input({
             "w-full text-sm focus:outline-none text-zinc-700 font-medium",
             inputStyle && inputStyle,
             disabled && "text-zinc-400 bg-gray-100 opacity-75",
-            { "py-0": Icon },
+            { "py-0 ml-3": Icon },
             { "py-[2px]": !Icon }
           )}
           disabled={disabled}
