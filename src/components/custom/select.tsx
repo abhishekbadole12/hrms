@@ -11,7 +11,7 @@ interface SelectProps {
   options: { name: string; value: string }[];
   selected?: string | null;
   value?: string;
-  onChange: (value: string) => void;
+  onChange: (option: { name: string; value: string }) => void;
   placeholder?: string;
   className?: string;
   FirstIcon?: React.ReactNode;
@@ -66,7 +66,7 @@ export default function Select({
       {/* Select Button */}
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-full border rounded-lg py-2.5 px-3 cursor-pointer select-none focus-within:ring-2 focus-within:ring-blue-500"
+        className="flex items-center justify-between gap-1 w-full border rounded-lg py-2.5 px-3 cursor-pointer select-none focus-within:ring-2 focus-within:ring-blue-500"
       >
         <div className="flex items-center justify-between gap-2">
           {FirstIcon && FirstIcon}
@@ -97,11 +97,11 @@ export default function Select({
               tabIndex={tabIndex ? tabIndex : -1}
               key={String(item.name)}
               onClick={() => {
-                onChange(item.value);
+                onChange(item);
                 setIsOpen(false);
               }}
               className={clsx(
-                "py-2.5 px-3 text-sm text-primary rounded-md hover:bg-gray-100 cursor-pointer whitespace-nowrap",
+                "py-2.5 px-3 mb-1 text-sm text-primary rounded-md hover:bg-gray-100 cursor-pointer whitespace-nowrap",
                 selected === item.value && "font-semibold bg-gray-100"
               )}
             >
