@@ -12,7 +12,8 @@ interface DropdownProps<T> {
   onChange: (value: T) => void;
   placeholder?: string;
   className?: string;
-  Icon: any;
+  Icon?: any;
+  defaultIcon?: boolean;
 }
 
 export default function Dropdown<T extends string | number>({
@@ -22,6 +23,7 @@ export default function Dropdown<T extends string | number>({
   placeholder = "Select",
   className = "",
   Icon,
+  defaultIcon = true,
 }: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -41,7 +43,7 @@ export default function Dropdown<T extends string | number>({
   }, []);
 
   return (
-    <div className='relative' ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       {/* Dropdown Button */}
       <div
         onClick={() => setIsOpen(!isOpen)}
@@ -54,17 +56,19 @@ export default function Dropdown<T extends string | number>({
         <h4 className="text-sm font-semibold text-primary">
           {selected ?? placeholder}
         </h4>
-        <FontAwesomeIcon
-          icon={faChevronDown}
-          className={`text-primary text-xs transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
+        {defaultIcon && (
+          <FontAwesomeIcon
+            icon={faChevronDown}
+            className={`text-primary text-xs transition-transform ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        )}
       </div>
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute left-0 mt-1 w-full p-1 bg-white border border-third rounded-lg shadow-lg z-10">
+        <div className="absolute left-1/2 -translate-x-1/2 mt-1 min-w-full p-1 bg-white border border-third rounded-lg shadow-lg z-10">
           {options.map((item) => (
             <div
               key={String(item)}

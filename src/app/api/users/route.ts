@@ -16,9 +16,13 @@ export async function GET(request: NextRequest, response: NextResponse) {
       attributes: [
         "user_id",
         "first_name",
+        "middle_name",
         "last_name",
         "email",
+        "country_code",
         "phone_number",
+        "status",
+        "user_role",
       ],
       where: {
         status: "ACTIVE",
