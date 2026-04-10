@@ -20,6 +20,16 @@ export async function middleware(request: NextRequest) {
 
     const isOnLoginPage = currentPath === "/login";
     const isOnDashboard = currentPath.startsWith("/dashboard");
+    const isRoot = currentPath === "/";
+
+    // ✅ Root route handling
+    if (isRoot) {
+      if (isLoggedIn) {
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      } else {
+        return NextResponse.redirect(new URL("/login", request.url));
+      }
+    }
 
     // Case 1: If NOT logged in and trying to access a protected route, redirect to login
     if (isOnDashboard && !isLoggedIn) {
@@ -36,15 +46,11 @@ export async function middleware(request: NextRequest) {
     console.error("Middleware Error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export const config = {
-  matcher: [
-    "/login",
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
-    "/dashboard/:path*",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
