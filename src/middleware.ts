@@ -22,6 +22,8 @@ export async function middleware(request: NextRequest) {
     const isOnDashboard = currentPath.startsWith("/dashboard");
     const isRoot = currentPath === "/";
 
+    const restrictedRoutes = ["/chat"];
+
     // ✅ Root route handling
     if (isRoot) {
       if (isLoggedIn) {
@@ -39,6 +41,15 @@ export async function middleware(request: NextRequest) {
     // Case 2: If logged in and trying to access login page, redirect to dashboard
     if (isOnLoginPage && isLoggedIn) {
       return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+    }
+
+    // Block restricted routes
+    const isRestrictedRoute = restrictedRoutes.some((route) =>
+      currentPath.startsWith(route)
+    );
+
+    if (isRestrictedRoute) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
     }
 
     return NextResponse.next();

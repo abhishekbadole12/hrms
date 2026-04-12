@@ -162,6 +162,10 @@ export const getNavItems = (userId: string) => [
         iconComponent: faCommentDots,
         route: "/chat",
         isExpandable: false,
+        badge: "Coming Soon",
+        highlight: true,
+        highlightColor: "bg-red-400 text-white",
+        disabled: true,
       },
     ],
   },
@@ -221,7 +225,11 @@ export const getNavItems = (userId: string) => [
         label: "Recruitment",
         iconComponent: faLayerGroup, // Updated to iconComponent
         route: "/recruitment",
-        isExpandable: true,
+        isExpandable: false,
+        badge: "Coming Soon",
+        highlight: true,
+        highlightColor: "bg-red-400 text-white",
+        disabled: true,
         subSections: [
           {
             label: "Job Openings",

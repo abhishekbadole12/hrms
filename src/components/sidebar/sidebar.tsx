@@ -22,6 +22,8 @@ export const Sidebar = ({ user_id }: SidebarProps) => {
 
   // handle item click
   const handleItemClick = (subItem: any) => {
+    if (subItem.disabled) return;
+
     if (subItem.isExpandable) {
       setActiveMenu(subItem.label);
       setIsOpened(!isOpened);
