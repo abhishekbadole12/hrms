@@ -3,7 +3,7 @@ import { z } from "zod";
 // User registration Zod schema
 export const RegisterUserSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
-  middle_name: z.string().min(1, "Middle name is required"),
+  middle_name: z.string().optional(),
   last_name: z.string().min(1, "Last name is required"),
   gender: z.enum(["MALE", "FEMALE", "OTHER"], {
     errorMap: () => ({ message: "Invalid gender" }),
