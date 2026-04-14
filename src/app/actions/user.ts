@@ -92,7 +92,7 @@ export async function registerUser(state: unknown, formData: FormData) {
     country_code,
     phone_number,
     user_role,
-    password: "",
+    password: `{first_name}@{last_name}`, // Default password, should be changed by user after first login
     status,
     created_by: session?.user_id,
   });
