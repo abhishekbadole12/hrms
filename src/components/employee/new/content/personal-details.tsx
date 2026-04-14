@@ -30,7 +30,7 @@ interface FormInputs {
   user_role: string;
   status: "ACTIVE" | "INACTIVE";
   isVerified: boolean;
-  profile_image: File |null;
+  profile_image: File | null;
 }
 
 export default function PersonalDetailsForm({
@@ -67,6 +67,7 @@ export default function PersonalDetailsForm({
 
   // Handle select change
   const handleSelectChange = (name: string, value: string) => {
+    // Here name is field name
     setFormInputs((prev) => ({
       ...prev,
       [name]: value,
@@ -75,17 +76,17 @@ export default function PersonalDetailsForm({
 
   // Handle file chnage
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; 
-  if (file) {
-    setFormInputs((prev) => ({
-      ...prev,
-      profile_image: file,
-    }));
-  }
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormInputs((prev) => ({
+        ...prev,
+        profile_image: file,
+      }));
+    }
   };
 
   // Toggle
-  const handleStatusChange = (newStatus: "ACTIVE"|"INACTIVE") => {
+  const handleStatusChange = (newStatus: "ACTIVE" | "INACTIVE") => {
     setFormInputs((prev) => ({ ...prev, status: newStatus }));
   };
 
@@ -96,7 +97,7 @@ export default function PersonalDetailsForm({
   // Handle form submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     const formData = new FormData();
     Object.entries(formInputs).forEach(([key, value]) => {
       formData.set(key, value);
@@ -167,7 +168,7 @@ export default function PersonalDetailsForm({
               name="gender"
               options={GENDER_OPTIONS}
               selected={formInputs.gender}
-              onChange={(value) => handleSelectChange("gender", value)}
+              onChange={handleSelectChange}
               errorMsg={state?.errors?.gender}
             />
             <Input
@@ -175,7 +176,7 @@ export default function PersonalDetailsForm({
               name="email"
               type="email"
               placeholder="Enter first name"
-              Icon={<Icon icon="email" className="mr-3"/>}
+              Icon={<Icon icon="email" className="mr-3" />}
               value={formInputs.email}
               onChange={handleInputChange}
               errorMsg={state?.errors?.email}
@@ -185,7 +186,7 @@ export default function PersonalDetailsForm({
               name="phone_number"
               type="tel"
               placeholder="Enter mobile number"
-               Icon={<Icon icon="phone" className="mr-3"/>}
+              Icon={<Icon icon="phone" className="mr-3" />}
               value={formInputs.phone_number}
               onChange={handleInputChange}
               errorMsg={state?.errors?.phone_number}
@@ -195,7 +196,7 @@ export default function PersonalDetailsForm({
               name="user_role"
               options={ROLE_OPTIONS}
               selected={formInputs.user_role}
-              onChange={(value) => handleSelectChange("user_role", value)}
+              onChange={handleSelectChange}
               errorMsg={state?.errors?.user_role}
             />
             <div className="col-span-2 flex justify-end mt-2">

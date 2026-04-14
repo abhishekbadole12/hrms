@@ -6,12 +6,13 @@ import Icon from "../common/icon/icon";
 //
 
 interface SelectProps {
+  name: string;
   label?: string;
-  name?: string;
   options: { name: string; value: string }[];
-  selected?: string | null;
   value?: string;
-  onChange: (option: { name: string; value: string }) => void;
+  onChange: (name: string, value: string) => void;
+  //
+  selected?: string | null;
   placeholder?: string;
   className?: string;
   FirstIcon?: React.ReactNode;
@@ -20,12 +21,13 @@ interface SelectProps {
 }
 
 export default function Select({
-  label,
   name,
+  label,
   options,
-  selected,
   value,
   onChange,
+  //
+  selected,
   placeholder = "Select",
   className = "",
   FirstIcon,
@@ -70,7 +72,6 @@ export default function Select({
       >
         <div className="flex items-center justify-between gap-2">
           {FirstIcon && FirstIcon}
-
           <h4
             className={clsx("text-sm text-gray-400 capitalize", {
               "text-zinc-700 font-medium": selected,
@@ -97,7 +98,7 @@ export default function Select({
               tabIndex={tabIndex ? tabIndex : -1}
               key={String(item.name)}
               onClick={() => {
-                onChange(item);
+                onChange(name, item.value);
                 setIsOpen(false);
               }}
               className={clsx(
