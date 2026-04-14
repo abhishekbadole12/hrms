@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 //
+import { useRouter } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+//
 import BoxWrapper from "@/components/wrapper/box-wrapper";
 import Badge from "@/components/common/badge/badge";
 import TableFooter from "@/components/common/table/components/table-footer";
@@ -10,8 +13,6 @@ import TableHeader from "@/components/common/table/components/table-header";
 import Icon from "@/components/common/icon/icon";
 //
 import { useUserStore } from "@/store/useUserStore";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 //
 
 const TABLE_HEAD = [
@@ -107,28 +108,22 @@ export default function EmployeeListComponent() {
   }));
 
   // handle header dropdown
-  const handleChange = ({
-    name,
-    value,
-  }: {
-    name: "role" | "search" | "sort";
-    value: { name: string; value: string } | null;
-  }) => {
+  const handleChange = (name: string, value: string) => {
     const search = new URLSearchParams(window.location.search);
     setCurrentPage(1);
 
-    const actualValue = value?.value || "";
+    console.log(name, value)
 
     if (name === "role") {
-      actualValue ? search.set("role", actualValue) : search.delete("role");
+      value ? search.set("role", value) : search.delete("role");
     }
 
     if (name === "sort") {
-      actualValue ? search.set("sort", actualValue) : search.delete("sort");
+      value ? search.set("sort", value) : search.delete("sort");
     }
 
     if (name === "search") {
-      actualValue ? search.set("search", actualValue) : search.delete("search");
+      value ? search.set("search", value) : search.delete("search");
     }
 
     router.push(`${pathname}?${search.toString()}`);
@@ -140,8 +135,8 @@ export default function EmployeeListComponent() {
       <TableHeader
         selectedRole={filterRole}
         selectedSort={filterSort}
-        onRoleChange={(value) => handleChange({ name: "role", value })}
-        onSortChange={(value) => handleChange({ name: "sort", value })}
+        onRoleChange={handleChange}
+        onSortChange={handleChange}
       />
 
       {/* Table body */}
