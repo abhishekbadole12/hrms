@@ -38,7 +38,7 @@ export default function EmployeeListComponent() {
 
   useEffect(() => {
     fetchAllUsers();
-  }, []);
+  }, [fetchAllUsers]);
 
   useEffect(() => {
     const role = searchParams.get("role");
@@ -49,28 +49,33 @@ export default function EmployeeListComponent() {
     setCurrentPage(1);
   }, [searchParams]);
 
-  let filteredUsers = filterRole
-    ? users.filter((user) => user.user_role === filterRole)
-    : users;
+  const filteredUsers = React.useMemo(() => {
+    let result = filterRole
+      ? users.filter((user) => user.user_role === filterRole)
+      : users;
 
-  if (filterSort) {
-    filteredUsers = [...filteredUsers].sort((a, b) => {
-      if (filterSort === "ASC") {
-        return a.first_name.localeCompare(b.first_name);
-      } else if (filterSort === "DESC") {
-        return b.first_name.localeCompare(a.first_name);
-      }
-      return 0;
-    });
-  }
+    if (filterSort) {
+      result = [...result].sort((a, b) => {
+        if (filterSort === "ASC") {
+          return a.first_name.localeCompare(b.first_name);
+        } else if (filterSort === "DESC") {
+          return b.first_name.localeCompare(a.first_name);
+        }
+        return 0;
+      });
+    }
+
+    return result;
+  }, [users, filterRole, filterSort]);
 
   const totalPages = Math.ceil(filteredUsers.length / rowsPerPage);
 
   const paginatedUsers = filteredUsers.slice(
     (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
+    currentPage * rowsPerPage,
   );
 
+  // Per row data
   const tbodyData = paginatedUsers.map((user) => ({
     id: user.user_id,
     data: [
@@ -109,10 +114,8 @@ export default function EmployeeListComponent() {
 
   // handle header dropdown
   const handleChange = (name: string, value: string) => {
-    const search = new URLSearchParams(window.location.search);
+    const search = new URLSearchParams(searchParams.toString());
     setCurrentPage(1);
-
-    console.log(name, value)
 
     if (name === "role") {
       value ? search.set("role", value) : search.delete("role");
