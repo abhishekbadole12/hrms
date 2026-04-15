@@ -100,7 +100,6 @@ export default function BankDetailsForm({
             value={formInputs.account_holder}
             onChange={handleInputChange}
             errorMsg={state?.errors?.account_holder}
-            inputStyle="uppercase"
           />
           <Input
             label="Account Number"
@@ -133,14 +132,13 @@ export default function BankDetailsForm({
             value={formInputs.ifsc_code}
             onChange={handleInputChange}
             errorMsg={state?.errors?.ifsc_code}
-            inputStyle="uppercase"
           />
           <Select
             label="Account Type"
             name="account_type"
             options={ACCOUNT_TYPES}
             selected={formInputs.account_type}
-            onChange={(value) => handleSelectChange("account_type", value)}
+            onChange={handleSelectChange}
             errorMsg={state?.errors?.account_type}
           />
           <Input
@@ -150,7 +148,6 @@ export default function BankDetailsForm({
             value={formInputs.pan_number}
             onChange={handleInputChange}
             errorMsg={state?.errors?.pan_number}
-            inputStyle="uppercase"
           />
         </div>
 
