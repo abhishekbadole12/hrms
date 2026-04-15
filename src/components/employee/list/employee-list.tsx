@@ -10,7 +10,7 @@ import Badge from "@/components/common/badge/badge";
 import TableFooter from "@/components/common/table/components/table-footer";
 import Table from "@/components/common/table/table";
 import TableHeader from "@/components/common/table/components/table-header";
-import Icon from "@/components/common/icon/icon";
+import ActionCell from "@/components/common/table/components/action-cell";
 //
 import { useUserStore } from "@/store/useUserStore";
 //
@@ -88,26 +88,9 @@ export default function EmployeeListComponent() {
         type={user.status === "ACTIVE" ? "success" : "warning"}
         label={user.status}
       />,
-      <div className="flex items-center gap-1">
-        <div className="w-9 h-9 flex justify-center items-center text-center rounded-full cursor-pointer text-red-400 hover:bg-zinc-100 hover:text-red-500 transition-colors duration-200">
-          <Icon
-            icon="delete"
-            className="text-base"
-            onClick={() => {
-              console.log("Delete user:", user.user_id);
-            }}
-          />
-        </div>
-
-        <div className="w-9 h-9 flex justify-center items-center text-center rounded-full cursor-pointer text-gray-400 hover:bg-zinc-100 hover:text-gray-500 transition-colors duration-200">
-          <Icon
-            icon="menu"
-            className="text-base"
-            onClick={() => {
-              console.log("menu user:", user.user_id);
-            }}
-          />
-        </div>
+      <div className="flex items-center justify-center">
+        <ActionCell user={user}
+        />
       </div>,
     ],
   }));
